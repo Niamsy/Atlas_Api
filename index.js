@@ -173,6 +173,6 @@ app.post('/user/authentication', function(req, res) {
 	});
 });
 
-app.listen(process.env.API_PORT, function() {
+module.exports = app.listen(process.env.API_PORT, function() {
     console.log('Example app listening on port ' + process.env.API_PORT)
 });
