@@ -90,14 +90,14 @@ app.get('/plants/fetch', function(req, res) {
 	if (!token)
 	{
 		res.status(400);
-		res.send("Header values are incorrect");
+		res.json({message: "Header values are incorrect"});
         return;
 	}
 
     if (connectedUserToken[token] == null)
     {
         res.status(401);
-        res.send("Api token is wrong");
+        res.json({message: "Api token is wrong"});
 	return;
     }
 
