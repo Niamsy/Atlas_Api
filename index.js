@@ -119,7 +119,7 @@ app.post('/user/authentication', function(req, res) {
 	
 	if (username == null || password == null) {
 		res.status(400);
-		res.send("Header values are incorrect");
+		res.json({message: "Header values are incorrect"});
 		return;
 	}
 	password = SHA256(password);
@@ -131,7 +131,7 @@ app.post('/user/authentication', function(req, res) {
 		}
 		if (result.length == 0) {
 			res.status(400);
-			res.send("Bad authentification");
+            res.json({message: "Bad Authentication"});
 			return;
         }
         for(var key in connectedUserToken) {
@@ -155,7 +155,7 @@ app.post('/user/authentication', function(req, res) {
 			return;
 		} else {
 			res.status(400)
-			res.send("Bad authentication");
+            res.json({message: "Bad Authentication"});
 			return;
 		}
 	});
