@@ -29,31 +29,19 @@ con.connect(function(err) {
 app.get('/', function(req, res) {
     res.send('Hello World! Hello DEMO ! Hello!')
 })
- 
-app.get('/plant/:name', function(req, res) {
-    var name = req.params.name.split('-').join(' ');
-    con.query("SELECT * from plants where scientific_name = \'" + name + "\'", function(err, result, fields) {
-	if (err) throw err;
-	console.log(result);
-	if (result.length > 0)
-	    res.send('yes');
-	else
-	    res.send('no');
-    })
-})
 
 app.post('/plant/add', function(req, res) {
     var api_token = req.header("api_token");
     var plantName = req.header("scientific_name");
     if (api_token == null || plantName == null) {
         res.status(400);
-        res.send("Bad parameters");
+        res.json({message: "Header values are incorrect"});
         return;
     }
     if (connectedUserToken[api_token] == null)
     {
         res.status(401);
-        res.send("Api token is wrong");
+        res.json({message: "Api token is wrong"});
 	return;
     }
     con.query("SELECT * from plants where scientific_name = \'" + plantName + "\'", function(err, result, fields) {
