@@ -27,7 +27,7 @@ con.connect(function(err) {
 });
 
 app.get('/', function(req, res) {
-    res.send('Hello World! Hello DEMO ! Hello!')
+    res.send('Hello World! Hello DEMO ! Hello test 1!')
 })
  
 app.get('/plant/:name', function(req, res) {
