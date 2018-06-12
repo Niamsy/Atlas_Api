@@ -1,7 +1,7 @@
 # Atlas_Api
 Api from Atlas
 
-# Atlas
+# Atlas 
 Atlas is a school project. 
 
 # I) Commit message convention
