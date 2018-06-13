@@ -33,4 +33,18 @@ describe('/POST plant/add', () => {
                 done();
             });
     });
+    
+    it('it should add a plant', function (done) {
+        chai.request(server)
+            .post('/plant/add')
+            .set('api_token', '??')
+            .set('scientific_name', 'bellis perennis')
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                res.body.should.have.property('message');
+                res.body.message.should.equal("Success");
+                done();
+            });
+    });
 });

@@ -101,7 +101,7 @@ app.get('/plants/fetch', function(req, res) {
     }
 
         res.status(200);
-	    res.send(result);
+	    res.json({"result": result});
     });
 });
 
@@ -131,13 +131,13 @@ app.post('/user/authentication', function(req, res) {
 		}
 		if (result.length == 0) {
 			res.status(400);
-            res.json({message: "Bad Authentication"});
+            res.json({"message": "Bad Authentication"});
 			return;
         }
         for(var key in connectedUserToken) {
             if(connectedUserToken[key] == result[0].id) {
                 res.status(200);
-                res.send(JSON.stringify({ api_token: key}));
+                res.json({"api_token": key});
                 return;
             }
         }
@@ -145,8 +145,8 @@ app.post('/user/authentication', function(req, res) {
             if (connectedUserToken) {
  			var api_token = generateToken();
             res.status(200);
-            res.send(JSON.stringify({ api_token: api_token }));
-		}
+            res.json({"api_token": api_token});
+        }
             connectedUserToken[api_token] = result[0].id;
             var dt = new Date()
             con.query("UPDATE users SET last_connection_at = " + con.escape(dt) + " WHERE id = \'" + connectedUserToken[api_token] + "\'"), function(err, result, fields) {
