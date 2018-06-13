@@ -7,7 +7,7 @@ const crypto         = require('crypto');
 const SHA256         = require("crypto-js/sha256");
 
 const TokenGenerator = require('uuid-token-generator');
-var hub            = require('hub');
+var hub              = require('hub');
 
 const tokgen = new TokenGenerator();
 
