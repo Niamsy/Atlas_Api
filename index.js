@@ -6,6 +6,8 @@ const tokgen = new TokenGenerator();
 var crypto = require('crypto');
 var SHA256 = require("crypto-js/sha256");
 
+let config = require('config');
+
 var cors = require('cors')
 
 app.use(cors())
@@ -16,7 +18,7 @@ var con = mysql.createConnection({
     host: "localhost",
     user: "phpmyadmin",
     password: "atlas2010",
-    database: "Atlas"
+    database: config.DB
 });
 
 connectedUserToken = []
@@ -87,33 +89,30 @@ app.get('/plants/fetch', function(req, res) {
 
     var token = req.header('api_token');
 
-	if (!token)
-	{
-		res.status(400);
-		res.json({message: "Header values are incorrect"});
+    if (!token) {
+        res.status(400);
+        res.json({message: "Header values are incorrect"});
         return;
-	}
+    }
 
-    if (connectedUserToken[token] == null)
-    {
+    if (connectedUserToken[token] == null) {
         res.status(401);
         res.json({message: "Api token is wrong"});
-	return;
+        return;
     }
 
-    con.query("SELECT plants.name, plants.scientific_name, plants.maxheight, plants.ids_reproduction, plants.ids_soil_type, plants.ids_soil_ph, plants.ids_soil_humididty, " +
-                "plants.ids_sun_exposure, plants.ids_plant_container, plants.planting_period, plants.florering_period, " +
-                "plants.harvest_period, plants.harvest_period, plants.cutting_period, plants.fk_id_frozen_tolerance," +
-                " plants.fk_id_growth_rate, scanned_at FROM plants INNER JOIN users_plants ON plants.id=users_plants.fk_id_plant" +
-                " where fk_id_user="+ connectedUserToken[token], function(err, result) {
-	if (err) {
-		res.status(500);
-        res.send("Api encountered an issue");
-		throw err;
-    }
-
+    con.query("SELECT plants.name, plants.scientific_name, plants.maxheight, plants.ids_reproduction, plants.ids_soil_type, plants.ids_soil_ph, plants.ids_soil_humidity, " +
+        "plants.ids_sun_exposure, plants.ids_plant_container, plants.planting_period, plants.florering_period, " +
+        "plants.harvest_period, plants.harvest_period, plants.cutting_period, plants.fk_id_frozen_tolerance," +
+        " plants.fk_id_growth_rate, scanned_at FROM plants INNER JOIN users_plants ON plants.id=users_plants.fk_id_plant" +
+        " where fk_id_user=" + connectedUserToken[token], function (err, result) {
+        if (err) {
+            res.status(500);
+            res.json({message: "Api encountered an issue"});
+            throw err;
+        }
         res.status(200);
-	    res.send(result);
+        res.json(result);
     });
 });
 
@@ -126,51 +125,51 @@ function generateToken() {
 };
 
 app.post('/user/authentication', function(req, res) {
-	var username = req.header("username");
-	var password = req.header("password");
-	
-	if (username == null || password == null) {
-		res.status(400);
-		res.send("Header values are incorrect");
-		return;
-	}
-	password = SHA256(password);
-    con.query("SELECT id, name, password from users where name = \'" + username + "\' and password =\'" + password + "\'", function(err, result, fields) {
-		if (err) {
-			res.status(500);
-			res.send("API error.");
-			throw err;
-		}
-		if (result.length == 0) {
-			res.status(400);
-			res.send("Bad authentification");
-			return;
+    var username = req.header("username");
+    var password = req.header("password");
+
+    if (username == null || password == null) {
+        res.status(400);
+        res.send("Header values are incorrect");
+        return;
+    }
+    password = SHA256(password);
+    con.query("SELECT id, name, password from users where name = \'" + username + "\' and password =\'" + password + "\'", function (err, result, fields) {
+        if (err) {
+            res.status(500);
+            res.send("API error.");
+            throw err;
         }
-        for(var key in connectedUserToken) {
-            if(connectedUserToken[key] == result[0].id) {
+        if (result.length == 0) {
+            res.status(400);
+            res.send("Bad authentication");
+            return;
+        }
+        for (var key in connectedUserToken) {
+            if (connectedUserToken[key] == result[0].id) {
                 res.status(200);
-                res.send(JSON.stringify({ api_token: key}));
+                res.json({api_token: key});
                 return;
             }
         }
-		if (password == result[0].password) {
+        if (password == result[0].password) {
             if (connectedUserToken) {
- 			var api_token = generateToken();
-            res.status(200);
-            res.send(JSON.stringify({ api_token: api_token }));
-		}
+                var api_token = generateToken();
+                res.status(200);
+                res.json({api_token: key});
+            }
             connectedUserToken[api_token] = result[0].id;
             var dt = new Date()
-            con.query("UPDATE users SET last_connection_at = " + con.escape(dt) + " WHERE id = \'" + connectedUserToken[api_token] + "\'"), function(err, result, fields) {
+            con.query("UPDATE users SET last_connection_at = " + con.escape(dt) + " WHERE id = \'" + connectedUserToken[api_token] + "\'"), function (err, result, fields) {
                 console.log("update")
             }
-			return;
-		} else {
-			res.status(400)
-			res.send("Bad authentication");
-			return;
-		}
-	});
+            return;
+        } else {
+            res.status(400)
+            res.send("Bad authentication");
+            return;
+        }
+    });
 });
 
 module.exports = app.listen(process.env.API_PORT, function() {
