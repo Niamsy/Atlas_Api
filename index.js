@@ -156,7 +156,7 @@ app.post('/user/authentication', function(req, res) {
             if (connectedUserToken) {
                 var api_token = generateToken();
                 res.status(200);
-                res.json({api_token: key});
+                res.json({api_token: api_token});
             }
             connectedUserToken[api_token] = result[0].id;
             var dt = new Date()
