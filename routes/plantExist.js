@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const con = require('../index.js');
+
 
 router.get('/', function(req, res) {
     const name = req.params.name.split('-').join(' ');

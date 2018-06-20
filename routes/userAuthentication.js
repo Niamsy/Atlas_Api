@@ -1,5 +1,7 @@
 const router         = require('express').Router();
 const TokenGenerator = require('uuid-token-generator');
+const con            = require('../index.js');
+const SHA256         = require("crypto-js/sha256");
 
 let hub              = require('hub');
 
@@ -23,7 +25,7 @@ router.post('/', function(req, res) {
     con.query("SELECT id, name, password FROM users WHERE name = \'"
     + username + "\' and password =\'" + SHA256(password) + "\'").then(result => {
         if (result[0].length == 0) {
-            res.status(400).send("Bad authentification");
+            res.status(400).send("Bad authentication");
             return;
         }
         for (let key in hub.connectedUserToken) {
