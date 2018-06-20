@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const con = require('../index.js');
+const con = require('../index.js').con;
 
 
 router.get('/', function(req, res) {
@@ -11,7 +11,8 @@ router.get('/', function(req, res) {
             res.send('no');
         }
     }).catch(err => {
-        throw err
+        res.status(500);
+        res.json({message: "Api encountered an issue: " + err});
     });
 });
 

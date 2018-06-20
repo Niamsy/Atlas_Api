@@ -1,16 +1,20 @@
-const Sequelize      = require('sequelize');
-const express        = require('express');
-const app            = express();
+const Sequelize = require('sequelize');
+const express = require('express');
+const app = express();
+const config = require('config');
 
-const cors           = require('cors');
 
-let hub              = require('hub');
+const cors = require('cors');
+
+let hub = require('hub');
+
 
 app.use(cors());
 
-const con = new Sequelize('Atlas', 'phpmyadmin', 'atlas2010', {
+const con = new Sequelize(config.DB, 'phpmyadmin', 'atlas2010', {
     host: 'localhost',
     dialect: 'mysql',
+    logging: false,
 });
 
 hub.connectedUserToken = []
@@ -29,7 +33,7 @@ app.listen(process.env.API_PORT, function() {
     console.log('Listening on port ' + process.env.API_PORT)
 });
 
-module.exports = con;
+module.exports = {con : con, app: app};
 
 app.use('/plant/:name', require('./routes/plantExist'));
 app.use('/plant/add', require('./routes/plantAdd'));
