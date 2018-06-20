@@ -1,5 +1,9 @@
-const router = require('express').Router();
-var hub      = require('hub');
+const router         = require('express').Router();
+const TokenGenerator = require('uuid-token-generator');
+
+let hub              = require('hub');
+
+const tokgen = new TokenGenerator();
 
 function generateToken() {
     var api_token = tokgen.generate();
