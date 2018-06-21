@@ -1,7 +1,7 @@
 const router = require('express').Router();
-var hub = require('hub');
 const con = require('../index.js').con;
 
+let hub = require('hub');
 
 router.post('/', function(req, res) {
     const api_token = req.header("api_token");

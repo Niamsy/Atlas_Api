@@ -20,7 +20,7 @@
     "mysql": "^2.15.0",
     "mysql2": "^1.5.3",
     "request": "^2.86.0",
-    "sequelize": "^4.37.10",
+    "sequelize": "^4.38.0",
     "supertest": "^3.1.0",
     "uuid-token-generator": "^1.0.0"
   }
