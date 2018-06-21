@@ -8,7 +8,7 @@ const cors = require('cors');
 
 let hub = require('hub');
 
-
+app.use(express.json());
 app.use(cors());
 
 const con = new Sequelize(config.DB, 'phpmyadmin', 'atlas2010', {
@@ -38,4 +38,6 @@ module.exports = {con : con, app: app};
 app.use('/plant/:name', require('./routes/plantExist'));
 app.use('/plant/add', require('./routes/plantAdd'));
 app.use('/plants/fetch', require('./routes/plantFetch'));
+
 app.use('/user/authentication', require('./routes/userAuthentication'));
+app.use('/user/registration/', require('./routes/registration'));
