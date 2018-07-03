@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
             if (req.body["password"].length >= 8) {
                 const passwd = SHA256(req.body["password"]);
                 const date = new Date();
-                con.query('INSERT INTO atlas.users(name,password,email,created_at) VALUES ('
+                con.query('INSERT INTO users(name,password,email,created_at) VALUES ('
                 + con.escape(req.body["username"]) + ", "
                 + con.escape(passwd.toString()) + " ,"
                 + con.escape(req.body["email"]) + " ,"
