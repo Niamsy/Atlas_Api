@@ -44,3 +44,4 @@ app.use('/user/authentication', require('./routes/userAuthentication'));
 app.use('/user/registration/', require('./routes/registration'));
 
 app.use('/userPlants', require('./routes/userPlants'));
+app.use('/role', require('./routes/role'));
