@@ -61,7 +61,7 @@ app.post('/plant/add', function(req, res) {
                     throw err;
                 }
                 res.status(200)
-                res.send("Success.")
+                res.json({message: "Success"});
             });
         }
         else {
@@ -101,7 +101,7 @@ app.get('/plants/fetch', function(req, res) {
     }
 
         res.status(200);
-	    res.json({"result": result});
+	    res.send(result);
     });
 });
 
