@@ -36,10 +36,12 @@ router.post('/', function(req, res) {
         else {
             res.status(500);
             res.json({message: "Api encountered an issue"}); //TODO: Ce message et ce code d'erreur ne semble pas correct
+            return;
         }
     }).catch(err => {
         res.status(500);
         res.json({message: "Api encountered an issue: " + err});
+        return;
     })
 });
 

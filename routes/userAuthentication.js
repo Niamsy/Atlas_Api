@@ -22,6 +22,7 @@ router.post('/', function(req, res) {
     if (username == null || password == null) {
         res.status(400);
         res.json({message: "Header values are incorrect"});
+        return;
     }
     con.query("SELECT id, name, password FROM users WHERE name = \'"
     + username + "\' and password =\'" + SHA256(password) + "\'").then(result => {
@@ -38,18 +39,18 @@ router.post('/', function(req, res) {
             }
         }
         const api_token = generateToken();
-        res.status(200);
-        res.json({ api_token: api_token });
         hub.connectedUserToken[api_token] = result[0][0].id;
         con.query("UPDATE users SET last_connection_at = " + con.escape(new Date())
         + " WHERE id = \'" + hub.connectedUserToken[api_token] + "\'").then(result => {})
         .catch(err => {
             throw err;
         });
+        res.status(200);
+        res.json({ api_token: api_token });
     }).catch(err => {
         res.status(500);
         res.json({message: "Api encountered an issue: " + err});
-
+        return;
     });
 });
 

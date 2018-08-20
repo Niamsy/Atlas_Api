@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-let server = require('../index');
+let server = require('../index').app;
 let should = chai.should();
 
 chai.use(chaiHttp);
@@ -15,7 +15,7 @@ describe('/POST plant/add', () => {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('message');
-                res.body.message.should.equal("Header values are incorrect");
+                res.body.message.should.equal("Bad parameters");
 		        done();
             });
             }); 
