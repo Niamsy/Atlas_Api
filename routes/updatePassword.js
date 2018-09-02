@@ -12,15 +12,13 @@ router.post('/', (req, res) => {
     } else if (hub.connectedUserToken === undefined || hub.connectedUserToken[b["api_token"]] === undefined) {
         res.status(401).json({message: "Api token is wrong"});
     } else {
-      let continu = true;
-
       con.query("SELECT * from users WHERE password=" + con.escape(SHA256(b.old_password).toString()))
       .then(resu => {
         if (resu[0].length == 0) {
           res.status(400).json({message: "wrong password"});
         } else if (b['new_password'].length < 8) {
           res.status(400).json({message: "password need to have at least 8 characters"});
-        } else if (continu !== false) {
+        } else {
           con.query("UPDATE users SET password=" + con.escape(SHA256(b.new_password).toString())
           + " WHERE password=" + con.escape(SHA256(b.old_password).toString())).then(resu => {
             res.status(200).json({message: "success"});
