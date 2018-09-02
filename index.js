@@ -30,7 +30,7 @@ app.get('/', function(req, res) {
 });
 
 app.listen(process.env.API_PORT, function() {
-    console.log('Listening on port ' + process.env.API_PORT)
+    console.log('Listening on port ' + process.env.API_PORT);
 });
 
 module.exports = {con : con, app: app};
@@ -42,5 +42,6 @@ app.use('/plants/fetch', require('./routes/plantFetch'));
 
 app.use('/user/authentication', require('./routes/userAuthentication'));
 app.use('/user/registration/', require('./routes/registration'));
+app.use('/user/updatePassword/', require('./routes/updatePassword'));
 
 app.use('/userPlants', require('./routes/userPlants'));
