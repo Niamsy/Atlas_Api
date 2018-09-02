@@ -45,3 +45,4 @@ app.use('/user/registration/', require('./routes/registration'));
 app.use('/user/updatePassword/', require('./routes/updatePassword'));
 
 app.use('/userPlants', require('./routes/userPlants'));
+app.use('/role', require('./routes/role'));
