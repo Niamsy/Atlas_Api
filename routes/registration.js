@@ -14,11 +14,11 @@ router.post('/', (req, res) => {
             if (req.body["password"].length >= 8) {
                 const passwd = SHA256(req.body["password"]);
                 const date = new Date();
-                con.query('INSERT INTO users(name,password,email,created_at) VALUES ('
+                con.query('INSERT INTO users(name,password,email,created_at, right_id) VALUES ('
                 + con.escape(req.body["username"]) + ", "
                 + con.escape(passwd.toString()) + " ,"
                 + con.escape(req.body["email"]) + " ,"
-                + con.escape(date) + ")")
+                + con.escape(date) + ", 2)")
                 .then(result => {
                     res.json({message: "Success"});
                 }).catch(err => { throw err })
