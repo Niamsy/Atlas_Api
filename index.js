@@ -43,6 +43,6 @@ app.use('/plants/fetch', require('./routes/plantFetch'));
 app.use('/user/authentication', require('./routes/userAuthentication'));
 app.use('/user/registration/', require('./routes/registration'));
 app.use('/user/info', require('./routes/userInfo'));
-
+app.use('/user/right', require('./routes/userRight'));
 app.use('/userPlants', require('./routes/userPlants'));
 app.use('/role', require('./routes/role'));
