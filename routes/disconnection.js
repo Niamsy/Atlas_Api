@@ -5,8 +5,6 @@ let hub = require('hub');
 
 router.post('/', function(req, res) {
     const api_token = req.header("api_token");
-    console.log('before')
-    console.log(hub.connectedUserToken)
     if (api_token == null) {
         res.status(400);
         res.json({message: "Bad parameters"});
@@ -21,8 +19,6 @@ router.post('/', function(req, res) {
         res.status(200);
         res.json({message: "Disconnection success"});
     }
-    console.log('after')
-    console.log(hub.connectedUserToken)
 });
 
 module.exports = router;
