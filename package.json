@@ -4,7 +4,8 @@
   "description": "Api for the demo of atlas",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 10000 --exit"
+    "test": "mocha --timeout 10000 --exit",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
