@@ -34,7 +34,7 @@ describe('/POST plant/add', () => {
             });
     });
     
-    it('it should add a plant', function (done) {
+    /*it('it should add a plant', function (done) {
         let token = "";
         chai.request(server)
             .post('/user/authentication')
@@ -55,6 +55,5 @@ describe('/POST plant/add', () => {
                     done();
                 });
             });
-    
-    });
+    });*/
 });
