@@ -26,7 +26,7 @@ con.authenticate().then(() => {
 });
 
 app.get('/', function(req, res) {
-    res.send('Hello World! Hello DEMO ! Hello test 1!')
+    res.send('Hello DEMO !')
 });
 
 app.listen(process.env.API_PORT, function() {
