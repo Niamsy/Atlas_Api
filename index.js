@@ -26,7 +26,7 @@ con.authenticate().then(() => {
 });
 
 app.get('/', function(req, res) {
-    res.send('Hello World! Hello DEMO ! Hello test 1!')
+    res.send('Hello DEMO !')
 });
 
 app.listen(process.env.API_PORT, function() {
@@ -43,6 +43,8 @@ app.use('/plants/fetch', require('./routes/plantFetch'));
 app.use('/user/authentication', require('./routes/userAuthentication'));
 app.use('/user/registration/', require('./routes/registration'));
 app.use('/user/updatePassword/', require('./routes/updatePassword'));
-
+app.use('/user/info', require('./routes/userInfo'));
+app.use('/user/right', require('./routes/userRight'));
 app.use('/userPlants', require('./routes/userPlants'));
+app.use('/disconnection', require('./routes/disconnection'));
 app.use('/role', require('./routes/role'));
