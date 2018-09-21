@@ -28,7 +28,7 @@ describe('/POST updatePassword', () => {
       res.should.have.status(400);
       res.body.should.be.a('object');
       res.body.should.have.property('message');
-      res.body.message.should.equal("Header values are incorrect");
+      res.body.message.should.equal("Header values are incorrect.");
       done();
     });
   });
@@ -41,7 +41,7 @@ describe('/POST updatePassword', () => {
       res.should.have.status(401);
       res.body.should.be.a('object');
       res.body.should.have.property('message');
-      res.body.message.should.equal("Api token is wrong");
+      res.body.message.should.equal("Api token is wrong.");
       done();
     });
   });
@@ -54,7 +54,7 @@ describe('/POST updatePassword', () => {
       res.should.have.status(400);
       res.body.should.be.a('object');
       res.body.should.have.property('message');
-      res.body.message.should.equal("wrong password");
+      res.body.message.should.equal("Wrong password.");
       done();
     });
   });
@@ -67,7 +67,7 @@ describe('/POST updatePassword', () => {
       res.should.have.status(400);
       res.body.should.be.a('object');
       res.body.should.have.property('message');
-      res.body.message.should.equal("password need to have at least 8 characters");
+      res.body.message.should.equal("Password needs to get more than 8 characters.");
       done();
     });
   });
@@ -80,7 +80,7 @@ describe('/POST updatePassword', () => {
       res.should.have.status(200);
       res.body.should.be.a('object');
       res.body.should.have.property('message');
-      res.body.message.should.equal("success");
+      res.body.message.should.equal("Success");
       done();
     });
   });
@@ -93,7 +93,7 @@ describe('/POST updatePassword', () => {
       res.should.have.status(200);
       res.body.should.be.a('object');
       res.body.should.have.property('message');
-      res.body.message.should.equal("success");
+      res.body.message.should.equal("Success");
       done();
     });
   });
