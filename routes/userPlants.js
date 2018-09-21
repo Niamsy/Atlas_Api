@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     if (!token) {
         res.status(400);
         res.json({message: "Header values are incorrect"});
-    } else if (hub.connectedUserToken[token] == null) {
+    } else if (hub.connectedUserToken[token] === undefined) {
         res.status(401);
         res.json({message: "Api token is wrong"});
     } else {
