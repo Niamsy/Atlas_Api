@@ -28,10 +28,10 @@ describe('/GET userInfo', () => {
       res.should.have.status(400);
       res.body.should.be.a('object');
       res.body.should.have.property('message');
-      res.body.message.should.equal("Need all values in header. (email, api_token).");
+      res.body.message.should.equal("Need all values in header (api_token).");
       done();
     });
-  })
+  });
 
   it('it should returns bad token', (done) => {
     chai.request(server)
@@ -45,13 +45,12 @@ describe('/GET userInfo', () => {
       res.body.message.should.equal("Api token is wrong");
       done();
     });
-  })
+  });
 
   it('it should return user admin', (done) => {
     chai.request(server)
     .get('/user/info')
     .set('api_token', api_token)
-    .set('email', 'atlas_2020@labeip.epitech.eu')
     .end((err, res) => {
       res.should.have.status(200);
       res.body.should.be.a('object');
