@@ -1,3 +1,5 @@
 {
-    "DB": "Atlas_test"
+    "DB": "atlas_test",
+    "email": "atlas.testos@gmail.com",
+    "password_gmail": "atlas2010"
 }
