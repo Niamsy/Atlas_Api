@@ -38,6 +38,7 @@ describe('/GET isAdmin', () => {
             .get('/user/isAdmin')
             .set('api_token', "test")
             .end((err, res) => {
+                console.log(res.body);
                 res.should.have.status(401);
                 res.body.should.be.a('object');
                 res.body.should.have.property('message');
