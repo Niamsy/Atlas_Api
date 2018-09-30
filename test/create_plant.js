@@ -16,7 +16,7 @@ describe('/Post plant/create', () => {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('message');
-                res.body.message.should.equal("Header values are incorrect");
+                res.body.message.should.equal("Body values are incorrect");
                 done();
             });
     });
@@ -64,20 +64,20 @@ describe('/Post plant/create', () => {
             .post('/plant/create')
             .set('api_token', admin_apitoken)
             .set('name', 'daisy')
-            .set('scientific_name', '')
-            .set('maxheight', '')
-            .set('ids_soil_ph', '')
-            .set('ids_soil_type', '')
-            .set('ids_sun_exposure', '')
-            .set('ids_soil_humidity', '')
-            .set('ids_reproduction', '')
-            .set('ids_plant_container', '')
-            .set('planting_period', '')
-            .set('florering_period', '')
-            .set('harvest_period', '')
-            .set('cutting_period', '')
-            .set('fk_id_frozen_tolerance', '')
-            .set('fk_id_growth_rate', '')
+            .set('scientific_name', 'test')
+            .set('maxheight', 'test')
+            .set('ids_soil_ph', 'test')
+            .set('ids_soil_type', 'test')
+            .set('ids_sun_exposure', 'test')
+            .set('ids_soil_humidity', 'test')
+            .set('ids_reproduction', 'test')
+            .set('ids_plant_container', 'test')
+            .set('planting_period', 'test')
+            .set('florering_period', 'test')
+            .set('harvest_period', 'test')
+            .set('cutting_period', 'test')
+            .set('fk_id_frozen_tolerance', 'test')
+            .set('fk_id_growth_rate', 'test')
             .end((err, res) => {
                 res.should.have.status(403);
                 res.body.should.be.a('message');
