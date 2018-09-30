@@ -20,9 +20,9 @@ router.post('/', (req, res) => {
         req.body["harvest_period"] == null ||
         req.body["cutting_period"] == null ||
         req.body["fk_id_frozen_tolerance"] == null ||
-        req.body["fk_id_growth_rate"] == null)
+        req.body["fk_id_growth_rate"] == null ||
+        req.body["growth_duration"] == null)
     {
-        console.log(req);
         res.status(400).json({
             body: req.body,
             message: "Body values are incorrect"
@@ -34,17 +34,22 @@ router.post('/', (req, res) => {
     }
     else {
         con.query("SELECT rights.name FROM rights INNER JOIN users ON users.right_id = rights.id WHERE users.id = '" + hub.connectedUserToken[token] + "'").then(result => {
-            if (result[0].length == 0 || result[0] != "admin")
+            if (result[0].length == 0 || result[0][0]['name'] != "admin")
             {
-                res.status(402).json({ message: "The API Token doesn't belong to a admin" });
-                return;v
+                res.status(402).json({ message: "The API Token doesn't belong to a admin", result : result[0] });
+                return;
             }
-            con.query("SELECT id from plants where scientific_name = \'" + con.escape(req.body["scientific_name"]) + "\'").then(result => {
+            con.query("SELECT id from plants where scientific_name = " + con.escape(req.body["scientific_name"])).then(result => {
                 if (result[0].length == 0)
                 {
-                    con.query("INSERT INTO plants VALUES (" + con.escape(req.body["name"])
+                    const str_query = "INSERT INTO plants "
+                            + "(name, scientific_name, maxheight, ids_soil_ph, ids_soil_type, ids_sun_exposure, "
+                            + "ids_soil_humidity, ids_reproduction, ids_plant_container, planting_period, "
+                            + "florering_period, harvest_period, cutting_period, fk_id_frozen_tolerance, "
+                            + "fk_id_growth_rate, growth_duration) "
+                            + " VALUES (" + con.escape(req.body["name"])
                             + ", " + con.escape(req.body["scientific_name"])
-                            + ", " + con.escape(req.body["maxheight"])
+                            + ", " + (req.body["maxheight"])
                             + ", " + con.escape(req.body["ids_soil_ph"])
                             + ", " + con.escape(req.body["ids_soil_type"])
                             + ", " + con.escape(req.body["ids_sun_exposure"])
@@ -55,14 +60,19 @@ router.post('/', (req, res) => {
                             + ", " + con.escape(req.body["florering_period"])
                             + ", " + con.escape(req.body["harvest_period"])
                             + ", " + con.escape(req.body["cutting_period"])
-                            + ", " + con.escape(req.body["fk_id_frozen_tolerance"])
-                            + ", " + con.escape(req.body["fk_id_growth_rate"]) + ")").then(res =>{
-                    res.status(200).json({ message: "Plant created" });
-                            }).catch(e => res.status(500).json({ message: "Atlas API Encountered a issue" }));
+                            + ", " + (req.body["fk_id_frozen_tolerance"])
+                            + ", " + (req.body["fk_id_growth_rate"])
+                            + ", " + (req.body["growth_duration"])
+                            + ");";
+                    con.query(str_query).then(result =>
+                    {
+                        res.status(201).json({ message: "Plant created" });
+                        return;
+                    }).catch(e => res.status(500).json({ message: "Atlas API Encountered a issue", err: e, query: str_query }));
                 }
                 else
                     res.status(403).json({ message: "Plant already exist" });
-            }).catch(e => res.status(500).json({ message: "Atlas API Encountered a issue." }));
+            }).catch(e => res.status(500).json({ message: "Atlas API Encountered a issue."}));
         }).catch(e => res.status(500).json({ message: "Atlas API Encountered a issue." }));
     }
 });
