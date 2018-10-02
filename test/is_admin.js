@@ -14,7 +14,7 @@ describe('/GET isAdmin', () => {
         chai.request(server)
             .post('/user/authentication')
             .set('username', 'admin')
-            .set('password', 'admin2010')
+            .set('password', 'admin')
             .end((err, res) => {
                 api_token = res.body.api_token;
                 done();

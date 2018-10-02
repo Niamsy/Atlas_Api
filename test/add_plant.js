@@ -39,7 +39,7 @@ describe('/POST plant/add', () => {
         chai.request(server)
             .post('/user/authentication')
             .set('username', 'admin')
-            .set('password', 'admin2010')
+            .set('password', 'admin')
             .end((err, res) => {
                 token = JSON.stringify(res.body);
                 token = res.body['api_token'];

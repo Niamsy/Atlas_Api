@@ -38,7 +38,7 @@ describe('/POST /user/authentication', () => {
         chai.request(server)
             .post('/user/authentication')
             .set('username', 'admin')
-            .set('password', 'admin2010')
+            .set('password', 'admin')
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('object');
