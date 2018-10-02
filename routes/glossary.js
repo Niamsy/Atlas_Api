@@ -6,7 +6,7 @@ const hub    = require('hub');
 router.get('/', (req, res) => {
     const api_token = req.headers["api_token"];
     if (api_token === undefined) {
-        res.status(400).json({message: "Need all values in header (api_token)."});
+        res.status(400).json({message: "Header values are incorrect"});
     } else if (hub.connectedUserToken === undefined || hub.connectedUserToken[api_token] === undefined) {
         res.status(401).json({message: "Api token is wrong"});
     } else {
