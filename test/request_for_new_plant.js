@@ -23,7 +23,7 @@ describe('/POST plant/request', () => {
 
   it('it should returns body values are incorrect', (done) => {
     chai.request(server)
-    .post('/user/updatePassword')
+    .post('/plant/request')
     .end((err, res) => {
       res.should.have.status(400);
       res.body.should.be.a('object');
@@ -35,8 +35,8 @@ describe('/POST plant/request', () => {
 
   it('it should returns bad token API', (done) => {
     chai.request(server)
-    .post('/user/updatePassword')
-    .send({api_token: "amlksjdmlk", old_password: "admin", new_password: "adminAdmin"})
+    .post('/plant/request')
+    .send({ api_token: "amlksjdmlk", old_password: "admin", new_password: "adminAdmin" })
     .end((err, res) => {
       res.should.have.status(401);
       res.body.should.be.a('object');
@@ -48,8 +48,8 @@ describe('/POST plant/request', () => {
 
   it('it should return wrong password', (done) => {
     chai.request(server)
-    .post('/user/updatePassword')
-    .send({api_token: api_token, old_password: "12345", new_password: "adminAdmin"})
+    .post('/plant/request')
+    .send({ api_token: api_token, old_password: "12345", new_password: "adminAdmin" })
     .end((err, res) => {
       res.should.have.status(400);
       res.body.should.be.a('object');
@@ -61,8 +61,8 @@ describe('/POST plant/request', () => {
 
   it('it should return password need to have at least 8 characters', (done) => {
     chai.request(server)
-    .post('/user/updatePassword')
-    .send({api_token: api_token, old_password: "12345678", new_password: "1234567"})
+    .post('/plant/request')
+    .send({ api_token: api_token, old_password: "12345678", new_password: "1234567" })
     .end((err, res) => {
       res.should.have.status(400);
       res.body.should.be.a('object');
@@ -74,8 +74,8 @@ describe('/POST plant/request', () => {
 
   it('it should return success', (done) => {
     chai.request(server)
-    .post('/user/updatePassword')
-    .send({api_token: api_token, old_password: "12345678", new_password: "123456789"})
+    .post('/plant/request')
+    .send({ api_token: api_token, old_password: "12345678", new_password: "123456789" })
     .end((err, res) => {
       res.should.have.status(200);
       res.body.should.be.a('object');
@@ -85,11 +85,12 @@ describe('/POST plant/request', () => {
     });
   });
 
-  it('it should return success and create the request', (done) => {
-      chai.request(server)
-      .post('/user/updatePassword')
-      .send(
-      {
+  it('it should return success and create the request', (done) =>
+  {
+    chai.request(server)
+    .post('/plant/request')
+    .send(
+    {
           "name": "test",
           "scientific_name": "test",
           "max_height": 1,
@@ -116,10 +117,11 @@ describe('/POST plant/request', () => {
       });
   });
 
-  it('it should return The request already exist and fail', (done) => {
-      chai.request(server)
-      .post('/user/updatePassword')
-      .send(
+  it('it should return The request already exist and fail', (done) =>
+  {
+    chai.request(server)
+    .post('/plant/request')
+    .send(
       {
           "name": "test",
           "scientific_name": "test",
