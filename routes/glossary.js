@@ -14,7 +14,6 @@ router.get('/', (req, res) => {
         " where fk_id_user="+ hub.connectedUserToken[api_token]+ "  GROUP BY plants.name")
         .then(result => {
             if (result[0].length > 0) {
-                console.log(result)
                 res.status(200).json(result[0][0]);
             } else {
                 res.status(500).json({message: "Internal server error"});
