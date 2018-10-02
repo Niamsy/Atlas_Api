@@ -39,6 +39,7 @@ app.use('/plant/:name', require('./routes/plantExist'));
 app.use('/plant/add', require('./routes/plantAdd'));
 app.use('/plantInfo', require('./routes/plantInfo'));
 app.use('/plants/fetch', require('./routes/plantFetch'));
+app.use('/plant/request', require('./routes/requestForNewPlant'));
 
 app.use('/user/authentication', require('./routes/userAuthentication'));
 app.use('/user/registration/', require('./routes/registration'));
@@ -46,6 +47,7 @@ app.use('/user/updatePassword/', require('./routes/updatePassword'));
 app.use('/user/info', require('./routes/userInfo'));
 app.use('/user/right', require('./routes/userRight'));
 app.use('/userPlants', require('./routes/userPlants'));
+
 app.use('/disconnection', require('./routes/disconnection'));
 app.use('/role', require('./routes/role'));
 app.use('/user/isAdmin', require('./routes/isAdmin'));
