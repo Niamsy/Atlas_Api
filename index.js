@@ -49,3 +49,4 @@ app.use('/userPlants', require('./routes/userPlants'));
 app.use('/disconnection', require('./routes/disconnection'));
 app.use('/role', require('./routes/role'));
 app.use('/user/isAdmin', require('./routes/isAdmin'));
+app.use('/user/glossary', require('./routes/glossary'));
