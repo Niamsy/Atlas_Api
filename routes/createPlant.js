@@ -5,10 +5,9 @@ const hub    = require('hub');
 router.post('/', (req, res) => {
     const token = req.header('api_token');
 
-    if (token == null ||
-        req.body["name"] == null ||
+    if (req.body["name"] == null ||
         req.body["scientific_name"] == null ||
-        req.body["maxheight"] == null ||
+        req.body["max_height"] == null ||
         req.body["ids_soil_ph"] == null ||
         req.body["ids_soil_type"] == null ||
         req.body["ids_sun_exposure"] == null ||
@@ -24,11 +23,10 @@ router.post('/', (req, res) => {
         req.body["growth_duration"] == null)
     {
         res.status(400).json({
-            body: req.body,
             message: "Body values are incorrect"
         });
     }
-    else if (hub.connectedUserToken[token] == null)
+    else if (token == null || hub.connectedUserToken[token] == null)
     {
         res.status(401).json({ message: "API token is invalid" });
     }
@@ -49,7 +47,7 @@ router.post('/', (req, res) => {
                             + "fk_id_growth_rate, growth_duration) "
                             + " VALUES (" + con.escape(req.body["name"])
                             + ", " + con.escape(req.body["scientific_name"])
-                            + ", " + (req.body["maxheight"])
+                            + ", " + (req.body["max_height"])
                             + ", " + con.escape(req.body["ids_soil_ph"])
                             + ", " + con.escape(req.body["ids_soil_type"])
                             + ", " + con.escape(req.body["ids_sun_exposure"])
@@ -68,7 +66,7 @@ router.post('/', (req, res) => {
                     {
                         res.status(201).json({ message: "Plant created" });
                         return;
-                    }).catch(e => res.status(500).json({ message: "Atlas API Encountered a issue", err: e, query: str_query }));
+                    }).catch(e => res.status(500).json({ message: "Atlas API Encountered a issue"}));
                 }
                 else
                     res.status(403).json({ message: "Plant already exist" });
