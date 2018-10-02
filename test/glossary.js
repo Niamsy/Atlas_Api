@@ -7,7 +7,7 @@ let should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('/GET plants/fetch', () => {
+describe('/GET user/glossary', () => {
 
     it('it should returns bad header values', (done) => {
         chai.request(server)
