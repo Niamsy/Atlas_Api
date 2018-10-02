@@ -8,7 +8,7 @@ let hub              = require('hub');
 const tokgen = new TokenGenerator();
 
 function generateToken() {
-    var api_token = tokgen.generate();
+    const api_token = tokgen.generate();
     if (hub.connectedUserToken[api_token] != null) {
         return generateToken();
     }

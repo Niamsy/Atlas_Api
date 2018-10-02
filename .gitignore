@@ -70,3 +70,5 @@ package-json.lock
 
 # Jetbrains config
 .idea
+
+package-lock\.json

@@ -1,24 +1,27 @@
 process.env.NODE_ENV = 'test';
 
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let server = require('../index').app;
-let should = chai.should();
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const server = require('../index').app;
+const con = require('../index').con;
+const SHA256 = require('crypto-js/sha256');
 
 chai.use(chaiHttp);
 
 describe('/POST updatePassword', () => {
   let api_token;
 
-  before((done) => {
+  before(async () => {
     chai.request(server)
     .post('/user/authentication')
     .set('username', 'tozzizo')
     .set('password', '12345678')
     .end((err, res) => {
         api_token = res.body.api_token;
-        done();
     });
+
+    const mdp = SHA256("12345678");
+    await con.query(`UPDATE users SET password='${mdp}' WHERE name='tozzizo'`);
   });
 
   it('it should returns header values are incorrect', (done) => {

@@ -4,7 +4,7 @@
   "description": "Api for the demo of atlas",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 10000 --exit"
+    "test": "mocha --timeout 10000 --exit --recursive ./test ./test/setup.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "mocha": "^5.2.0",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.1",
+    "nodemailer": "^4.6.8",
     "request": "^2.88.0",
     "sequelize": "^4.38.0",
     "supertest": "^3.1.0",
