@@ -40,8 +40,8 @@ describe('/Post plant/create', () => {
     before(function (done) {
         chai.request(server)
             .post('/user/authentication')
-            .set('username', 'admin')
-            .set('password', 'admin')
+            .set('username', 'default')
+            .set('password', 'default')
             .end((err, res) => {
                 admin_apitoken = res.body.api_token;
                 done();
@@ -58,7 +58,7 @@ describe('/Post plant/create', () => {
                 done();
             });
     });
-    /*
+
     it('Should fail without a admin account', function (done) {
         chai.request(server)
         .post('/plant/create')
@@ -90,7 +90,7 @@ describe('/Post plant/create', () => {
                 done();
             });
     });
-    */
+
     it('Shouldnt create duplicate plant', function (done) {
         chai.request(server)
         .post('/plant/create')
