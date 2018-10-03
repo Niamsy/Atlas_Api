@@ -7,54 +7,40 @@ let should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('/POST user/registration', () => {
-    it('it should returns success', (done) => {
+describe('/GET /plant/request/fetch', () =>
+{
+    it('It should return Token null', (done) => {
         chai.request(server)
-        .post('/user/registration')
-        .send({username: "tozzizo", email: "taba@email.com", password: "12345678"})
-        .end((err, res) => {
-            res.should.have.status(200);
-            res.body.should.be.a('object');
-            res.body.should.have.property('message');
-            res.body.message.should.equal("Success");
-            done();
-        });
-    });
-
-    it('it should returns bad body values', (done) => {
-        chai.request(server)
-        .post('/user/registration')
-        .end((err, res) => {
-            res.should.have.status(500);
-            res.body.should.be.a('object');
-            res.body.should.have.property('message');
-            res.body.message.should.equal("Need all values in body. (email, username and password).");
-            done();
-        });
-    });
-
-    it('it should returns password error', (done) => {
-        chai.request(server)
-        .post('/user/registration')
-        .send({username: "tozziz", email: "tabe@email.com", password: "1234567"})
+        .get('/plant/request/fetch')
         .end((err, res) => {
             res.should.have.status(400);
             res.body.should.be.a('object');
             res.body.should.have.property('message');
-            res.body.message.should.equal("Password need to get more than 8 characters.");
+            res.body.message.should.equal("Header values are incorrect");
             done();
         });
     });
 
-    it('it should returns already in use', (done) => {
+    it('It should return Token invalid', (done) => {
         chai.request(server)
-        .post('/user/registration')
-        .send({username: "admin", email: "tabe@email.com", password: "1234567"})
+        .get('/plant/request/fetch')
+        .set('api_token', 'Test')
         .end((err, res) => {
             res.should.have.status(401);
             res.body.should.be.a('object');
             res.body.should.have.property('message');
-            res.body.message.should.equal("Already in use!");
+            res.body.message.should.equal("API token is wrong");
+            done();
+        });
+    });
+
+    it('It should return sucess', (done) => {
+        chai.request(server)
+        .get('/plant/request/fetch')
+        .set('api_token', 'Test')
+        .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
             done();
         });
     });
