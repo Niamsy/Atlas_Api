@@ -23,7 +23,7 @@ router.post('/', (req, res) =>
         return;
     }
     
-    con.query("SELECT rights.name FROM rights INNER JOIN users ON users.right_id = rights.id WHERE users.id = '" + hub.connectedUserToken[token] + "'").then(result =>
+    con.query("SELECT rights.name FROM rights INNER JOIN users ON users.right_id = rights.id WHERE users.id = '" + hub.connectedUserToken[api_token] + "'").then(result =>
     {
         if (result[0].length == 0 || result[0][0]['name'] != "admin")
         {
@@ -34,17 +34,17 @@ router.post('/', (req, res) =>
         {
             if (result[0].length == 0)
             {
-                status(403).json({ message: "No request with the given request_id exist" });
+                res.status(403).json({ message: "No request with the given request_id exist" });
                 return;
             }
             
             const new_status = ((body["status"] == true) ? (2) : (3));
             con.query("UPDATE plant_requests SET status = " + new_status + " WHERE id = " + id_request).then(result =>
             {
-                status(200).json({ message: "Success" });
-            }).catch(err => { res.status(500).json({ message: "Atlas API encountered a issue", err: query_str }); throw err })
-        }).catch(err => { res.status(500).json({ message: "Atlas API encountered a issue", err: query_str }); throw err })
-    }).catch(err => { res.status(500).json({ message: "Atlas API encountered a issue", err: query_str }); throw err })
+                res.status(200).json({ message: "Success" });
+            }).catch(err => { res.status(500).json({ message: "Atlas API encountered a issue" }); throw err })
+        }).catch(err => { res.status(500).json({ message: "Atlas API encountered a issue" }); throw err })
+    }).catch(err => { res.status(500).json({ message: "Atlas API encountered a issue" }); throw err })
 });
 
 module.exports = router;
