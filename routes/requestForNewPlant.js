@@ -9,16 +9,16 @@ router.post('/', (req, res) =>
     const body = req.body;
     const api_token = req.header("api_token");
 
-    if (api_token == null || hub.connectedUserToken[api_token] == null) {
+    if (api_token === undefined || hub.connectedUserToken[api_token] === undefined) {
         res.status(401);
         res.json({ message: "API token is invalid or empty" });
         return;
     }
-    if (body["name"] == null || body["scientific_name"] == null || body["max_height"] == null
-         || body["ids_reproduction"] == null || body["ids_soil_type"] == null || body["ids_soil_ph"] == null
-         || body["ids_soil_humidity"] == null || body["ids_sun_exposure"] == null || body["ids_plant_container"] == null
-         || body["planting_period"] == null || body["florering_period"] == null || body["harvest_period"] == null
-         || body["fk_id_frozen_tolerance"] == null || body["fk_id_growth_rate"] == null || body["growth_duration"] == null) {
+    if (body["name"] === undefined || body["scientific_name"] === undefined || body["max_height"] === undefined
+         || body["ids_reproduction"] === undefined || body["ids_soil_type"] === undefined || body["ids_soil_ph"] === undefined
+         || body["ids_soil_humidity"] === undefined || body["ids_sun_exposure"] === undefined || body["ids_plant_container"] === undefined
+         || body["planting_period"] === undefined || body["florering_period"] === undefined || body["harvest_period"] === undefined
+         || body["fk_id_frozen_tolerance"] === undefined || body["fk_id_growth_rate"] === undefined || body["growth_duration"] === undefined) {
         res.status(400);
         res.json({ message: "Body values are incorrect" });
         return;
