@@ -9,11 +9,6 @@ router.post('/', (req, res) =>
     const body = req.body;
     const api_token = req.header("api_token");
 
-    if (api_token === undefined || hub.connectedUserToken[api_token] === undefined) {
-        res.status(401);
-        res.json({ message: "API token is invalid or empty" });
-        return;
-    }
     if (body["name"] === undefined || body["scientific_name"] === undefined || body["max_height"] === undefined
          || body["ids_reproduction"] === undefined || body["ids_soil_type"] === undefined || body["ids_soil_ph"] === undefined
          || body["ids_soil_humidity"] === undefined || body["ids_sun_exposure"] === undefined || body["ids_plant_container"] === undefined
@@ -21,6 +16,11 @@ router.post('/', (req, res) =>
          || body["fk_id_frozen_tolerance"] === undefined || body["fk_id_growth_rate"] === undefined || body["growth_duration"] === undefined) {
         res.status(400);
         res.json({ message: "Body values are incorrect" });
+        return;
+    }
+    if (api_token === undefined || hub.connectedUserToken[api_token] === undefined) {
+        res.status(401);
+        res.json({ message: "API token is invalid or empty" });
         return;
     }
 
