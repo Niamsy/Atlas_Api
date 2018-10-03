@@ -40,11 +40,7 @@ router.post('/', (req, res) =>
     const fk_id_growth_rate         = body["fk_id_growth_rate"];
     const growth_duration           = body["growth_duration"];
 
-    con.query("SELECT name FROM plant_requests WHERE name = " + name)
-    .then(result => {
-        if (result[0].length == 0)
-        {
-            const query_str = "INSERT INTO plant_requests(fk_id_user," +
+    const query_str = "INSERT INTO plant_requests(fk_id_user," +
                       "name, scientific_name, max_height, ids_reproduction, " +
                       "ids_soil_type, ids_soil_ph, ids_soil_humidity, " +
                       "ids_sun_exposure, ids_plant_container, planting_period, " +
@@ -59,16 +55,10 @@ router.post('/', (req, res) =>
                       + fk_id_growth_rate + ", " + growth_duration
                       + ", 1, " + con.escape(new Date()) + ")";
 
-            con.query(query_str)
-            .then(result => {
-                res.status(200).json({ message: "Success" });
-            }).catch(err => { res.status(500).json({ message: "Atlas API encountered a issue", err: query_str }); throw err })
-        }
-        else
-        {
-            res.status(402).json({ message: "A request for this plant already exist" });
-        }
-    }).catch(err => { res.status(500).json({message: "Atlas API encountered a issue"}); throw err })
+    con.query(query_str)
+    .then(result => {
+        res.status(200).json({ message: "Success" });
+    }).catch(err => { res.status(500).json({ message: "Atlas API encountered a issue", err: query_str }); throw err })
 });
 
 module.exports = router;

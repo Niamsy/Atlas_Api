@@ -39,7 +39,7 @@ app.use('/plant/:name', require('./routes/plantExist'));
 app.use('/plant/add', require('./routes/plantAdd'));
 app.use('/plantInfo', require('./routes/plantInfo'));
 app.use('/plants/fetch', require('./routes/plantFetch'));
-app.use('/plant/request', require('./routes/requestForNewPlant'));
+app.use('/plant/request/create', require('./routes/requestForNewPlant'));
 
 app.use('/user/authentication', require('./routes/userAuthentication'));
 app.use('/user/registration/', require('./routes/registration'));
