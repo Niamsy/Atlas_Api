@@ -37,6 +37,7 @@ module.exports = {con : con, app: app};
 
 app.use('/plant/:name', require('./routes/plantExist'));
 app.use('/plant/add', require('./routes/plantAdd'));
+app.use('/plant/create', require('./routes/createPlant'));
 app.use('/plantInfo', require('./routes/plantInfo'));
 app.use('/plants/fetch', require('./routes/plantFetch'));
 
