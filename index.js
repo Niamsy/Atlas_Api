@@ -41,6 +41,7 @@ app.use('/plant/create', require('./routes/createPlant'));
 app.use('/plantInfo', require('./routes/plantInfo'));
 app.use('/plants/fetch', require('./routes/plantFetch'));
 app.use('/plant/request/create', require('./routes/requestForNewPlant'));
+app.use('/plant/request/information', require('./routes/requestPlantInformation'));
 
 app.use('/user/authentication', require('./routes/userAuthentication'));
 app.use('/user/registration', require('./routes/registration'));
