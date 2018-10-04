@@ -32,7 +32,7 @@ router.post('/', function(req, res) {
             return;
         }
         for (let key in hub.connectedUserToken) {
-            if (key == result[0][0].id) {
+            if (hub.connectedUserToken[key] == result[0][0].id) {
                 res.status(200);
                 res.json({ api_token: key });
                 return;
