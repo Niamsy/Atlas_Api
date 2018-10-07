@@ -25,26 +25,26 @@ router.post('/', (req, res) =>
         return;
     }
     
-    con.query("SELECT rights.name, users.email FROM rights INNER JOIN users ON users.right_id = rights.id WHERE users.id = '" + hub.connectedUserToken[api_token] + "'").then(result =>
+    con.query("SELECT rights.name FROM rights INNER JOIN users ON users.right_id = rights.id WHERE users.id = '" + hub.connectedUserToken[api_token] + "'").then(result =>
     {
         if (result[0].length == 0 || result[0][0]['name'] != "admin")
         {
             res.status(402).json({ message: "The API Token doesn't belong to a admin", result : result[0] });
             return;
         }
-        const email = result[0][0]['email'];
-        con.query("SELECT * FROM plant_requests WHERE id = " + id_request).then(request =>
+        con.query("SELECT users.email, plant_requests.fk_id_user FROM plant_requests INNER JOIN users ON users.id = plant_requests.fk_id_user WHERE plant_requests.id = " + id_request).then(request =>
         {
             if (request[0].length == 0)
             {
                 res.status(403).json({ message: "No request with the given request_id exist" });
                 return;
             }
-            
+            const email = request[0][0]['email'];
+            console.log(email);
+
             const new_status = ((body["status"] == true) ? (2) : (3));
             con.query("UPDATE plant_requests SET status = " + new_status + " WHERE id = " + id_request).then(result =>
             {
-
                 const smtpTransport = nodemailer.createTransport({
                     service: "gmail",
                     auth: {
