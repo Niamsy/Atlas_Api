@@ -36,7 +36,7 @@ describe('/POST user/right', () => {
     it('it should returns header values are incorrect', (done) => {
         chai.request(server)
         .post('/user/right')
-        .send({api_token: "tozzizo", email: "taba@email.com"})
+        .send({api_token: "tozzizo", email: "atlas.tozzi@gmail.com"})
         .end((err, res) => {
             res.should.have.status(400);
             res.body.should.be.a('object');
@@ -62,7 +62,7 @@ describe('/POST user/right', () => {
     it('it should returns need admin right', (done) => {
         chai.request(server)
         .post('/user/right')
-        .send({api_token: api_token_non_admin, email: "taba@email.com", right_id: 1})
+        .send({api_token: api_token_non_admin, email: "atlas.tozzi@gmail.com", right_id: 1})
         .end((err, res) => {
             res.should.have.status(401);
             res.body.should.be.a('object');
@@ -75,7 +75,7 @@ describe('/POST user/right', () => {
     it('it should returns success', (done) => {
         chai.request(server)
         .post('/user/right')
-        .send({api_token: api_token_admin, email: "taba@email.com", right_id: 1})
+        .send({api_token: api_token_admin, email: "atlas.tozzi@gmail.com", right_id: 1})
         .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
@@ -88,7 +88,7 @@ describe('/POST user/right', () => {
     it('it should returns success', (done) => {
         chai.request(server)
         .post('/user/right')
-        .send({api_token: api_token_admin, email: "taba@email.com", right_id: 2})
+        .send({api_token: api_token_admin, email: "atlas.tozzi@gmail.com", right_id: 2})
         .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');

@@ -17,7 +17,7 @@ const con = new Sequelize(config.DB, 'phpmyadmin', 'atlas2010', {
     logging: false,
 });
 
-hub.connectedUserToken = []
+hub.connectedUserToken = [];
 
 con.authenticate().then(() => {
     console.log('Connection has been established successfully.');
@@ -37,16 +37,22 @@ module.exports = {con : con, app: app};
 
 app.use('/plant/:name', require('./routes/plantExist'));
 app.use('/plant/add', require('./routes/plantAdd'));
+app.use('/plant/create', require('./routes/createPlant'));
 app.use('/plantInfo', require('./routes/plantInfo'));
 app.use('/plants/fetch', require('./routes/plantFetch'));
 app.use('/plant/request/fetch', require('./routes/fetchRequestNewPlant'));
+app.use('/plant/request/create', require('./routes/requestForNewPlant'));
 
 app.use('/user/authentication', require('./routes/userAuthentication'));
-app.use('/user/registration/', require('./routes/registration'));
-app.use('/user/updatePassword/', require('./routes/updatePassword'));
+app.use('/user/registration', require('./routes/registration'));
+app.use('/user/updatePassword', require('./routes/updatePassword'));
 app.use('/user/info', require('./routes/userInfo'));
 app.use('/user/right', require('./routes/userRight'));
+app.use('/user/resetPassword', require('./routes/resetPassword'));
+
 app.use('/userPlants', require('./routes/userPlants'));
+
 app.use('/disconnection', require('./routes/disconnection'));
 app.use('/role', require('./routes/role'));
 app.use('/user/isAdmin', require('./routes/isAdmin'));
+app.use('/user/glossary', require('./routes/glossary'));

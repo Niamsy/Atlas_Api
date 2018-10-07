@@ -5,30 +5,32 @@ const SHA256 = require("crypto-js/sha256");
 let hub      = require('hub');
 
 router.post('/', (req, res) => {
-    const b = req.body;
+    const { api_token, old_password, new_password } = req.body;
 
-    if (!b['api_token'] || !b['old_password'] || !b['new_password']) {
+    if (!api_token || !old_password || !new_password) {
         res.status(400).json({message: "Header values are incorrect."});
-    } else if (hub.connectedUserToken === undefined || hub.connectedUserToken[b["api_token"]] === undefined) {
+    } else if (hub.connectedUserToken === undefined || hub.connectedUserToken[api_token] === undefined) {
         res.status(401).json({message: "Api token is wrong."});
     } else {
-      con.query("SELECT * from users WHERE password=" + con.escape(SHA256(b.old_password).toString()))
-      .then(resu => {
-        if (resu[0].length == 0) {
-          res.status(400).json({message: "Wrong password."});
-        } else if (b['new_password'].length < 8) {
-          res.status(400).json({message: "Password needs to get more than 8 characters."});
-        } else {
-          con.query("UPDATE users SET password=" + con.escape(SHA256(b.new_password).toString())
-          + " WHERE password=" + con.escape(SHA256(b.old_password).toString())).then(resu => {
-            res.status(200).json({message: "Success"});
-          }).catch(e => {
+        con.query(`SELECT * from users WHERE password=${con.escape(SHA256(old_password).toString())}`
+            + ` AND id=${hub.connectedUserToken[api_token]}`)
+            .then(resu => {
+                if (resu[0].length === 0) {
+                    res.status(400).json({message: "Wrong password."});
+                } else if (new_password.length < 8) {
+                    res.status(400).json({message: "Password needs to get more than 8 characters."});
+                } else {
+                    con.query(`UPDATE users SET password=${con.escape(SHA256(new_password).toString())}`
+                        + ` WHERE password=${con.escape(SHA256(old_password).toString())}`
+                        + ` AND id=${hub.connectedUserToken[api_token]}`).then(() => {
+                        res.status(200).json({message: "Success"});
+                    }).catch(() => {
+                        res.status(500).json({message: "Internal server error"});
+                    });
+                }
+            }).catch(e => {
             res.status(500).json({message: "Internal server error"});
-          });
-        }
-      }).catch(e => {
-        res.status(500).json({message: "Internal server error"});
-      });
+        });
     }
 });
 

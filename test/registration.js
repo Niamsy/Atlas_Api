@@ -11,7 +11,7 @@ describe('/POST user/registration', () => {
     it('it should returns success', (done) => {
         chai.request(server)
         .post('/user/registration')
-        .send({username: "tozzizo", email: "taba@email.com", password: "12345678"})
+        .send({username: "tozzizo", email: "atlas.tozzi@gmail.com", password: "12345678"})
         .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
