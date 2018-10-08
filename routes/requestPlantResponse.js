@@ -40,7 +40,6 @@ router.post('/', (req, res) =>
                 return;
             }
             const email = request[0][0]['email'];
-            console.log(email);
 
             const new_status = ((body["status"] == true) ? (2) : (3));
             con.query("UPDATE plant_requests SET status = " + new_status + " WHERE id = " + id_request).then(result =>
