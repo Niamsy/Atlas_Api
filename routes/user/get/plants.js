@@ -1,10 +1,10 @@
 const router = require('express').Router();
 var hub      = require('hub');
-const con    = require('../index.js').con;
+const con    = require('../../../index.js').con;
 
 
 router.get('/', (req, res) => {
-    const token = req.header('api_token');
+    const { api_token: token } = req.headers;
     if (!token) {
         res.status(400);
         res.json({message: "Header values are incorrect"});

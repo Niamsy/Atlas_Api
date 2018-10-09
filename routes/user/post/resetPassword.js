@@ -1,5 +1,5 @@
 const router         = require('express').Router();
-const con            = require('../index.js').con;
+const con            = require('../../../index.js').con;
 const SHA256         = require("crypto-js/sha256");
 const TokenGenerator = require('uuid-token-generator');
 const nodemailer     = require('nodemailer');

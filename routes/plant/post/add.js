@@ -1,16 +1,13 @@
 const router = require('express').Router();
-const con = require('../index.js').con;
+const con = require('../../../index.js').con;
 
 let hub = require('hub');
 
 router.post('/', function(req, res) {
-    const api_token = req.header("api_token");
-    const plantName = req.header("scientific_name");
+    const { api_token, scientific_name: plantName } = req.headers;
 
     if (api_token == null || plantName == null) {
-        res.status(400);
-        res.json({message: "Bad parameters"});
-        return;
+        return res.status(400).json({message: "Bad parameters"});
     }
     if (hub.connectedUserToken[api_token] == null) {
         res.status(401);
@@ -24,24 +21,15 @@ router.post('/', function(req, res) {
             con.query("INSERT INTO users_plants (fk_id_user, fk_id_plant, scanned_at) VALUES ("
             + hub.connectedUserToken[api_token] + ", " + plant_id +", "
             + con.escape(date) + ")").then(result => {
-                res.status(200);
-                res.json({message: "Success"});
-                return ;
+                return res.status(200).json({message: "Success"});
             }).catch(err => {
-                res.status(500);
-                res.json({message: "Api encountered an issue: " + err});
-                throw err;
+                return res.status(500).json({message: "Api encountered an issue: " + err});
             })
-        }
-        else {
-            res.status(500);
-            res.json({message: "Api encountered an issue"}); //TODO: Ce message et ce code d'erreur ne semble pas correct
-            return;
+        } else {
+            return res.status(404).json({message: "Plant not found"});
         }
     }).catch(err => {
-        res.status(500);
-        res.json({message: "Api encountered an issue: " + err});
-        return;
+        return res.status(500).json({message: "Api encountered an issue: " + err});
     })
 });
 

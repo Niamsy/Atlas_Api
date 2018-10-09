@@ -7,10 +7,10 @@ let should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('/POST /disconnection', () => {
+describe('/POST /user/disconnection', () => {
     it('it should returns Bad parameters', function (done) {
         chai.request(server)
-        .post('/disconnection')
+        .post('/user/disconnection')
         .set('token', "")
         .end((err, res) => {
             res.should.have.status(400);
@@ -23,7 +23,7 @@ describe('/POST /disconnection', () => {
 
     it('it should returns Bad token', function (done) {
         chai.request(server)
-        .post('/disconnection')
+        .post('/user/disconnection')
         .set('api_token', "test")
         .end((err, res) => {
             res.should.have.status(401);
@@ -34,7 +34,7 @@ describe('/POST /disconnection', () => {
         });
     });
 
-    it('it should returns Disconnection success', function (done) {
+    it('it should returns user/disconnection success', function (done) {
         let token = "";
         chai.request(server)
             .post('/user/authentication')
@@ -44,7 +44,7 @@ describe('/POST /disconnection', () => {
                 token = JSON.stringify(res.body);
                 token = res.body['api_token'];
                 chai.request(server)
-                .post('/disconnection')
+                .post('/user/disconnection')
                 .set('api_token', token)
                 .end((err, res) => {
                     res.should.have.status(200);

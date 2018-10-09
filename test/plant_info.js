@@ -7,10 +7,10 @@ let should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('/GET plantInfo', () => {
+describe('/GET plant/info', () => {
     it('it should returns bad header values', (done) => {
         chai.request(server)
-            .get('/plantInfo')
+            .get('/plant/info')
             .end((err, res) => {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
@@ -22,7 +22,7 @@ describe('/GET plantInfo', () => {
 
     it('it should returns plant doesn\'t exist', (done) => {
        chai.request(server)
-           .get('/plantInfo')
+           .get('/plant/info')
            .set('plant_id', 9999)
            .end((err, res) => {
                res.should.have.status(404);
@@ -35,7 +35,7 @@ describe('/GET plantInfo', () => {
 
     it('it should returns correct values', (done) => {
        chai.request(server)
-           .get('/plantInfo')
+           .get('/plant/info')
            .set('plant_id', 1)
            .end((err, res) => {
                res.should.have.status(200);

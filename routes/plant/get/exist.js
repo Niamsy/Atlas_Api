@@ -1,18 +1,21 @@
 const router = require('express').Router();
-const con = require('../index.js').con;
+const con = require('../../../index.js').con;
 
 
 router.get('/', function(req, res) {
+    if (req.params.name === undefined) {
+        res.status(400).json({message: "Need all value in header"});
+    }
     const name = req.params.name.split('-').join(' ');
+
     con.query("SELECT * from plants where scientific_name = \'" + name + "\'").then(result => {
         if (result[0].length > 0) {
-            res.send('yes');
+            return res.send('yes');
         } else {
-            res.send('no');
+            return res.send('no');
         }
     }).catch(err => {
-        res.status(500);
-        res.json({message: "Api encountered an issue: " + err});
+        return res.status(500).json({message: "Api encountered an issue: " + err});
     });
 });
 

@@ -1,23 +1,25 @@
 const router         = require('express').Router();
 const TokenGenerator = require('uuid-token-generator');
-const con            = require('../index.js').con;
+const con            = require('../../../index.js').con;
 const SHA256         = require("crypto-js/sha256");
 
 router.post('/', (req, res) => {
-    if (req.body["email"] === undefined || req.body["username"] === undefined || req.body["password"] === undefined) {
+    const { email, username, password } = req.body;
+
+    if (email === undefined || username === undefined || password === undefined) {
         res.status(500).json({message: "Need all values in body. (email, username and password)."});
         return ;
     }
-    con.query("SELECT id FROM users WHERE email=" + con.escape(req.body["email"]) + " OR name=" + con.escape(req.body["username"]))
+    con.query("SELECT id FROM users WHERE email=" + con.escape(email) + " OR name=" + con.escape(username))
     .then(result => {
         if (result[0].length == 0) {
-            if (req.body["password"].length >= 8) {
-                const passwd = SHA256(req.body["password"]);
+            if (password.length >= 8) {
+                const passwd = SHA256(password);
                 const date = new Date();
                 con.query('INSERT INTO users(name,password,email,created_at, right_id) VALUES ('
-                + con.escape(req.body["username"]) + ", "
+                + con.escape(username) + ", "
                 + con.escape(passwd.toString()) + " ,"
-                + con.escape(req.body["email"]) + " ,"
+                + con.escape(email) + " ,"
                 + con.escape(date) + ", 2)")
                 .then(result => {
                     res.json({message: "Success"});

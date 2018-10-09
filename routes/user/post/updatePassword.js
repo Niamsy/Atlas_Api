@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const con    = require('../index.js').con;
+const con    = require('../../../index.js').con;
 const SHA256 = require("crypto-js/sha256");
 
 let hub      = require('hub');
@@ -29,8 +29,8 @@ router.post('/', (req, res) => {
                     });
                 }
             }).catch(e => {
-            res.status(500).json({message: "Internal server error"});
-        });
+                res.status(500).json({message: "Internal server error"});
+            });
     }
 });
 

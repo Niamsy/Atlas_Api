@@ -11,7 +11,7 @@ describe('/GET userPlants', () => {
 
     it('it should returns bad header values', (done) => {
         chai.request(server)
-            .get('/userPlants')
+            .get('/user/plants')
             .end((err, res) => {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
@@ -23,7 +23,7 @@ describe('/GET userPlants', () => {
 
     it('it should returns bad token', function (done) {
         chai.request(server)
-            .get('/userPlants')
+            .get('/user/plants')
             .set('api_token', 'Test')
             .end((err, res) => {
                 res.should.have.status(401);
@@ -49,7 +49,7 @@ describe('/GET userPlants', () => {
 
     it('it should returns a json with correct values', function (done) {
         chai.request(server)
-            .get('/userPlants')
+            .get('/user/plants')
             .set('api_token', api_token)
             .end((err, res) => {
                 res.should.have.status(200);

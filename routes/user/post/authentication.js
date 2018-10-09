@@ -1,6 +1,6 @@
 const router         = require('express').Router();
 const TokenGenerator = require('uuid-token-generator');
-const con            = require('../index.js').con;
+const con            = require('../../../index').con;
 const SHA256         = require("crypto-js/sha256");
 
 let hub              = require('hub');
@@ -16,26 +16,19 @@ function generateToken() {
 };
 
 router.post('/', function(req, res) {
-    let username = req.header("username");
-    let password = req.header("password");
+    const { username, password } = req.headers;
 
-    if (username == null || password == null) {
-        res.status(400);
-        res.json({message: "Header values are incorrect"});
-        return;
+    if (username === undefined || password === undefined) {
+        return res.status(400).json({message: "Header values are incorrect"});
     }
     con.query("SELECT id, name, password FROM users WHERE name = \'"
     + username + "\' and password =\'" + SHA256(password) + "\'").then(result => {
-        if (result[0].length == 0) {
-            res.status(400);
-            res.json({message: "Bad authentication"});
-            return;
+        if (result[0].length === 0) {
+            return res.status(400).json({message: "Bad authentication"});
         }
         for (let key in hub.connectedUserToken) {
-            if (key == result[0][0].id) {
-                res.status(200);
-                res.json({ api_token: key });
-                return;
+            if (key === result[0][0].id) {
+                return res.status(200).json({ api_token: key });
             }
         }
         const api_token = generateToken();
@@ -45,12 +38,9 @@ router.post('/', function(req, res) {
         .catch(err => {
             throw err;
         });
-        res.status(200);
-        res.json({ api_token: api_token });
+        return res.status(200).json({ api_token: api_token });
     }).catch(err => {
-        res.status(500);
-        res.json({message: "Api encountered an issue: " + err});
-        return;
+        return res.status(500).json({message: "Api encountered an issue: " + err});
     });
 });
 

@@ -1,10 +1,11 @@
 const router = require('express').Router();
-const con    = require('../index.js').con;
+const con    = require('../../../index.js').con;
 
 const hub    = require('hub');
 
 router.get('/', (req, res) => {
-  const api_token = req.headers["api_token"];
+  const { api_token } = req.headers;
+
   if (api_token === undefined) {
     res.status(400).json({message: "Need all values in header (api_token)."});
   } else if (hub.connectedUserToken === undefined || hub.connectedUserToken[api_token] === undefined) {
