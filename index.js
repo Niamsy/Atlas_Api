@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const express = require('express');
 const app = express();
 const config = require('config');
+const plantInfo = require('./routes/plantInfo/functions_PlantInfo.js');
 
 
 const cors = require('cors');
@@ -21,6 +22,8 @@ hub.connectedUserToken = [];
 
 con.authenticate().then(() => {
     console.log('Connection has been established successfully.');
+
+    plantInfo.loadAllCorrespondanceList(con);
 }).catch(err => {
     console.error('Unable to connect to the database:', err);
 });
@@ -32,6 +35,7 @@ app.get('/', function(req, res) {
 app.listen(process.env.API_PORT, function() {
     console.log('Listening on port ' + process.env.API_PORT);
 });
+
 
 module.exports = {con : con, app: app};
 

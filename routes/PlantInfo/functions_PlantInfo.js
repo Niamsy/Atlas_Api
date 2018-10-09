@@ -1,19 +1,40 @@
 const con = require('../../index.js').con;
 
+const KeysIds = {};
+
+function loadCorrespondanceList(name, con) {
+    con.query("SELECT name FROM " + name + " ORDER BY id ASC").then(result => {
+        console.log("Keys-Ids Correspondance list loaded: " + name);
+        KeysIds[name] = result[0];
+    }).catch(err => {
+        console.error("Couldn't load the Keys-Ids Correspondance list: " + name);
+        reject(err);
+    });
+}
+
+function loadAllCorrespondanceList(con) {
+    loadCorrespondanceList("soil_type", con);
+    loadCorrespondanceList("soil_humidity", con);
+    loadCorrespondanceList("soil_ph", con);
+    loadCorrespondanceList("sun_exposure", con);
+    loadCorrespondanceList("reproduction", con);
+}
+
 function transformIDSToValue(ids, name)
 {
-    return (new Promise(function (resolve, reject) {
-        // Do async job
-        con.query("SELECT name FROM " + name + " ORDER BY id ASC").then(result => {
-            let keys = result[0];
-            let i = 0;
-            let returnValue = {};
-            for (let x = 0; x < keys.length; x++)
-                if (ids[x] == 1)
-                    returnValue[i++] = keys[x];
-            resolve(returnValue);
-        }).catch(err => { reject(err); })
-    }));
+    if (KeysIds[name] === undefined) {
+        console.error("Keys-Ids Correspondance list not loaded: " + name);
+        return undefined;
+    }
+
+    let i = 0;
+    let returnValue = {};
+    for (let x = 0; x < KeysIds[name].length; x++)
+    {
+        if (ids[x] == 1)
+            returnValue[i++] = KeysIds[name][x];
+    }
+    return (returnValue);
 }
 
 function transformSoilTypeToValue(ids) {
@@ -41,5 +62,6 @@ module.exports = {
     transformSoilHumidityToValue: transformSoilHumidityToValue,
     transformSoilPHToValue: transformSoilPHToValue,
     transformSunExposureToValue: transformSunExposureToValue,
-    transformReproductionToValue: transformReproductionToValue
+    transformReproductionToValue: transformReproductionToValue,
+    loadAllCorrespondanceList: loadAllCorrespondanceList
 }
