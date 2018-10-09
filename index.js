@@ -56,3 +56,9 @@ app.use('/disconnection', require('./routes/disconnection'));
 app.use('/role', require('./routes/role'));
 app.use('/user/isAdmin', require('./routes/isAdmin'));
 app.use('/user/glossary', require('./routes/glossary'));
+
+app.use('/plantInfo/reproduction', require('./routes/plantInfo/plantReproduction'));
+app.use('/plantInfo/soilHumidity', require('./routes/plantInfo/plantSoilHumidity'));
+app.use('/plantInfo/soilType', require('./routes/plantInfo/plantSoilType'));
+app.use('/plantInfo/soilPH', require('./routes/plantInfo/plantSoilPH'));
+app.use('/plantInfo/sunExposure', require('./routes/plantInfo/plantSunExposure'));
