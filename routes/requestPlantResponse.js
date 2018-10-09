@@ -32,7 +32,7 @@ router.post('/', (req, res) =>
             res.status(402).json({ message: "The API Token doesn't belong to a admin", result : result[0] });
             return;
         }
-        con.query("SELECT users.email, plant_requests.fk_id_user FROM plant_requests INNER JOIN users ON users.id = plant_requests.fk_id_user WHERE plant_requests.id = " + id_request).then(request =>
+        con.query("SELECT users.email, plant_requests.* FROM plant_requests INNER JOIN users ON users.id = plant_requests.fk_id_user WHERE plant_requests.id = " + id_request).then(request =>
         {
             if (request[0].length == 0)
             {
