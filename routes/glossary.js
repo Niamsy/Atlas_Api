@@ -40,7 +40,6 @@ router.get('/', (req, res) => {
                 }
 
                 res.status(200).json(returnValue);
-
             }
             else
                 res.status(500).json({ message: "Internal server error" });
