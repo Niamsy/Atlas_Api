@@ -4,14 +4,15 @@ const con = require('../../../index.js').con;
 let hub = require('hub');
 
 router.post('/', function(req, res) {
-    const { api_token, scientific_name: plantName } = req.headers;
+    const { api_token } = req.headers;
+    const { scientific_name: plantName } = req.body;
 
     if (api_token == null || plantName == null) {
-        return res.status(400).json({message: "Bad parameters"});
+        return res.status(400).json({message: "Header values are incorrect."});
     }
     if (hub.connectedUserToken[api_token] == null) {
         res.status(401);
-        res.json({message: "Api token is wrong"});
+        res.json({message: "Api token is wrong."});
         return;
     }
     con.query("SELECT * from plants where scientific_name = \'" + plantName + "\'").then(result => {

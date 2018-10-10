@@ -5,7 +5,7 @@ router.get('/', (req, res) => {
     const { plant_id } = req.headers;
 
     if (!plant_id) {
-        res.status(400).json({message: "Header values are incorrect"});
+        res.status(400).json({message: "Header values are incorrect."});
     } else {
         con.query("SELECT name, scientific_name, maxheight, ids_reproduction, ids_soil_type, ids_soil_ph, plants.ids_soil_humidity, " +
             "ids_sun_exposure, ids_plant_container, planting_period, florering_period, " +

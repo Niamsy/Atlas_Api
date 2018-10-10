@@ -19,7 +19,7 @@ router.post('/', function(req, res) {
     const { username, password } = req.headers;
 
     if (username === undefined || password === undefined) {
-        return res.status(400).json({message: "Header values are incorrect"});
+        return res.status(400).json({message: "Header values are incorrect."});
     }
     con.query("SELECT id, name, password FROM users WHERE name = \'"
     + username + "\' and password =\'" + SHA256(password) + "\'").then(result => {

@@ -28,7 +28,7 @@ describe('/GET userInfo', () => {
       res.should.have.status(400);
       res.body.should.be.a('object');
       res.body.should.have.property('message');
-      res.body.message.should.equal("Need all values in header (api_token).");
+      res.body.message.should.equal("Header values are incorrect.");
       done();
     });
   });
@@ -42,7 +42,7 @@ describe('/GET userInfo', () => {
       res.should.have.status(401);
       res.body.should.be.a('object');
       res.body.should.have.property('message');
-      res.body.message.should.equal("Api token is wrong");
+      res.body.message.should.equal("Api token is wrong.");
       done();
     });
   });

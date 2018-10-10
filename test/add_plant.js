@@ -16,7 +16,7 @@ describe('/POST plant/add', () => {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('message');
-                res.body.message.should.equal("Bad parameters");
+                res.body.message.should.equal("Header values are incorrect.");
 		        done();
             });
             }); 
@@ -25,12 +25,12 @@ describe('/POST plant/add', () => {
         chai.request(server)
             .post('/plant/add')
             .set('api_token', 'Test')
-            .set('scientific_name', 'Test')
+            .send({scientific_name: 'Test'})
             .end((err, res) => {
                 res.should.have.status(401);
                 res.body.should.be.a('object');
                 res.body.should.have.property('message');
-                res.body.message.should.equal("Api token is wrong");
+                res.body.message.should.equal("Api token is wrong.");
                 done();
             });
     });

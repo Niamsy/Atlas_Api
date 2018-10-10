@@ -16,7 +16,7 @@ describe('/GET userPlants', () => {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('message');
-                res.body.message.should.equal("Header values are incorrect");
+                res.body.message.should.equal("Header values are incorrect.");
                 done();
             });
     });
@@ -29,7 +29,7 @@ describe('/GET userPlants', () => {
                 res.should.have.status(401);
                 res.body.should.be.a('object');
                 res.body.should.have.property('message');
-                res.body.message.should.equal("Api token is wrong");
+                res.body.message.should.equal("Api token is wrong.");
                 done();
             });
     });

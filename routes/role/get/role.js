@@ -5,7 +5,7 @@ router.get('/', (req, res) => {
     const { role_id } = req.headers;
 
     if (!role_id) {
-        res.status(400).json({message: "Header values are incorrect"});
+        res.status(400).json({message: "Header values are incorrect."});
     } else {
         con.query("SELECT name FROM rights where id=" + role_id).then(result => {
             if (result[0].length <= 0) {

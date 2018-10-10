@@ -8,7 +8,7 @@ let should = chai.should();
 chai.use(chaiHttp);
 
 describe('/POST /user/disconnection', () => {
-    it('it should returns Bad parameters', function (done) {
+    it('it should returns Header values are incorrect.', function (done) {
         chai.request(server)
         .post('/user/disconnection')
         .set('token', "")
@@ -16,7 +16,7 @@ describe('/POST /user/disconnection', () => {
             res.should.have.status(400);
             res.body.should.be.a('object');
             res.body.should.have.property('message');
-            res.body.message.should.equal("Bad parameters");
+            res.body.message.should.equal("Header values are incorrect.");
             done();
         });
     });
@@ -29,7 +29,7 @@ describe('/POST /user/disconnection', () => {
             res.should.have.status(401);
             res.body.should.be.a('object');
             res.body.should.have.property('message');
-            res.body.message.should.equal("Bad token");
+            res.body.message.should.equal("Api token is wrong.");
             done();
         });
     });

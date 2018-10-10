@@ -1,16 +1,15 @@
 const router = require('express').Router();
-const con    = require('../../../index.js').con;
+const con = require('../../../index.js').con;
 const SHA256 = require("crypto-js/sha256");
 
-let hub      = require('hub');
+let hub = require('hub');
 
 router.post('/', (req, res) => {
-    const { api_token, old_password, new_password } = req.body;
+    const {old_password, new_password} = req.body;
+    const {api_token} = req.headers;
 
-    if (!api_token || !old_password || !new_password) {
+    if (!old_password || !new_password) {
         res.status(400).json({message: "Header values are incorrect."});
-    } else if (hub.connectedUserToken === undefined || hub.connectedUserToken[api_token] === undefined) {
-        res.status(401).json({message: "Api token is wrong."});
     } else {
         con.query(`SELECT * from users WHERE password=${con.escape(SHA256(old_password).toString())}`
             + ` AND id=${hub.connectedUserToken[api_token]}`)
@@ -29,8 +28,8 @@ router.post('/', (req, res) => {
                     });
                 }
             }).catch(e => {
-                res.status(500).json({message: "Internal server error"});
-            });
+            res.status(500).json({message: "Internal server error"});
+        });
     }
 });
 
