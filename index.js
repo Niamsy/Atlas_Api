@@ -1,7 +1,5 @@
-const Sequelize = require('sequelize');
 const express = require('express');
 const app = express();
-const config = require('config');
 
 const cors = require('cors');
 
@@ -10,19 +8,11 @@ let hub = require('hub');
 app.use(express.json());
 app.use(cors());
 
-const con = new Sequelize(config.DB, 'root', null, {
-    host: 'localhost',
-    dialect: 'mysql',
-    logging: false,
-});
+require('./database/init');
+
+const { sequelize: con } = require('./database/sequelize');
 
 hub.connectedUserToken = [];
-
-con.authenticate().then(() => {
-    console.log('Connection has been established successfully.');
-}).catch((err) => {
-    console.error('Unable to connect to the database:', err);
-});
 
 app.listen(process.env.API_PORT, () => {
     console.log('Listening on port ' + process.env.API_PORT);
