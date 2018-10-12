@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
         res.status(400).json({message: "Body values are incorrect."});
     } else {
         con.query("UPDATE users SET right_id=" + con.escape(right_id) + " WHERE email=" + con.escape(email))
-            .then(result => res.status(200).json({message: "Success"}))
+            .then(() => res.status(200).json({message: "Success"}))
             .catch(err => res.status(500).json({message: "Api encountered an issue : " + err.message}));
     }
 });

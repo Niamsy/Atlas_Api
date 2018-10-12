@@ -27,8 +27,10 @@ router.post('/', function(req, res) {
             return res.status(400).json({message: "Bad authentication"});
         }
         for (let key in hub.connectedUserToken) {
-            if (key === result[0][0].id) {
-                return res.status(200).json({ api_token: key });
+            if (hub.connectedUserToken[key] === result[0][0].id) {
+                res.status(200);
+                res.json({ api_token: key });
+                return;
             }
         }
         const api_token = generateToken();
