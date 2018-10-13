@@ -125,7 +125,8 @@ describe('/POST plant/request/response', () => {
         .send(
           {
               id_request: 1,
-              status: true
+              status: true,
+              sendMail: false
           })
           .end((err, res) => {
               res.should.have.status(200);
