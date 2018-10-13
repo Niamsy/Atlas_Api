@@ -11,7 +11,7 @@ router.get('/', (req, res) =>
     if (req.header("request_id") === undefined)
     {
         res.status(400);
-        res.json({ message: "Body values are incorrect" });
+        res.json({ message: "Header values are incorrect" });
         return;
     }
     if (api_token === undefined || hub.connectedUserToken[api_token] === undefined)
