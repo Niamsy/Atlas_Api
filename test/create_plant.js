@@ -101,7 +101,7 @@ describe('/Post plant/create', () => {
       .end((err, res) => {
         res.should.have.status(403);
         res.body.should.be.a('message');
-        res.body[0].message.should.equal("Plant already exist");
+        res.body.message.should.equal("Plant already exist");
         done();
       });
   });

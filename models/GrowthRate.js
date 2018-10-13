@@ -1,6 +1,6 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('GrowthRate', {
     id: {
       type: DataTypes.INTEGER(4),

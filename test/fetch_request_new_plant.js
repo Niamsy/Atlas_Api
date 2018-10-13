@@ -11,7 +11,7 @@ describe('/GET /plant/request/fetch', () => {
         chai.request(server)
         .get('/plant/request/fetch')
         .end((err, res) => {
-            res.should.have.status(400);
+            res.should.have.status(401);
             res.body.should.be.a('object');
             res.body.should.have.property('message');
             res.body.message.should.equal("Header values are incorrect.");

@@ -6,8 +6,8 @@ const isAdmin = require('../middleware/isAdmin/isAdmin');
 
 // Plant POST routes
 router.use('/plant/add', require('./plant/post/add'));
-router.use('/plant/create', require('./plant/post/createPlant'));
-router.use('/plant/request/create', [checkToken, isAdmin], require('./plant/post/requestForNewPlant'));
+router.use('/plant/create', [checkToken, isAdmin], require('./plant/post/createPlant'));
+router.use('/plant/request/create', checkToken, require('./plant/post/requestForNewPlant'));
 
 // Plant GET routes
 router.use('/plants/fetch', checkToken, require('./plant/get/fetch'));
