@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const express = require('express');
 const app = express();
 const config = require('config');
-const plantInfo = require('./routes/plantInfo/functions_PlantInfo.js');
+const plantInfo = require('./routes/PlantInfo/functions_PlantInfo.js');
 
 
 const cors = require('cors');
@@ -61,8 +61,8 @@ app.use('/role', require('./routes/role'));
 app.use('/user/isAdmin', require('./routes/isAdmin'));
 app.use('/user/glossary', require('./routes/glossary'));
 
-app.use('/plantInfo/reproduction', require('./routes/plantInfo/plantReproduction'));
-app.use('/plantInfo/soilHumidity', require('./routes/plantInfo/plantSoilHumidity'));
-app.use('/plantInfo/soilType', require('./routes/plantInfo/plantSoilType'));
-app.use('/plantInfo/soilPH', require('./routes/plantInfo/plantSoilPH'));
-app.use('/plantInfo/sunExposure', require('./routes/plantInfo/plantSunExposure'));
+app.use('/plantInfo/reproduction', require('./routes/PlantInfo/plantReproduction'));
+app.use('/plantInfo/soilHumidity', require('./routes/PlantInfo/plantSoilHumidity'));
+app.use('/plantInfo/soilType', require('./routes/PlantInfo/plantSoilType'));
+app.use('/plantInfo/soilPH', require('./routes/PlantInfo/plantSoilPH'));
+app.use('/plantInfo/sunExposure', require('./routes/PlantInfo/plantSunExposure'));
