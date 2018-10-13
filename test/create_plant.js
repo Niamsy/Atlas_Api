@@ -8,15 +8,27 @@ let should = chai.should();
 chai.use(chaiHttp);
 
 describe('/Post plant/create', () => {
+    var admin_apitoken;
+    var base_apitoken;
 
-    it('It should returns bad header values', (done) => {
+    before(function (done) {
         chai.request(server)
-            .post('/plant/create')
+            .post('/user/authentication')
+            .set('username', 'default')
+            .set('password', 'default')
             .end((err, res) => {
-                res.should.have.status(400);
-                res.body.should.be.a('object');
-                res.body.should.have.property('message');
-                res.body.message.should.equal("Body values are incorrect");
+                base_apitoken = res.body.api_token;
+                done();
+            });
+    });
+
+    before(function (done) {
+        chai.request(server)
+            .post('/user/authentication')
+            .set('username', 'admin')
+            .set('password', 'admin')
+            .end((err, res) => {
+                admin_apitoken = res.body.api_token;
                 done();
             });
     });
@@ -29,32 +41,20 @@ describe('/Post plant/create', () => {
                 res.should.have.status(401);
                 res.body.should.be.a('object');
                 res.body.should.have.property('message');
-                res.body.message.should.equal("Api token is invalid");
+                res.body.message.should.equal("API token is invalid");
                 done();
             });
     });
 
-    var admin_apitoken;
-    var base_apitoken;
-
-    before(function (done) {
+    it('It should returns bad header values', (done) => {
         chai.request(server)
-            .post('/user/authentication')
-            .set('username', 'default')
-            .set('password', 'default')
+            .post('/plant/create')
+            .set('api_token', admin_apitoken)
             .end((err, res) => {
-                admin_apitoken = res.body.api_token;
-                done();
-            });
-    });
-
-    before(function (done) {
-        chai.request(server)
-            .post('/user/authentication')
-            .set('username', 'admin')
-            .set('password', 'admin')
-            .end((err, res) => {
-                base_apitoken = res.body.api_token;
+                res.should.have.status(400);
+                res.body.should.be.a('object');
+                res.body.should.have.property('message');
+                res.body.message.should.equal("Body values are incorrect");
                 done();
             });
     });
@@ -83,10 +83,10 @@ describe('/Post plant/create', () => {
             "growth_duration": 1
         })
             .end((err, res) => {
-                res.should.have.status(401);
+                res.should.have.status(402);
                 res.body.should.be.a('object');
                 res.body.should.have.property('message');
-                res.body.message.should.equal("Api token is invalid");
+                res.body.message.should.equal("The API Token doesn't belong to an admin");
                 done();
             });
     });
@@ -115,8 +115,9 @@ describe('/Post plant/create', () => {
         })
         .end((err, res) => {
             res.should.have.status(403);
-            res.body.should.be.a('message');
-            res.body[0].message.should.equal("Plant already exist");
+            res.body.should.be.a('object');
+            res.body.should.have.property('message');
+            res.body.message.should.equal("Plant already exists");
             done();
         });
     });
@@ -125,10 +126,11 @@ describe('/Post plant/create', () => {
     it('Should create a plant in the bdd', (done) => {
         chai.request(server)
         .post('/plant/create')
+        .set('api_token', admin_apitoken)
         .send(
         {
-            "name": "test",
-            "scientific_name": "test",
+            "name": "Test /plant/create",
+            "scientific_name": "Test /plant/create",
             "max_height": 1,
             "ids_soil_ph": "test",
             "ids_soil_type": "test",
@@ -146,8 +148,9 @@ describe('/Post plant/create', () => {
         })
         .end((err, res) => {
             res.should.have.status(201);
-            res.body.should.be.a('message');
-            res.body[0].message.should.equal("Plant created");
+            res.body.should.be.a('object');
+            res.body.should.have.property('message');
+            res.body.message.should.equal("Plant created");
             done();
         });
     });

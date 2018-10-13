@@ -21,7 +21,7 @@ router.get('/', (req, res) =>{
             + " FROM plant_requests WHERE fk_id_user = " + id)
             .then(result => {
             res.status(200);
-            res.json(result[0]);
+            res.json({ requests: result[0] });
         }).catch(err => {
             res.status(500);
             res.json({ message: "API encountered an issue: +" + err });

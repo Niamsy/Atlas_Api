@@ -54,7 +54,7 @@ describe('/GET plantInfo', () => {
                res.body['cutting_period'].should.equal("");
                res.body['fk_id_frozen_tolerance'].should.equal(3);
                res.body['fk_id_growth_rate'].should.equal(3);
-               res.body['growth_duration'].should.equal(0.6);
+               res.body['growth_duration'].should.equal(1);
                done();
         });
     });

@@ -4,7 +4,6 @@ const KeysIds = {};
 
 function loadCorrespondanceList(name, con) {
     con.query("SELECT name FROM " + name + " ORDER BY id ASC").then(result => {
-        console.log("Keys-Ids Correspondance list loaded: " + name);
         KeysIds[name] = result[0];
     }).catch(err => {
         console.error("Couldn't load the Keys-Ids Correspondance list: " + name);

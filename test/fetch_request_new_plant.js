@@ -9,6 +9,19 @@ chai.use(chaiHttp);
 
 describe('/GET /plant/request/fetch', () =>
 {
+    let api_token;
+
+    before((done) => {
+        chai.request(server)
+        .post('/user/authentication')
+        .set('username', 'admin')
+        .set('password', 'admin')
+        .end((err, res) => {
+            api_token = res.body.api_token;
+            done();
+        });
+    });
+
     it('It should return Token null', (done) => {
         chai.request(server)
         .get('/plant/request/fetch')
@@ -37,10 +50,11 @@ describe('/GET /plant/request/fetch', () =>
     it('It should return sucess', (done) => {
         chai.request(server)
         .get('/plant/request/fetch')
-        .set('api_token', 'Test')
+        .set('api_token', api_token)
         .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
+            res.body.should.have.property('requests');
             done();
         });
     });

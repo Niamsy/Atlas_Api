@@ -69,7 +69,7 @@ describe('/GET plants/fetch', () => {
                 res.body[0]['fk_id_frozen_tolerance'].should.equal(3);
                 res.body[0]['fk_id_growth_rate'].should.equal(3);
                 res.body[0]['scanned_at'].should.equal("2018-03-12T16:50:52.000Z");
-                res.body[0]['growth_duration'].should.equal(0.6);
+                res.body[0]['growth_duration'].should.equal(1);
                 done();
             });
     });

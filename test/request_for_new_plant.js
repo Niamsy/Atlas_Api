@@ -24,6 +24,7 @@ describe('/POST plant/request/create', () => {
   it('It should returns body values are incorrect', (done) => {
     chai.request(server)
     .post('/plant/request/create')
+    .set("api_token", api_token)
     .end((err, res) => {
       res.should.have.status(400);
       res.body.should.be.a('object');

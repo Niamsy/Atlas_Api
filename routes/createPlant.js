@@ -5,7 +5,11 @@ const hub    = require('hub');
 router.post('/', (req, res) => {
     const token = req.header('api_token');
 
-    if (req.body["name"] === undefined ||
+    if (token === undefined || hub.connectedUserToken[token] === undefined)
+    {
+        res.status(401).json({ message: "API token is invalid" });
+    }
+    else if (req.body["name"] === undefined ||
         req.body["scientific_name"] === undefined ||
         req.body["max_height"] === undefined ||
         req.body["ids_soil_ph"] === undefined ||
@@ -26,15 +30,11 @@ router.post('/', (req, res) => {
             message: "Body values are incorrect"
         });
     }
-    else if (token === undefined || hub.connectedUserToken[token] === undefined)
-    {
-        res.status(401).json({ message: "API token is invalid" });
-    }
     else {
         con.query("SELECT rights.name FROM rights INNER JOIN users ON users.right_id = rights.id WHERE users.id = '" + hub.connectedUserToken[token] + "'").then(result => {
             if (result[0].length == 0 || result[0][0]['name'] != "admin")
             {
-                res.status(402).json({ message: "The API Token doesn't belong to a admin", result : result[0] });
+                res.status(402).json({ message: "The API Token doesn't belong to an admin", result : result[0] });
                 return;
             }
             con.query("SELECT id from plants where scientific_name = " + con.escape(req.body["scientific_name"])).then(result => {
@@ -69,7 +69,7 @@ router.post('/', (req, res) => {
                     }).catch(e => res.status(500).json({ message: "Atlas API Encountered a issue"}));
                 }
                 else
-                    res.status(403).json({ message: "Plant already exist" });
+                    res.status(403).json({ message: "Plant already exists" });
             }).catch(e => res.status(500).json({ message: "Atlas API Encountered a issue."}));
         }).catch(e => res.status(500).json({ message: "Atlas API Encountered a issue." }));
     }
