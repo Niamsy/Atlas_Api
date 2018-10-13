@@ -2,7 +2,7 @@ const router = require('express').Router();
 const con    = require('../index.js').con;
 const hub = require('hub');
 
-const plantInfo = require('./plantInfo/functions_PlantInfo.js');
+const plantInfo = require('./PlantInfo/functions_PlantInfo.js');
 /*
 const transformSoilTypeToValue = require('./functions_PlantInfo.js').transformSoilTypeToValue;
 const transformSoilHumidityToValue = require('./functions_PlantInfo.js').transformSoilHumidityToValue;
