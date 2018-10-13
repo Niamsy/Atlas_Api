@@ -2,7 +2,7 @@ const router = require('express').Router();
 const con = require('../../index.js').con;
 const hub = require('hub');
 const transformReproductionToValue = require('./functions_PlantInfo.js').transformReproductionToValue;
-
+ 
 router.get('/', (req, res) =>
 {
     const plant_id = req.headers["plant_id"];
