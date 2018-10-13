@@ -74,10 +74,10 @@ describe('/POST plant/request/response', () => {
               status: true
           })
           .end((err, res) => {
-              res.should.have.status(400);
+              res.should.have.status(401);
               res.body.should.be.a('object');
               res.body.should.have.property('message');
-              res.body.message.should.equal("Success");
+              res.body.message.should.equal("API token is invalid or empty");
               done();
           });
     });
@@ -95,7 +95,7 @@ describe('/POST plant/request/response', () => {
               res.should.have.status(402);
               res.body.should.be.a('object');
               res.body.should.have.property('message');
-              res.body.message.should.equal("The API Token doesn't belong to a admin");
+              res.body.message.should.equal("The API Token doesn't belong to an admin");
               done();
           });
     });
@@ -113,7 +113,7 @@ describe('/POST plant/request/response', () => {
               res.should.have.status(403);
               res.body.should.be.a('object');
               res.body.should.have.property('message');
-              res.body.message.should.equal("No request with the given request_id exist");
+              res.body.message.should.equal("No request with the given request_id exists");
               done();
           });
     });

@@ -29,14 +29,14 @@ router.post('/', (req, res) =>
     {
         if (result[0].length == 0 || result[0][0]['name'] != "admin")
         {
-            res.status(402).json({ message: "The API Token doesn't belong to a admin", result : result[0] });
+            res.status(402).json({ message: "The API Token doesn't belong to an admin", result : result[0] });
             return;
         }
         con.query("SELECT users.email, plant_requests.* FROM plant_requests INNER JOIN users ON users.id = plant_requests.fk_id_user WHERE plant_requests.id = " + id_request).then(request =>
         {
             if (request[0].length == 0)
             {
-                res.status(403).json({ message: "No request with the given request_id exist" });
+                res.status(403).json({ message: "No request with the given request_id exists" });
                 return;
             }
             const email = request[0][0]['email'];
