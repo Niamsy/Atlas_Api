@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const express = require('express');
 const app = express();
 const config = require('config');
+const plantInfo = require('./routes/PlantInfo/functions_PlantInfo.js');
 
 
 const cors = require('cors');
@@ -21,6 +22,8 @@ hub.connectedUserToken = [];
 
 con.authenticate().then(() => {
     console.log('Connection has been established successfully.');
+
+    plantInfo.loadAllCorrespondanceList(con);
 }).catch(err => {
     console.error('Unable to connect to the database:', err);
 });
@@ -33,6 +36,7 @@ app.listen(process.env.API_PORT, function() {
     console.log('Listening on port ' + process.env.API_PORT);
 });
 
+
 module.exports = {con : con, app: app};
 
 app.use('/plant/:name', require('./routes/plantExist'));
@@ -44,6 +48,7 @@ app.use('/plants/fetch', require('./routes/plantFetch'));
 app.use('/plant/request/fetch', require('./routes/fetchRequestNewPlant'));
 app.use('/plant/request/create', require('./routes/requestForNewPlant'));
 app.use('/plant/request/response', require('./routes/requestPlantResponse'));
+app.use('/plant/request/information', require('./routes/requestPlantInformation'));
 
 app.use('/user/authentication', require('./routes/userAuthentication'));
 app.use('/user/registration', require('./routes/registration'));
@@ -58,3 +63,9 @@ app.use('/disconnection', require('./routes/disconnection'));
 app.use('/role', require('./routes/role'));
 app.use('/user/isAdmin', require('./routes/isAdmin'));
 app.use('/user/glossary', require('./routes/glossary'));
+
+app.use('/plantInfo/reproduction', require('./routes/PlantInfo/plantReproduction'));
+app.use('/plantInfo/soilHumidity', require('./routes/PlantInfo/plantSoilHumidity'));
+app.use('/plantInfo/soilType', require('./routes/PlantInfo/plantSoilType'));
+app.use('/plantInfo/soilPH', require('./routes/PlantInfo/plantSoilPH'));
+app.use('/plantInfo/sunExposure', require('./routes/PlantInfo/plantSunExposure'));
