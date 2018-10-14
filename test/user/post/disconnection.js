@@ -1,14 +1,15 @@
 process.env.NODE_ENV = 'test';
 
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let server = require('../../../index').app;
-let should = chai.should();
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const server = require('../../../index').app;
+
+const should = chai.should();
 
 chai.use(chaiHttp);
 
 describe('/POST /user/disconnection', () => {
-  it('it should returns Header values are incorrect.', function(done) {
+  it('it should returns Header values are incorrect.', done => {
     chai
       .request(server)
       .post('/user/disconnection')
@@ -22,7 +23,7 @@ describe('/POST /user/disconnection', () => {
       });
   });
 
-  it('it should returns Bad token', function(done) {
+  it('it should returns Bad token', done => {
     chai
       .request(server)
       .post('/user/disconnection')
@@ -36,7 +37,7 @@ describe('/POST /user/disconnection', () => {
       });
   });
 
-  it('it should returns user/disconnection success', function(done) {
+  it('it should returns user/disconnection success', done => {
     let token = '';
     chai
       .request(server)
@@ -45,7 +46,7 @@ describe('/POST /user/disconnection', () => {
       .set('password', 'admin')
       .end((err, res) => {
         token = JSON.stringify(res.body);
-        token = res.body['api_token'];
+        token = res.body.api_token;
         chai
           .request(server)
           .post('/user/disconnection')

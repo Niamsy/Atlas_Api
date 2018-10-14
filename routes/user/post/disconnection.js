@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
-let hub = require('hub');
+const hub = require('hub');
 
-router.post('/', function(req, res) {
+router.post('/', (req, res) => {
   const { api_token } = req.headers;
 
   delete hub.connectedUserToken[api_token];

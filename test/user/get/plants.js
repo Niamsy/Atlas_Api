@@ -1,9 +1,10 @@
 process.env.NODE_ENV = 'test';
 
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let server = require('../../../index').app;
-let should = chai.should();
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const server = require('../../../index').app;
+
+const should = chai.should();
 
 chai.use(chaiHttp);
 
@@ -21,7 +22,7 @@ describe('/GET userPlants', () => {
       });
   });
 
-  it('it should returns bad token', function(done) {
+  it('it should returns bad token', done => {
     chai
       .request(server)
       .get('/user/plants')
@@ -35,9 +36,9 @@ describe('/GET userPlants', () => {
       });
   });
 
-  var api_token;
+  let api_token;
 
-  before(function(done) {
+  before(done => {
     chai
       .request(server)
       .post('/user/authentication')
@@ -49,7 +50,7 @@ describe('/GET userPlants', () => {
       });
   });
 
-  it('it should returns a json with correct values', function(done) {
+  it('it should returns a json with correct values', done => {
     chai
       .request(server)
       .get('/user/plants')

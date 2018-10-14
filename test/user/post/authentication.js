@@ -1,9 +1,10 @@
 process.env.NODE_ENV = 'test';
 
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let server = require('../../../index').app;
-let should = chai.should();
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const server = require('../../../index').app;
+
+const should = chai.should();
 
 chai.use(chaiHttp);
 
@@ -21,7 +22,7 @@ describe('/POST /user/authentication', () => {
       });
   });
 
-  it('it should returns bad authentication', function(done) {
+  it('it should returns bad authentication', done => {
     chai
       .request(server)
       .post('/user/authentication')
@@ -36,7 +37,7 @@ describe('/POST /user/authentication', () => {
       });
   });
 
-  it('it should returns good authentication', function(done) {
+  it('it should returns good authentication', done => {
     chai
       .request(server)
       .post('/user/authentication')
@@ -46,7 +47,7 @@ describe('/POST /user/authentication', () => {
         res.should.have.status(200);
         res.body.should.be.a('object');
         res.body.should.have.property('api_token');
-        //res.body.message.should.equal("Bad Authentication");
+        // res.body.message.should.equal("Bad Authentication");
         done();
       });
   });

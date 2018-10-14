@@ -1,7 +1,6 @@
 const router = require('express').Router();
-const con = require('../../../index.js').con;
-const transformReproductionToValue = require('../functions_PlantInfo.js')
-  .transformReproductionToValue;
+const { con } = require('../../../index.js').con;
+const { transformReproductionToValue } = require('../functions_PlantInfo.js');
 
 router.get('/', (req, res) => {
   const { plant_id } = req.headers;
@@ -9,7 +8,7 @@ router.get('/', (req, res) => {
   if (plant_id === undefined) res.status(400).json({ message: 'Header values are incorrect' });
   else {
     con
-      .query('SELECT ids_reproduction FROM plants WHERE id = ' + plant_id)
+      .query(`SELECT ids_reproduction FROM plants WHERE id = ${plant_id}`)
       .then(result => {
         if (result[0].length === 0) {
           return res.status(401).json("This plant doesn't exist");

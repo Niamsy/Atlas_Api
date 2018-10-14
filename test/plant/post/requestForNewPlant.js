@@ -1,8 +1,8 @@
 process.env.NODE_ENV = 'test';
 
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let server = require('../../../index').app;
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const server = require('../../../index').app;
 
 chai.use(chaiHttp);
 

@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const con = require('../../../index.js').con;
 const hub = require('hub');
+const { con } = require('../../../index.js');
 
 const plantInfo = require('../../PlantInfo/functions_PlantInfo.js');
 
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
         where fk_id_user=${hub.connectedUserToken[api_token]} GROUP BY plants.name`
     )
     .then(result => {
-      let returnValue = result[0];
+      const returnValue = result[0];
       if (returnValue.length > 0) {
         for (let i = 0; i < returnValue.length; i++) {
           returnValue[i].soilType = plantInfo.transformSoilTypeToValue(
@@ -40,9 +40,7 @@ router.get('/', (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
       }
     })
-    .catch(() => {
-      return res.status(500).json({ message: 'Internal server error' });
-    });
+    .catch(() => res.status(500).json({ message: 'Internal server error' }));
 });
 
 module.exports = router;

@@ -1,9 +1,8 @@
 const router = require('express').Router();
-const con = require('../../../index.js').con;
+const hub = require('hub');
+const { con } = require('../../../index.js');
 
-let hub = require('hub');
-
-router.get('/', function(req, res) {
+router.get('/', (req, res) => {
   const { api_token } = req.headers;
 
   con
@@ -14,14 +13,12 @@ router.get('/', function(req, res) {
     )
     .then(result => {
       if (result[0].length > 0) {
-        res.status(200).json({ isAdmin: result[0][0]['name'] === 'admin' });
+        res.status(200).json({ isAdmin: result[0][0].name === 'admin' });
       } else {
         res.status(500).json({ message: 'Internal server error: Unknown user' });
       }
     })
-    .catch(err => {
-      return res.status(500).json({ message: 'Internal server error:' + err });
-    });
+    .catch(err => res.status(500).json({ message: `Internal server error:${err}` }));
 });
 
 module.exports = router;

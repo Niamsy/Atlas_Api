@@ -20,7 +20,7 @@ describe('/POST plant/add', () => {
       });
   });
 
-  it('it should returns bad token', function(done) {
+  it('it should returns bad token', done => {
     chai
       .request(server)
       .post('/plant/add')

@@ -2,12 +2,12 @@ const KeysIds = {};
 
 function loadCorrespondanceList(name, con) {
   con
-    .query('SELECT name FROM ' + name + ' ORDER BY id ASC')
+    .query(`SELECT name FROM ${name} ORDER BY id ASC`)
     .then(result => {
       KeysIds[name] = result[0];
     })
     .catch(() => {
-      console.error("Couldn't load the Keys-Ids Correspondance list: " + name);
+      console.error(`Couldn't load the Keys-Ids Correspondance list: ${name}`);
     });
 }
 
@@ -21,12 +21,12 @@ function loadAllCorrespondanceList(con) {
 
 function transformIDSToValue(ids, name) {
   if (KeysIds[name] === undefined) {
-    console.error('Keys-Ids Correspondance list not loaded: ' + name);
+    console.error(`Keys-Ids Correspondance list not loaded: ${name}`);
     return undefined;
   }
 
   let i = 0;
-  let returnValue = {};
+  const returnValue = {};
   for (let x = 0; x < KeysIds[name].length; x++) {
     if (ids[x] === 1) returnValue[i++] = KeysIds[name][x];
   }
@@ -54,10 +54,10 @@ function transformReproductionToValue(ids) {
 }
 
 module.exports = {
-  transformSoilTypeToValue: transformSoilTypeToValue,
-  transformSoilHumidityToValue: transformSoilHumidityToValue,
-  transformSoilPHToValue: transformSoilPHToValue,
-  transformSunExposureToValue: transformSunExposureToValue,
-  transformReproductionToValue: transformReproductionToValue,
-  loadAllCorrespondanceList: loadAllCorrespondanceList
+  transformSoilTypeToValue,
+  transformSoilHumidityToValue,
+  transformSoilPHToValue,
+  transformSunExposureToValue,
+  transformReproductionToValue,
+  loadAllCorrespondanceList
 };

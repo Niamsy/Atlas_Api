@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const con = require('../../../index.js').con;
 const SHA256 = require('crypto-js/sha256');
 
-let hub = require('hub');
+const hub = require('hub');
+const { con } = require('../../../index.js');
 
 router.post('/', (req, res) => {
   const { old_password, new_password } = req.body;
@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
             });
         }
       })
-      .catch(e => {
+      .catch(() => {
         res.status(500).json({ message: 'Internal server error' });
       });
   }

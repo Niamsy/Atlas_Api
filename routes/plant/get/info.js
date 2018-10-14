@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const con = require('../../../index.js').con;
+const { con } = require('../../../index.js');
 
 router.get('/', (req, res) => {
   const { plant_id } = req.headers;
@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
         }
       })
       .catch(err => {
-        res.status(500).json({ message: 'Api encountered an issue: +' + err });
+        res.status(500).json({ message: `Api encountered an issue: +${err}` });
       });
   }
 });

@@ -1,19 +1,13 @@
 const router = require('express').Router();
-const con = require('../../../index.js').con;
+const hub = require('hub');
+const { con } = require('../../../index.js');
 
-let hub = require('hub');
-
-router.post('/', function(req, res) {
+router.post('/', (req, res) => {
   const { api_token } = req.headers;
   const { scientific_name: plantName } = req.body;
 
-  if (api_token == null || plantName == null) {
+  if (plantName == null) {
     return res.status(400).json({ message: 'Header values are incorrect.' });
-  }
-  if (hub.connectedUserToken[api_token] == null) {
-    res.status(401);
-    res.json({ message: 'Api token is wrong.' });
-    return;
   }
   con
     .query(`SELECT * from plants where scientific_name = ${con.escape(plantName)}`)
@@ -30,19 +24,13 @@ router.post('/', function(req, res) {
                 ${con.escape(date)}
               )`
           )
-          .then(() => {
-            return res.status(200).json({ message: 'Success' });
-          })
-          .catch(err => {
-            return res.status(500).json({ message: 'Api encountered an issue: ' + err });
-          });
+          .then(() => res.status(200).json({ message: 'Success' }))
+          .catch(err => res.status(500).json({ message: `Api encountered an issue: ${err}` }));
       } else {
         return res.status(404).json({ message: 'Plant not found' });
       }
     })
-    .catch(err => {
-      return res.status(500).json({ message: 'Api encountered an issue: ' + err });
-    });
+    .catch(err => res.status(500).json({ message: `Api encountered an issue: ${err}` }));
 });
 
 module.exports = router;

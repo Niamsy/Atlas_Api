@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const con = require('../../../index.js').con;
 const SHA256 = require('crypto-js/sha256');
 const TokenGenerator = require('uuid-token-generator');
 const nodemailer = require('nodemailer');
 const config = require('config');
+const con = require('../../../index.js').con;
 
 const tokgen = new TokenGenerator();
 
@@ -53,9 +53,7 @@ router.post('/', (req, res) => {
               smtpTransport.close();
             });
           })
-          .catch(() => {
-            return res.status(500).json({ message: 'Internal server error' });
-          });
+          .catch(() => res.status(500).json({ message: 'Internal server error' }));
       });
   }
 });

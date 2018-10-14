@@ -52,9 +52,8 @@ router.post('/', (req, res) => {
           fk_id_growth_rate, growth_duration) 
            VALUES (
             ${con.escape(name)}, ${con.escape(scientific_name)}, ${max_height}, 
-            ${con.escape(ids_soil_ph)}, ${con.escape(ids_soil_type)}, ${con.escape(
-          ids_sun_exposure
-        )}, 
+            ${con.escape(ids_soil_ph)}, ${con.escape(ids_soil_type)}, 
+            ${con.escape(ids_sun_exposure)}, 
             ${con.escape(ids_soil_humidity)}, ${con.escape(ids_reproduction)},
             ${con.escape(ids_plant_container)}, ${con.escape(planting_period)},
             ${con.escape(florering_period)}, ${con.escape(harvest_period)},
@@ -64,9 +63,7 @@ router.post('/', (req, res) => {
         `;
         con
           .query(str_query)
-          .then(() => {
-            return res.status(201).json({ message: 'Plant created' });
-          })
+          .then(() => res.status(201).json({ message: 'Plant created' }))
           .catch(() => res.status(500).json({ message: 'Atlas API Encountered a issue' }));
       } else {
         return res.status(403).json({ message: 'Plant already exist' });

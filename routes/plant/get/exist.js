@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const con = require('../../../index.js').con;
+const { con } = require('../../../index.js');
 
 router.get('/', (req, res) => {
   if (req.params.name === undefined) {
@@ -8,17 +8,14 @@ router.get('/', (req, res) => {
   const name = req.params.name.split('-').join(' ');
 
   con
-    .query("SELECT * from plants where scientific_name = '" + name + "'")
+    .query(`SELECT * from plants where scientific_name = '${name}'`)
     .then(result => {
       if (result[0].length > 0) {
         return res.send('yes');
-      } else {
-        return res.send('no');
       }
+      return res.send('no');
     })
-    .catch(err => {
-      return res.status(500).json({ message: 'Api encountered an issue: ' + err });
-    });
+    .catch(err => res.status(500).json({ message: `Api encountered an issue: ${err}` }));
 });
 
 module.exports = router;

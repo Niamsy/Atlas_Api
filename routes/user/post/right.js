@@ -1,5 +1,4 @@
 const router = require('express').Router();
-var hub = require('hub');
 const con = require('../../../index.js').con;
 
 router.post('/', async (req, res) => {

@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const hub = require('hub');
-const con = require('../../../index.js').con;
+const { con } = require('../../../index.js');
 
 router.get('/', (req, res) => {
   const { api_token: token } = req.headers;
@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
       res.status(200).json(result[0]);
     })
     .catch(err => {
-      res.status(500).json({ message: 'Api encountered an issue: +' + err });
+      res.status(500).json({ message: `Api encountered an issue: +${err}` });
     });
 });
 
