@@ -9,8 +9,16 @@ router.use('/plant/add', require('./plant/post/add'));
 router.use('/plant/create', [checkToken, isAdmin], require('./plant/post/createPlant'));
 router.use('/plant/request/create', checkToken, require('./plant/post/requestForNewPlant'));
 
-router.use('/plant/request/response', [checkToken, isAdmin], require('./plant/post/requestPlantResponse'));
-router.use('/plant/request/information', [checkToken], require('./plant/get/requestPlantInformation'));
+router.use(
+  '/plant/request/response',
+  [checkToken, isAdmin],
+  require('./plant/post/requestPlantResponse')
+);
+router.use(
+  '/plant/request/information',
+  [checkToken],
+  require('./plant/get/requestPlantInformation')
+);
 
 // Plant GET routes
 router.use('/plants/fetch', checkToken, require('./plant/get/fetch'));
@@ -29,7 +37,6 @@ router.use('/user/right', [checkToken, isAdmin], require('./user/post/right'));
 
 router.use('/user/glossary', checkToken, require('./user/get/glossary'));
 router.use('/user/isAdmin', checkToken, require('./user/get/isAdmin'));
-
 
 // User GET routes
 router.use('/user/plants', checkToken, require('./user/get/plants'));

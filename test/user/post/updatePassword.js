@@ -12,7 +12,8 @@ describe('/POST updatePassword', () => {
   let api_token;
 
   before(async () => {
-    chai.request(server)
+    chai
+      .request(server)
       .post('/user/authentication')
       .set('username', 'tozzizo')
       .set('password', '12345678')
@@ -23,8 +24,9 @@ describe('/POST updatePassword', () => {
     await con.query(`UPDATE users SET password='${mdp}' WHERE name='tozzizo'`);
   });
 
-  it('it should returns header values are incorrect', (done) => {
-    chai.request(server)
+  it('it should returns header values are incorrect', done => {
+    chai
+      .request(server)
       .post('/user/updatePassword')
       .end((err, res) => {
         res.should.have.status(400);
@@ -35,72 +37,77 @@ describe('/POST updatePassword', () => {
       });
   });
 
-  it('it should returns bad token API', (done) => {
-    chai.request(server)
+  it('it should returns bad token API', done => {
+    chai
+      .request(server)
       .post('/user/updatePassword')
-      .send({old_password: "admin", new_password: "adminAdmin"})
+      .send({ old_password: 'admin', new_password: 'adminAdmin' })
       .set('api_token', 'amlksjdmlk')
       .end((err, res) => {
         res.should.have.status(401);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
-        res.body.message.should.equal("Api token is wrong.");
+        res.body.message.should.equal('Api token is wrong.');
         done();
       });
   });
 
-  it('it should return wrong password', (done) => {
-    chai.request(server)
+  it('it should return wrong password', done => {
+    chai
+      .request(server)
       .post('/user/updatePassword')
-      .send({old_password: "12345", new_password: "adminAdmin"})
+      .send({ old_password: '12345', new_password: 'adminAdmin' })
       .set('api_token', api_token)
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
-        res.body.message.should.equal("Wrong password.");
+        res.body.message.should.equal('Wrong password.');
         done();
       });
   });
 
-  it('it should return password need to have at least 8 characters', (done) => {
-    chai.request(server)
+  it('it should return password need to have at least 8 characters', done => {
+    chai
+      .request(server)
       .post('/user/updatePassword')
-      .send({old_password: "12345678", new_password: "1234567"})
+      .send({ old_password: '12345678', new_password: '1234567' })
       .set('api_token', api_token)
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
-        res.body.message.should.equal("Password needs to get more than 8 characters.");
+        res.body.message.should.equal('Password needs to get more than 8 characters.');
         done();
       });
   });
 
-  it('it should return success', (done) => {
-    chai.request(server)
+  it('it should return success', done => {
+    chai
+      .request(server)
       .post('/user/updatePassword')
-      .send({old_password: "12345678", new_password: "123456789"})
+      .send({ old_password: '12345678', new_password: '123456789' })
       .set('api_token', api_token)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
-        res.body.message.should.equal("Success");
+        res.body.message.should.equal('Success');
         done();
       });
   });
 
-  it('it should return success and reset the password', (done) => {
-    chai.request(server)
+  it('it should return success and reset the password', done => {
+    chai
+      .request(server)
       .post('/user/updatePassword')
-      .send({old_password: "123456789", new_password: "12345678"})
+      .send({ old_password: '123456789', new_password: '12345678' })
       .set('api_token', api_token)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
-        res.body.message.should.equal("Success");
+        res.body.message.should.equal('Success');
         done();
       });
   });

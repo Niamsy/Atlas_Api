@@ -9,8 +9,9 @@ chai.use(chaiHttp);
 describe('/GET /plant/request/fetch', () => {
   let api_token;
 
-  before((done) => {
-    chai.request(server)
+  before(done => {
+    chai
+      .request(server)
       .post('/user/authentication')
       .set('username', 'admin')
       .set('password', 'admin')
@@ -20,33 +21,36 @@ describe('/GET /plant/request/fetch', () => {
       });
   });
 
-  it('It should return Token null', (done) => {
-    chai.request(server)
+  it('It should return Token null', done => {
+    chai
+      .request(server)
       .get('/plant/request/fetch')
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
-        res.body.message.should.equal("Header values are incorrect.");
+        res.body.message.should.equal('Header values are incorrect.');
         done();
       });
   });
 
-  it('It should return Token invalid', (done) => {
-    chai.request(server)
+  it('It should return Token invalid', done => {
+    chai
+      .request(server)
       .get('/plant/request/fetch')
       .set('api_token', 'Test')
       .end((err, res) => {
         res.should.have.status(401);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
-        res.body.message.should.equal("Api token is wrong.");
+        res.body.message.should.equal('Api token is wrong.');
         done();
       });
   });
 
-  it('It should return success', (done) => {
-    chai.request(server)
+  it('It should return success', done => {
+    chai
+      .request(server)
       .get('/plant/request/fetch')
       .set('api_token', api_token)
       .end((err, res) => {
