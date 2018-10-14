@@ -1,16 +1,13 @@
 const router = require('express').Router();
-const con = require('../index.js').con;
+const con = require('../../../index.js').con;
 const nodemailer = require('nodemailer');
 const config = require('config');
 const hub = require('hub');
 
 router.post('/', (req, res) => {
   const body = req.body;
-  const { api_token } = req.headers;
-
-  if (api_token === undefined || hub.connectedUserToken[api_token] === undefined) {
-    return res.status(401).json({message: "API token is invalid or empty"});
-  }
+  const {api_token} = req.headers;
+  const {sendMail} = req.body;
 
   if (body["name"] === undefined || body["scientific_name"] === undefined || body["max_height"] === undefined
     || body["ids_reproduction"] === undefined || body["ids_soil_type"] === undefined || body["ids_soil_ph"] === undefined
@@ -77,43 +74,46 @@ router.post('/', (req, res) => {
 
         let errorMail = false;
 
-        mailList.forEach((to) => {
-          const msg = {
-            from: config.email, // sender address
-            subject: "New plant request ✔",
-            html: "<b>Hello ! ✔</b></br>" +
-              "There is a new plant request from " + user['name'] + " - " + user['email'] + "(ID: " + creationResult[0] + ")"
-              + '<br \>Value of the plant requested: '
-              + '<br \>   <b>Name</b>                    :   ' + name
-              + '<br \>   <b>Scientific name</b>         :   ' + scientific_name
-              + '<br \>   <b>Max height</b>              :   ' + max_height
-              + '<br \>   <b>IDs of the soil PH</b>      :   ' + ids_soil_ph
-              + '<br \>   <b>IDs of soil type</b>        :   ' + ids_soil_type
-              + '<br \>   <b>IDs of sun exposure</b>     :   ' + ids_sun_exposure
-              + '<br \>   <b>IDs of soil humidity</b>    :   ' + ids_soil_humidity
-              + '<br \>   <b>IDs of reproduction</b>     :   ' + ids_reproduction
-              + '<br \>   <b>IDs of plant container</b>   :   ' + ids_plant_container
-              + '<br \>   <b>Planting period</b>         :   ' + planting_period
-              + '<br \>   <b>Florering period</b>        :   ' + florering_period
-              + '<br \>   <b>Harvest period</b>          :   ' + harvest_period
-              + '<br \>   <b>Cutting period</b>          :   ' + cutting_period
-              + '<br \>   <b>ID frozen tolerance</b>     :   ' + fk_id_frozen_tolerance
-              + '<br \>   <b>ID growth rate</b>          :   ' + fk_id_growth_rate
-          };
-          msg.to = to;
+        if (sendMail !== false) {
+          mailList.forEach((to) => {
+            const msg = {
+              from: config.email,
+              subject: "New plant request ✔",
+              html: "<b>Hello ! ✔</b></br>" +
+                "There is a new plant request from " + user['name'] + " - " + user['email'] + "(ID: " + creationResult[0] + ")"
+                + '<br \>Value of the plant requested: '
+                + '<br \>   <b>Name</b>                    :   ' + name
+                + '<br \>   <b>Scientific name</b>         :   ' + scientific_name
+                + '<br \>   <b>Max height</b>              :   ' + max_height
+                + '<br \>   <b>IDs of the soil PH</b>      :   ' + ids_soil_ph
+                + '<br \>   <b>IDs of soil type</b>        :   ' + ids_soil_type
+                + '<br \>   <b>IDs of sun exposure</b>     :   ' + ids_sun_exposure
+                + '<br \>   <b>IDs of soil humidity</b>    :   ' + ids_soil_humidity
+                + '<br \>   <b>IDs of reproduction</b>     :   ' + ids_reproduction
+                + '<br \>   <b>IDs of plant container</b>   :   ' + ids_plant_container
+                + '<br \>   <b>Planting period</b>         :   ' + planting_period
+                + '<br \>   <b>Florering period</b>        :   ' + florering_period
+                + '<br \>   <b>Harvest period</b>          :   ' + harvest_period
+                + '<br \>   <b>Cutting period</b>          :   ' + cutting_period
+                + '<br \>   <b>ID frozen tolerance</b>     :   ' + fk_id_frozen_tolerance
+                + '<br \>   <b>ID growth rate</b>          :   ' + fk_id_growth_rate
+            };
+            msg.to = to;
 
-          smtpTransport.sendMail(msg, (err) => {
-            if (err)
-              errorMail = true;
+            smtpTransport.sendMail(msg, (err) => {
+              if (err)
+                errorMail = true;
+            });
           });
-        });
+        }
         smtpTransport.close();
         return errorMail
           ? res.status(201).json({message: "Error while sending mails to admins", request_id: creationResult[0]})
           : res.status(200).json({message: "Success", request_id: creationResult[0]});
       });
-    }).catch(() => {
+    }).catch((err) => {
     res.status(500).json({message: "Atlas API encountered a issue", err: query_str});
+    console.log(err);
   })
 });
 
