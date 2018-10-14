@@ -9,10 +9,13 @@ router.use('/plant/add', require('./plant/post/add'));
 router.use('/plant/create', [checkToken, isAdmin], require('./plant/post/createPlant'));
 router.use('/plant/request/create', checkToken, require('./plant/post/requestForNewPlant'));
 
+router.use('/plant/request/response', [checkToken, isAdmin], require('./plant/post/requestPlantResponse'));
+router.use('/plant/request/information', [checkToken], require('./plant/get/requestPlantInformation'));
+
 // Plant GET routes
 router.use('/plants/fetch', checkToken, require('./plant/get/fetch'));
 router.use('/plant/info', require('./plant/get/info'));
-router.use('/plant/request/fetch', require('./plant/get/fetchRequestNewPlant'));
+router.use('/plant/request/fetch', checkToken, require('./plant/get/fetchRequestNewPlant'));
 router.use('/plant/:name', require('./plant/get/exist'));
 
 // User POST routes
@@ -34,5 +37,12 @@ router.use('/user/info', checkToken, require('./user/get/info'));
 
 // Role GET routes
 router.use('/role', require('./role/get/role'));
+
+// TODO /plant/info/:type
+router.use('/plantInfo/reproduction', require('./PlantInfo/get/plantReproduction'));
+router.use('/plantInfo/soilHumidity', require('./PlantInfo/get/plantSoilHumidity'));
+router.use('/plantInfo/soilType', require('./PlantInfo/get/plantSoilType'));
+router.use('/plantInfo/soilPH', require('./PlantInfo/get/plantSoilPH'));
+router.use('/plantInfo/sunExposure', require('./PlantInfo/get/plantSunExposure'));
 
 module.exports = router;

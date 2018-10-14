@@ -1,7 +1,11 @@
-const { sequelize, Sequelize } = require('./sequelize');
+const {sequelize} = require('./sequelize');
+const plantInfo = require('../routes/PlantInfo/functions_PlantInfo.js');
 
-sequelize.authenticate().then(() => {
+sequelize.authenticate()
+  .then(() => {
     console.log('Connection has been established successfully.');
-}).catch((err) => {
+    plantInfo.loadAllCorrespondanceList(sequelize);
+  })
+  .catch((err) => {
     console.error('Unable to connect to the database:', err);
-});
+  });

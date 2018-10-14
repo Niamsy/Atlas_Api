@@ -2,9 +2,9 @@ process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../index').app;
+const server = require('../../../index').app;
 const should = chai.should();
-const con = require('../index').con;
+const con = require('../../../index').con;
 const SHA256 = require('crypto-js/sha256');
 
 chai.use(chaiHttp);
