@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const con = require('../../../index.js').con;
+const { con } = require('../../../index.js');
 
 router.post('/', (req, res) => {
   const {

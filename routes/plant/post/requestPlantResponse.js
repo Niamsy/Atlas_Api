@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const nodemailer = require('nodemailer');
 const config = require('config');
-const con = require('../../../index.js').con;
+const { con } = require('../../../index.js');
 
 function SendMail(email, request_value, accepted, res) {
   const smtpTransport = nodemailer.createTransport({

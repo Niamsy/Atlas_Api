@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
         res.status(401).json({ message: 'Already in use!' });
       }
     })
-    .catch(err => {
+    .catch(() => {
       res.status(500).json({ message: 'Internal server error' });
     });
 });

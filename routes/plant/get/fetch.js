@@ -1,7 +1,6 @@
 const router = require('express').Router();
-const con = require('../../../index.js').con;
-
 const hub = require('hub');
+const { con } = require('../../../index.js');
 
 router.get('/', (req, res) => {
   const { api_token: token } = req.headers;
