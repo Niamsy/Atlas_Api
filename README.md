@@ -15,9 +15,9 @@ To be consider as finished you must :
 * Make some doc
 
 You'll also need one reviewer that is not :
-##yourself
+## yourself
 
-#How to launch the project ?
+# How to launch the project ?
 
 First fill the config file in the corresponding folder ``./config/``, here you can copy past this :
 ```
