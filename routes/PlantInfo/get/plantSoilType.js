@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const con = require('../../../index.js').con;
-const transformSoilTypeToValue = require('../functions_PlantInfo.js').transformSoilTypeToValue;
+const { con } = require('../../../index.js');
+const { transformSoilTypeToValue } = require('../functions_PlantInfo.js');
 
 router.get('/', (req, res) => {
   const plant_id = req.headers.plant_id;
