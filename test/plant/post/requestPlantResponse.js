@@ -28,7 +28,7 @@ describe('/POST plant/request/response', () => {
       .request(server)
       .post('/user/authentication')
       .set('username', 'default')
-      .set('password', 'admin')
+      .set('password', 'default')
       .end((err, res) => {
         default_api_token = res.body.api_token;
         chai

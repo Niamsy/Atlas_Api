@@ -6,8 +6,6 @@ router.get('/', async (req, res, next) => {
     const { api_token } = req.headers;
 
     try {
-        if (api_token === undefined || hub.connectedUserToken[api_token])
-            return (res.status(401).json({ message : "API Token invalid" }));
         const result = await con.query(`SELECT rights.name
                                            FROM rights,
                                             users
@@ -17,7 +15,7 @@ router.get('/', async (req, res, next) => {
         if (result[0].length > 0 && result[0][0].name == 'admin')
         {
             const result = await con.query(
-              `${'SELECT id, created_at, name, scientific_name, max_height, ' +
+                'SELECT id, created_at, name, scientific_name, max_height, ' +
                 ' ids_soil_ph, ids_soil_type, ids_sun_exposure, ids_soil_humidity,' +
                 ' ids_reproduction, ids_plant_container, planting_period, florering_period,' +
                 ' harvest_period, cutting_period,' +

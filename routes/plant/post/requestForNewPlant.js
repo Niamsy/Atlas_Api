@@ -53,6 +53,12 @@ router.post('/', async (req, res, next) => {
       `SELECT name, email from users where id = ${hub.connectedUserToken[api_token]}`
     );
     const user = result[0][0];
+      
+   result = await con.query(
+      `SELECT scientific_name from plants WHERE scientific_name = ${scientific_name}`
+    );
+   if (result[0].length)
+       return res.status(402).json({ message: 'A plant with the given name already exist' });;
 
     const creationResult = await con.query(
       `INSERT INTO plant_requests(fk_id_user,

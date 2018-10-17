@@ -17,7 +17,7 @@ describe('/GET /plant/request/fetch', () => {
         .set('username', 'admin')
         .set('password', 'admin')
         .end((err, res) => {
-            default_api_token = res.body.api_token;
+            admin_api_token = res.body.api_token;
             done();
         });
   });
@@ -28,7 +28,7 @@ describe('/GET /plant/request/fetch', () => {
         .set('username', 'default')
         .set('password', 'default')
         .end((err, res) => {
-            admin_api_token = res.body.api_token;
+            default_api_token = res.body.api_token;
             done();
         });
   });
@@ -38,7 +38,7 @@ describe('/GET /plant/request/fetch', () => {
       .request(server)
       .get('/plant/request/fetch')
       .end((err, res) => {
-        res.should.have.status(401);
+        res.should.have.status(400);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
         done();
@@ -51,7 +51,7 @@ describe('/GET /plant/request/fetch', () => {
       .get('/plant/request/fetch')
       .set('api_token', default_api_token)
       .end((err, res) => {
-        res.should.have.status(402);
+        res.should.have.status(401);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
         done();

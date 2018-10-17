@@ -23,7 +23,9 @@ router.use(
 // Plant GET routes
 router.use('/plants/fetch', checkToken, require('./plant/get/fetch'));
 router.use('/plant/info', require('./plant/get/info'));
-router.use('/plant/request/fetch', checkToken, require('./plant/get/fetchRequestNewPlant'));
+router.use('/plant/request/fetch',
+            [checkToken, isAdmin],
+            require('./plant/get/fetchRequestNewPlant'));
 router.use('/plant/:name', require('./plant/get/exist'));
 
 // User POST routes
