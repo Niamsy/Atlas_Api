@@ -3,6 +3,7 @@ const router = require('express').Router();
 // middleware
 const checkToken = require('../middleware/checkToken/checkToken');
 const isAdmin = require('../middleware/isAdmin/isAdmin');
+const errorHandler = require('../middleware/errorHandler/errorHandler');
 
 // Plant POST routes
 router.use('/plant/add', checkToken, require('./plant/post/add'));
@@ -51,5 +52,8 @@ router.use('/plantInfo/soilHumidity', require('./PlantInfo/get/plantSoilHumidity
 router.use('/plantInfo/soilType', require('./PlantInfo/get/plantSoilType'));
 router.use('/plantInfo/soilPH', require('./PlantInfo/get/plantSoilPH'));
 router.use('/plantInfo/sunExposure', require('./PlantInfo/get/plantSunExposure'));
+
+// Middleware to catch error
+router.use(errorHandler);
 
 module.exports = router;
