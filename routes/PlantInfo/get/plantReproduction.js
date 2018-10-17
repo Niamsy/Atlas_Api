@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { con } = require('../../../index.js').con;
+const { con } = require('../../../index.js');
 const { transformReproductionToValue } = require('../functions_PlantInfo.js');
 
 router.get('/', (req, res) => {
