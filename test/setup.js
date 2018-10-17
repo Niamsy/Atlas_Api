@@ -1,6 +1,5 @@
-const con = require('../index').con;
-let chai = require('chai');
+const { con } = require('../index');
 
 after(async () => {
-    await con.query(`DELETE FROM users WHERE name='tozzizo'`);
+  await con.query(`DELETE FROM users WHERE name = 'tozzizo'`);
 });
