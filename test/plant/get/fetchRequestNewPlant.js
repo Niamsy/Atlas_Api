@@ -26,7 +26,7 @@ describe('/GET /plant/request/fetch', () => {
         .request(server)
         .post('/user/authentication')
         .set('username', 'default')
-        .set('password', 'default')
+        .set('password', 'admin')
         .end((err, res) => {
             default_api_token = res.body.api_token;
             done();
