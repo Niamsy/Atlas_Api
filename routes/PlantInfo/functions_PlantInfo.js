@@ -28,7 +28,7 @@ function transformIDSToValue(ids, name) {
   let i = 0;
   const returnValue = {};
   for (let x = 0; x < KeysIds[name].length; x++) {
-    if (ids[x] === 1) returnValue[i++] = KeysIds[name][x];
+    if (ids[x] === '1') returnValue[i++] = KeysIds[name][x];
   }
   return returnValue;
 }
