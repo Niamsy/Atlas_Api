@@ -14,13 +14,13 @@ describe('/POST updatePassword', () => {
     chai
       .request(server)
       .post('/user/authentication')
-      .set('username', 'tozzizo')
-      .set('password', '12345678')
-      .end((err, res) => {
+      .set('username', 'default')
+      .set('password', 'admin')
+      .end(async (err, res) => {
         api_token = res.body.api_token;
+        const mdp = SHA256('12345678');
+        await con.query(`UPDATE users SET password='${mdp}' WHERE name='default'`);
       });
-    const mdp = SHA256('12345678');
-    await con.query(`UPDATE users SET password='${mdp}' WHERE name='tozzizo'`);
   });
 
   it('it should returns header values are incorrect', done => {
@@ -109,5 +109,10 @@ describe('/POST updatePassword', () => {
         res.body.message.should.equal('Success');
         done();
       });
+  });
+
+  after(async () => {
+    const mdp = SHA256('admin');
+    await con.query(`UPDATE users SET password='${mdp}' WHERE name='default'`);
   });
 });
