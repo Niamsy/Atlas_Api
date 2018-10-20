@@ -1,21 +1,25 @@
 /* jshint indent: 2 */
 
-module.exports = function (sequelize, DataTypes) {
-  return sequelize.define('PlantContainer', {
-    id: {
-      type: DataTypes.INTEGER(4),
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-      field: 'id'
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define(
+    'PlantContainer',
+    {
+      id: {
+        type: DataTypes.INTEGER(4),
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+        field: 'id'
+      },
+      name: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        unique: true,
+        field: 'name'
+      }
     },
-    name: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      unique: true,
-      field: 'name'
+    {
+      tableName: 'plant_container'
     }
-  }, {
-    tableName: 'plant_container'
-  });
+  );
 };

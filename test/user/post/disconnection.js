@@ -42,7 +42,7 @@ describe('/POST /user/disconnection', () => {
     chai
       .request(server)
       .post('/user/authentication')
-      .set('username', 'admin')
+      .set('username', 'default')
       .set('password', 'admin')
       .end((err, res) => {
         token = JSON.stringify(res.body);

@@ -1,9 +1,8 @@
 const express = require('express');
-const app = express();
-
 const cors = require('cors');
+const hub = require('hub');
 
-let hub = require('hub');
+const app = express();
 
 app.use(express.json());
 app.use(cors());
@@ -15,9 +14,9 @@ const { sequelize: con } = require('./database/sequelize');
 hub.connectedUserToken = [];
 
 app.listen(process.env.API_PORT, () => {
-    console.log('Listening on port ' + process.env.API_PORT);
+  console.log(`Listening on port ${process.env.API_PORT}`);
 });
 
-module.exports = { con: con, app: app };
+module.exports = { con, app };
 
 app.use(require('./routes/routes'));
