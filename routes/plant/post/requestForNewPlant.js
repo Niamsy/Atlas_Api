@@ -89,11 +89,11 @@ router.post('/', async (req, res, next) => {
         ${con.escape(new Date())}
       )`
     );
-    result = await con.query('SELECT email from users where users.right_id = 1');
+    result = await con.query('SELECT email FROM users WHERE users.right_id = 1');
     const mailList = [];
 
     result[0].forEach(key => {
-      mailList.push(result[0][key].email);
+      mailList.push(key.email);
     });
 
     const smtpTransport = nodemailer.createTransport({

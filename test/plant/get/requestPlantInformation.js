@@ -7,8 +7,8 @@ const server = require('../../../index').app;
 chai.use(chaiHttp);
 
 describe('/GET /plant/request/information', () => {
-  let api_token;
-  let request_id;
+  let apiToken;
+  let requestId;
   before(done => {
     chai
       .request(server)
@@ -16,12 +16,12 @@ describe('/GET /plant/request/information', () => {
       .set('username', 'default')
       .set('password', 'admin')
       .end((err, res) => {
-        api_token = res.body.api_token;
+        apiToken = res.body.api_token;
 
         chai
           .request(server)
           .post('/plant/request/create')
-          .set('api_token', api_token)
+          .set('api_token', apiToken)
           .send({
             sendMail: false,
             name: 'Test /plant/request/information',
@@ -42,7 +42,8 @@ describe('/GET /plant/request/information', () => {
             growth_duration: 1
           })
           .end((err, res) => {
-            request_id = res.body.request_id;
+            requestId = res.body.request_id;
+            console.log('test ' + res.body);
             done();
           });
       });
@@ -66,8 +67,8 @@ describe('/GET /plant/request/information', () => {
     chai
       .request(server)
       .get('/plant/request/information')
-      .set('request_id', request_id)
-      .set('api_token', api_token)
+      .set('request_id', requestId)
+      .set('api_token', apiToken)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
