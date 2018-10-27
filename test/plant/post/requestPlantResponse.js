@@ -7,9 +7,9 @@ const server = require('../../../index').app;
 chai.use(chaiHttp);
 
 describe('/POST plant/request/response', () => {
-  let admin_api_token;
-  let default_api_token;
-  let request_id;
+  let adminApiToken;
+  let defaultApiToken;
+  let requestId;
 
   before(done => {
     chai
@@ -18,7 +18,7 @@ describe('/POST plant/request/response', () => {
       .set('username', 'admin')
       .set('password', 'admin')
       .end((err, res) => {
-        admin_api_token = res.body.api_token;
+        adminApiToken = res.body.api_token;
         done();
       });
   });
@@ -30,11 +30,11 @@ describe('/POST plant/request/response', () => {
       .set('username', 'default')
       .set('password', 'admin')
       .end((err, res) => {
-        default_api_token = res.body.api_token;
+        defaultApiToken = res.body.api_token;
         chai
           .request(server)
           .post('/plant/request/create')
-          .set('api_token', default_api_token)
+          .set('api_token', defaultApiToken)
           .send({
             sendMail: false,
             name: 'test 1',
@@ -55,7 +55,8 @@ describe('/POST plant/request/response', () => {
             growth_duration: 1
           })
           .end((err, res) => {
-            request_id = res.body.request_id;
+            requestId = res.body.request_id;
+            console.log('TEST' + res);
             done();
           });
       });
@@ -78,7 +79,7 @@ describe('/POST plant/request/response', () => {
     chai
       .request(server)
       .post('/plant/request/response')
-      .set('api_token', default_api_token)
+      .set('api_token', defaultApiToken)
       .send({
         id_request: 1,
         status: true
@@ -96,7 +97,7 @@ describe('/POST plant/request/response', () => {
     chai
       .request(server)
       .post('/plant/request/response')
-      .set('api_token', admin_api_token)
+      .set('api_token', adminApiToken)
       .send({
         id_request: -1,
         status: true,
@@ -115,9 +116,9 @@ describe('/POST plant/request/response', () => {
     chai
       .request(server)
       .post('/plant/request/response')
-      .set('api_token', admin_api_token)
+      .set('api_token', adminApiToken)
       .send({
-        id_request: request_id,
+        id_request: requestId,
         status: true,
         sendMail: false
       })

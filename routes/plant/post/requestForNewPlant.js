@@ -4,10 +4,9 @@ const config = require('config');
 const hub = require('hub');
 const { con } = require('../../../index.js');
 
-// TODO: ugly function, need deep refactor
 router.post('/', async (req, res, next) => {
   const { body } = req;
-  const { api_token } = req.headers;
+  const { api_token: apiToken } = req.headers;
   const { sendMail } = req.body;
 
   if (
@@ -28,32 +27,40 @@ router.post('/', async (req, res, next) => {
     body.fk_id_growth_rate === undefined ||
     body.growth_duration === undefined
   ) {
-    return res.status(400).json({ message: 'Body values are incorrect' });
+    res.status(400).json({ message: 'Body values are incorrect' });
+    return;
   }
 
   const name = con.escape(body.name);
-  const scientific_name = con.escape(body.scientific_name);
-  const max_height = body.max_height;
-  const ids_reproduction = con.escape(body.ids_reproduction);
-  const ids_soil_type = con.escape(body.ids_soil_type);
-  const ids_soil_ph = con.escape(body.ids_soil_ph);
-  const ids_soil_humidity = con.escape(body.ids_soil_humidity);
-  const ids_sun_exposure = con.escape(body.ids_sun_exposure);
-  const ids_plant_container = con.escape(body.ids_plant_container);
-  const planting_period = con.escape(body.planting_period);
-  const florering_period = con.escape(body.florering_period);
-  const cutting_period = con.escape(body.cutting_period);
-  const harvest_period = con.escape(body.harvest_period);
-  const fk_id_frozen_tolerance = body.fk_id_frozen_tolerance;
-  const fk_id_growth_rate = body.fk_id_growth_rate;
-  const growth_duration = body.growth_duration;
+  const scientificName = con.escape(body.scientific_name);
+  const maxHeight = body.max_height;
+  const idsReproduction = con.escape(body.ids_reproduction);
+  const idsSoilType = con.escape(body.ids_soil_type);
+  const idsSoilPh = con.escape(body.ids_soil_ph);
+  const idsSoilHumidity = con.escape(body.ids_soil_humidity);
+  const idsSunExposure = con.escape(body.ids_sun_exposure);
+  const idsPlantContainer = con.escape(body.ids_plant_container);
+  const plantingPeriod = con.escape(body.planting_period);
+  const floreringPeriod = con.escape(body.florering_period);
+  const cuttingPeriod = con.escape(body.cutting_period);
+  const harvestPeriod = con.escape(body.harvest_period);
+  const fkIdFrozenTolerance = body.fk_id_frozen_tolerance;
+  const fkIdGrowthRate = body.fk_id_growth_rate;
+  const growthDuration = body.growth_duration;
 
   try {
     let result = await con.query(
-      `SELECT name, email from users where id = ${hub.connectedUserToken[api_token]}`
+      `SELECT name, email from users where id = ${hub.connectedUserToken[apiToken]}`
     );
     const user = result[0][0];
 
+    result = await con.query(
+      `SELECT scientific_name from plants WHERE scientific_name = ${scientificName}`
+    );
+    if (result[0].length) {
+      res.status(402).json({ message: 'A plant with the given name already exist' });
+      return;
+    }
     const creationResult = await con.query(
       `INSERT INTO plant_requests(fk_id_user,
         name, scientific_name, max_height, ids_reproduction, 
@@ -62,31 +69,32 @@ router.post('/', async (req, res, next) => {
         florering_period, harvest_period, fk_id_frozen_tolerance, 
         fk_id_growth_rate, growth_duration, status, created_at)
       VALUES (
-        ${hub.connectedUserToken[api_token]}, 
+        ${hub.connectedUserToken[apiToken]}, 
         ${name}, 
-        ${scientific_name}, 
-        ${max_height}, 
-        ${ids_reproduction}, 
-        ${ids_soil_type}, 
-        ${ids_soil_ph}, 
-        ${ids_soil_humidity}, 
-        ${ids_sun_exposure}, 
-        ${ids_plant_container}, 
-        ${planting_period}, 
-        ${cutting_period}, 
-        ${florering_period}, 
-        ${harvest_period}, 
-        ${fk_id_frozen_tolerance}, 
-        ${fk_id_growth_rate}, 
-        ${growth_duration}, 1, 
+        ${scientificName}, 
+        ${maxHeight}, 
+        ${idsReproduction}, 
+        ${idsSoilType}, 
+        ${idsSoilPh}, 
+        ${idsSoilHumidity}, 
+        ${idsSunExposure}, 
+        ${idsPlantContainer}, 
+        ${plantingPeriod}, 
+        ${cuttingPeriod}, 
+        ${floreringPeriod}, 
+        ${harvestPeriod}, 
+        ${fkIdFrozenTolerance}, 
+        ${fkIdGrowthRate}, 
+        ${growthDuration}, 1, 
         ${con.escape(new Date())}
       )`
     );
-    result = await con.query('SELECT email from users where users.right_id = 1');
+    result = await con.query('SELECT email FROM users WHERE users.right_id = 1');
     const mailList = [];
-    for (const key in result[0]) {
-      mailList.push(result[0][key].email);
-    }
+
+    result[0].forEach(key => {
+      mailList.push(key.email);
+    });
 
     const smtpTransport = nodemailer.createTransport({
       service: 'gmail',
@@ -103,11 +111,11 @@ router.post('/', async (req, res, next) => {
           from: config.email,
           subject: 'New plant request ✔',
           html:
-            `${'<b>Hello ! ✔</b></br>' + 'There is a new plant request from '}${user.name} - ${
+            `${'<b>Hello ! ✔</b></br> There is a new plant request from '}${user.name} - ${
               user.email
             }(ID: ${creationResult[0]})` +
             `<br >Value of the plant requested: ` +
-            `<br >   <b>Name</b>                    :   ${name}<br >   <b>Scientific name</b>         :   ${scientific_name}<br >   <b>Max height</b>              :   ${max_height}<br >   <b>IDs of the soil PH</b>      :   ${ids_soil_ph}<br >   <b>IDs of soil type</b>        :   ${ids_soil_type}<br >   <b>IDs of sun exposure</b>     :   ${ids_sun_exposure}<br >   <b>IDs of soil humidity</b>    :   ${ids_soil_humidity}<br >   <b>IDs of reproduction</b>     :   ${ids_reproduction}<br >   <b>IDs of plant container</b>   :   ${ids_plant_container}<br >   <b>Planting period</b>         :   ${planting_period}<br >   <b>Florering period</b>        :   ${florering_period}<br >   <b>Harvest period</b>          :   ${harvest_period}<br >   <b>Cutting period</b>          :   ${cutting_period}<br >   <b>ID frozen tolerance</b>     :   ${fk_id_frozen_tolerance}<br >   <b>ID growth rate</b>          :   ${fk_id_growth_rate}`
+            `<br >   <b>Name</b>                    :   ${name}<br >   <b>Scientific name</b>         :   ${scientificName}<br >   <b>Max height</b>              :   ${maxHeight}<br >   <b>IDs of the soil PH</b>      :   ${idsSoilPh}<br >   <b>IDs of soil type</b>        :   ${idsSoilType}<br >   <b>IDs of sun exposure</b>     :   ${idsSunExposure}<br >   <b>IDs of soil humidity</b>    :   ${idsSoilHumidity}<br >   <b>IDs of reproduction</b>     :   ${idsReproduction}<br >   <b>IDs of plant container</b>   :   ${idsPlantContainer}<br >   <b>Planting period</b>         :   ${plantingPeriod}<br >   <b>Florering period</b>        :   ${floreringPeriod}<br >   <b>Harvest period</b>          :   ${harvestPeriod}<br >   <b>Cutting period</b>          :   ${cuttingPeriod}<br >   <b>ID frozen tolerance</b>     :   ${fkIdFrozenTolerance}<br >   <b>ID growth rate</b>          :   ${fkIdGrowthRate}`
         };
         msg.to = to;
 
@@ -117,12 +125,12 @@ router.post('/', async (req, res, next) => {
       });
     }
     smtpTransport.close();
-    return errorMail
-      ? res.status(201).json({
-          message: 'Error while sending mails to admins',
-          request_id: creationResult[0]
-        })
-      : res.status(200).json({ message: 'Success', request_id: creationResult[0] });
+    if (errorMail)
+      res.status(201).json({
+        message: 'Error while sending mails to admins',
+        request_id: creationResult[0]
+      });
+    else res.status(200).json({ message: 'Success', request_id: creationResult[0] });
   } catch (err) {
     next(err);
   }
