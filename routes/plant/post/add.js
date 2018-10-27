@@ -7,7 +7,8 @@ router.post('/', async (req, res, next) => {
   const { scientific_name: plantName } = req.body;
 
   if (plantName === undefined) {
-    return res.status(400).json({ message: 'Header values are incorrect.' });
+    res.status(400).json({ message: 'Header values are incorrect.' });
+    return;
   }
   try {
     const result = await con.query(`SELECT *
@@ -23,11 +24,12 @@ router.post('/', async (req, res, next) => {
                 ${con.escape(date)}
               )`
       );
-      return res.status(200).json({ message: 'Success' });
+      res.status(200).json({ message: 'Success' });
+      return;
     }
-    return res.status(404).json({ message: 'Plant not found' });
+    res.status(404).json({ message: 'Plant not found' });
   } catch (err) {
-    return next(err);
+    next(err);
   }
 });
 

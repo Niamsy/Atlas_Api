@@ -10,7 +10,8 @@ router.post('/', async (req, res, next) => {
   const { api_token: apiToken } = req.headers;
 
   if (!oldPassword || !newPassword) {
-    return res.status(400).json({ message: 'Header values are incorrect.' });
+    res.status(400).json({ message: 'Header values are incorrect.' });
+    return;
   }
   try {
     const resu = await con.query(
@@ -19,18 +20,20 @@ router.post('/', async (req, res, next) => {
           AND id=${hub.connectedUserToken[apiToken]}`
     );
     if (resu[0].length === 0) {
-      return res.status(400).json({ message: 'Wrong password.' });
+      res.status(400).json({ message: 'Wrong password.' });
+      return;
     } else if (newPassword.length < 8) {
-      return res.status(400).json({ message: 'Password needs to get more than 8 characters.' });
+      res.status(400).json({ message: 'Password needs to get more than 8 characters.' });
+      return;
     }
     await con.query(
       `UPDATE users SET password =${con.escape(SHA256(newPassword).toString())}
         WHERE password=${con.escape(SHA256(oldPassword).toString())}
         AND id=${hub.connectedUserToken[apiToken]}`
     );
-    return res.status(200).json({ message: 'Success' });
+    res.status(200).json({ message: 'Success' });
   } catch (err) {
-    return next(err);
+    next(err);
   }
 });
 

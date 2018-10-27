@@ -39,6 +39,24 @@
   },
   "devDependencies": {
     "eslint-plugin-prettier": "^3.0.0",
-    "flow-bin": "^0.83.0"
+    "flow-bin": "^0.83.0",
+    "husky": "^1.1.2",
+    "lint-staged": "^7.3.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{js,json,md,scss,yaml,yml}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm test",
+      "pre-push": "lint-staged && npm test"
+    }
   }
 }

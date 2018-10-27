@@ -85,11 +85,11 @@ router.post('/', async (req, res, next) => {
       if (status === true) {
         await con.query(
           `INSERT INTO plants
-               ${'(name, scientific_name, maxheight, ids_soil_ph, ids_soil_type, ids_sun_exposure, ' +
-                 'ids_soil_humidity, ids_reproduction, ids_plant_container, planting_period, ' +
-                 'florering_period, harvest_period, cutting_period, fk_id_frozen_tolerance, ' +
-                 'fk_id_growth_rate, growth_duration) ' +
-                 ' VALUES ('}${con.escape(requestValue.name)}, ${con.escape(
+              (name, scientific_name, maxheight, ids_soil_ph, ids_soil_type, ids_sun_exposure, 
+                 ids_soil_humidity, ids_reproduction, ids_plant_container, planting_period, 
+                 florering_period, harvest_period, cutting_period, fk_id_frozen_tolerance,
+                 fk_id_growth_rate, growth_duration)
+                  VALUES (${con.escape(requestValue.name)}, ${con.escape(
             requestValue.scientific_name
           )}, ${requestValue.max_height}, ${con.escape(requestValue.ids_soil_ph)}, ${con.escape(
             requestValue.ids_soil_type

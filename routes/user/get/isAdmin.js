@@ -14,11 +14,12 @@ router.get('/', async (req, res, next) => {
             AND users.id = ${hub.connectedUserToken[apiToken]}`
     );
     if (result[0].length > 0) {
-      return res.status(200).json({ isAdmin: result[0][0].name === 'admin' });
+      res.status(200).json({ isAdmin: result[0][0].name === 'admin' });
+      return;
     }
-    return res.status(404).json({ message: 'Not found' });
+    res.status(404).json({ message: 'Not found' });
   } catch (err) {
-    return next(err);
+    next(err);
   }
 });
 

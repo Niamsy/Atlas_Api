@@ -32,11 +32,12 @@ router.get('/', async (req, res, next) => {
           returnValue[i].ids_reproduction
         );
       }
-      return res.status(200).json(returnValue);
+      res.status(200).json(returnValue);
+      return;
     }
-    return res.status(404).json({ message: 'Not found' });
+    res.status(404).json({ message: 'Not found' });
   } catch (err) {
-    return next(err);
+    next(err);
   }
 });
 

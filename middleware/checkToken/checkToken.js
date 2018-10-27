@@ -8,8 +8,9 @@ router.use((req, res, next) => {
     res.status(400).json({ message: 'Header values are incorrect.' });
   } else if (hub.connectedUserToken === undefined || hub.connectedUserToken[token] === undefined) {
     res.status(401).json({ message: 'Api token is wrong.' });
+  } else {
+    next();
   }
-  next();
 });
 
 module.exports = router;

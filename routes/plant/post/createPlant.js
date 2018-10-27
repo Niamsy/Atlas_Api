@@ -39,7 +39,8 @@ router.post('/', async (req, res, next) => {
     fkIdGrowthRate === undefined ||
     growthDuration === undefined
   ) {
-    return res.status(400).json({ message: 'Body values are incorrect' });
+    res.status(400).json({ message: 'Body values are incorrect' });
+    return;
   }
   try {
     const result = await con.query(
@@ -62,11 +63,12 @@ router.post('/', async (req, res, next) => {
               ${growthDuration}
             );
           `);
-      return res.status(201).json({ message: 'Plant created' });
+      res.status(201).json({ message: 'Plant created' });
+      return;
     }
-    return res.status(403).json({ message: 'Plant already exist' });
+    res.status(403).json({ message: 'Plant already exist' });
   } catch (err) {
-    return next(err);
+    next(err);
   }
 });
 

@@ -19,7 +19,8 @@ router.post('/', async (req, res, next) => {
   const { username, password } = req.headers;
 
   if (username === undefined || password === undefined) {
-    return res.status(400).json({ message: 'Header values are incorrect.' });
+    res.status(400).json({ message: 'Header values are incorrect.' });
+    return;
   }
 
   try {
@@ -29,12 +30,13 @@ router.post('/', async (req, res, next) => {
         AND password = '${SHA256(password)}'`
     );
     if (result[0].length === 0) {
-      return res.status(400).json({ message: 'Bad authentication' });
+      res.status(400).json({ message: 'Bad authentication' });
+      return;
     }
-    for (const key in hub.connectedUserToken) {
-      if (hub.connectedUserToken[key] === result[0][0].id) {
-        return res.status(200).json({ api_token: key });
-      }
+    const key = hub.connectedUserToken.findIndex(elem => elem === result[0][0].id);
+    if (key !== -1) {
+      res.status(200).json({ api_token: key });
+      return;
     }
     const apiToken = generateToken();
     hub.connectedUserToken[apiToken] = result[0][0].id;
@@ -43,10 +45,9 @@ router.post('/', async (req, res, next) => {
         hub.connectedUserToken[apiToken]
       }'`
     );
-    console.log(apiToken);
-    return res.status(200).json({ api_token: apiToken });
+    res.status(200).json({ api_token: apiToken });
   } catch (err) {
-    return next(err);
+    next(err);
   }
 });
 

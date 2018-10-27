@@ -13,11 +13,12 @@ router.get('/', async (req, res, next) => {
       }`
     );
     if (result[0].length > 0) {
-      return res.status(200).json(result[0][0]);
+      res.status(200).json(result[0][0]);
+      return;
     }
-    return res.status(404).json({ message: 'Not found' });
+    res.status(404).json({ message: 'Not found' });
   } catch (err) {
-    return next(err);
+    next(err);
   }
 });
 
