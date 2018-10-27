@@ -5,7 +5,7 @@ const { con } = require('../../../index.js');
 const plantInfo = require('../../PlantInfo/functions_PlantInfo.js');
 
 router.get('/', async (req, res, next) => {
-  const { api_token } = req.headers;
+  const { api_token: apiToken } = req.headers;
 
   try {
     const result = await con.query(
@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
         plants.harvest_period, plants.harvest_period, plants.cutting_period, plants.fk_id_frozen_tolerance, 
         plants.fk_id_growth_rate, growth_duration
       FROM plants INNER JOIN users_plants ON plants.id=users_plants.fk_id_plant 
-        where fk_id_user=${hub.connectedUserToken[api_token]} GROUP BY plants.name`
+        where fk_id_user=${hub.connectedUserToken[apiToken]} GROUP BY plants.name`
     );
     const returnValue = result[0];
     if (returnValue.length > 0) {
@@ -36,7 +36,7 @@ router.get('/', async (req, res, next) => {
     }
     return res.status(404).json({ message: 'Not found' });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 

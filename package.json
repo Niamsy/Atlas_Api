@@ -38,6 +38,7 @@
     "uuid-token-generator": "^1.0.0"
   },
   "devDependencies": {
-    "eslint-plugin-prettier": "^3.0.0"
+    "eslint-plugin-prettier": "^3.0.0",
+    "flow-bin": "^0.83.0"
   }
 }

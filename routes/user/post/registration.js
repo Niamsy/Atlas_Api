@@ -25,15 +25,13 @@ router.post('/', async (req, res, next) => {
             email
           )}, ${con.escape(date)}, 2)`
         );
-        res.json({ message: 'Success' });
-      } else {
-        res.status(400).json({ message: 'Password need to get more than 8 characters.' });
+        return res.json({ message: 'Success' });
       }
-    } else {
-      res.status(401).json({ message: 'Already in use!' });
+      return res.status(400).json({ message: 'Password need to get more than 8 characters.' });
     }
+    return res.status(401).json({ message: 'Already in use!' });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 

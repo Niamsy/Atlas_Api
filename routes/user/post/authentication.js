@@ -8,11 +8,11 @@ const { con } = require('../../../index');
 const tokgen = new TokenGenerator();
 
 function generateToken() {
-  const api_token = tokgen.generate();
-  if (hub.connectedUserToken[api_token] != null) {
+  const apiToken = tokgen.generate();
+  if (hub.connectedUserToken[apiToken] != null) {
     return generateToken();
   }
-  return api_token;
+  return apiToken;
 }
 
 router.post('/', async (req, res, next) => {
@@ -33,19 +33,19 @@ router.post('/', async (req, res, next) => {
     }
     for (const key in hub.connectedUserToken) {
       if (hub.connectedUserToken[key] === result[0][0].id) {
-        return res.status(200).json({ api_token: key });
+        return res.status(200).json({ apiToken: key });
       }
     }
-    const api_token = generateToken();
-    hub.connectedUserToken[api_token] = result[0][0].id;
+    const apiToken = generateToken();
+    hub.connectedUserToken[apiToken] = result[0][0].id;
     await con.query(
       `UPDATE users SET last_connection_at = ${con.escape(new Date())} WHERE id = '${
-        hub.connectedUserToken[api_token]
+        hub.connectedUserToken[apiToken]
       }'`
     );
-    return res.status(200).json({ api_token });
+    return res.status(200).json({ apiToken });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 

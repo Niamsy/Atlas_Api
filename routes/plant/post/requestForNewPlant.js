@@ -7,7 +7,7 @@ const { con } = require('../../../index.js');
 // TODO: ugly function, need deep refactor
 router.post('/', async (req, res, next) => {
   const { body } = req;
-  const { api_token } = req.headers;
+  const { api_token: apiToken } = req.headers;
   const { sendMail } = req.body;
 
   if (
@@ -50,7 +50,7 @@ router.post('/', async (req, res, next) => {
 
   try {
     let result = await con.query(
-      `SELECT name, email from users where id = ${hub.connectedUserToken[api_token]}`
+      `SELECT name, email from users where id = ${hub.connectedUserToken[apiToken]}`
     );
     const user = result[0][0];
 
@@ -62,7 +62,7 @@ router.post('/', async (req, res, next) => {
         florering_period, harvest_period, fk_id_frozen_tolerance, 
         fk_id_growth_rate, growth_duration, status, created_at)
       VALUES (
-        ${hub.connectedUserToken[api_token]}, 
+        ${hub.connectedUserToken[apiToken]}, 
         ${name}, 
         ${scientific_name}, 
         ${max_height}, 

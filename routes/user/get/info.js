@@ -4,12 +4,12 @@ const hub = require('hub');
 const { con } = require('../../../index.js');
 
 router.get('/', async (req, res, next) => {
-  const { api_token } = req.headers;
+  const { api_token: apiToken } = req.headers;
 
   try {
     const result = await con.query(
       `SELECT name, email, created_at, last_connection_at, right_id FROM users WHERE id=${
-        hub.connectedUserToken[api_token]
+        hub.connectedUserToken[apiToken]
       }`
     );
     if (result[0].length > 0) {
@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
     }
     return res.status(404).json({ message: 'Not found' });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 

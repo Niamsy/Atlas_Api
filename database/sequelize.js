@@ -8,6 +8,6 @@ const sequelize = new Sequelize(config.DB, config.user_db, config.password_db, {
 });
 
 module.exports = {
-  sequelize,
-  Sequelize
+  sequelize: sequelize,
+  Sequelize: Sequelize
 };

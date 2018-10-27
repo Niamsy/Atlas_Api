@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
                   INNER JOIN users_plants ON plants.id = users_plants.fk_id_plant
           WHERE fk_id_user =${hub.connectedUserToken[token]}`
     );
-    return res.status(200).json(result[0]);
+    res.status(200).json(result[0]);
   } catch (err) {
     next(err);
   }
