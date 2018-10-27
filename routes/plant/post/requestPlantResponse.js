@@ -4,7 +4,7 @@ const config = require('config');
 const { con } = require('../../../index.js');
 
 // TODO need deep rework here too
-function SendMail(email, request_value, accepted, res) {
+function SendMail(email, requestValue, accepted, res) {
   const smtpTransport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -18,38 +18,38 @@ function SendMail(email, request_value, accepted, res) {
     to: email,
     subject: 'Response to your request',
     html:
-      `Your request (ID: ${request_value.id}) was ${
+      `Your request (ID: ${requestValue.id}) was ${
         accepted ? 'accepted' : 'declined'
       }<br >Value of the plant requested: ` +
       `<br >   <b>Name</b>                    :   ${
-        request_value.name
+        requestValue.name
       }<br >   <b>Scientific name</b>         :   ${
-        request_value.scientific_name
+        requestValue.scientific_name
       }<br >   <b>Max height</b>              :   ${
-        request_value.max_height
+        requestValue.max_height
       }<br >   <b>IDs of the soil PH</b>      :   ${
-        request_value.ids_soil_ph
+        requestValue.ids_soil_ph
       }<br >   <b>IDs of soil type</b>        :   ${
-        request_value.ids_soil_type
+        requestValue.ids_soil_type
       }<br >   <b>IDs of sun exposure</b>     :   ${
-        request_value.ids_sun_exposure
+        requestValue.ids_sun_exposure
       }<br >   <b>IDs of soil humidity</b>    :   ${
-        request_value.ids_soil_humidity
+        requestValue.ids_soil_humidity
       }<br >   <b>IDs of reproduction</b>     :   ${
-        request_value.ids_reproduction
+        requestValue.ids_reproduction
       }<br >   <b>IDs of plant containe</b> r :   ${
-        request_value.ids_plant_container
+        requestValue.ids_plant_container
       }<br >   <b>Planting period</b>         :   ${
-        request_value.planting_period
+        requestValue.planting_period
       }<br >   <b>Florering period</b>        :   ${
-        request_value.florering_period
+        requestValue.florering_period
       }<br >   <b>Harvest period</b>          :   ${
-        request_value.harvest_period
+        requestValue.harvest_period
       }<br >   <b>Cutting period</b>          :   ${
-        request_value.cutting_period
+        requestValue.cutting_period
       }<br >   <b>ID frozen tolerance</b>     :   ${
-        request_value.fk_id_frozen_tolerance
-      }<br >   <b>ID growth rate</b>          :   ${request_value.fk_id_growth_rate}`
+        requestValue.fk_id_frozen_tolerance
+      }<br >   <b>ID growth rate</b>          :   ${requestValue.fk_id_growth_rate}`
   };
 
   smtpTransport.sendMail(mail, error => {
@@ -60,27 +60,28 @@ function SendMail(email, request_value, accepted, res) {
 }
 
 router.post('/', async (req, res, next) => {
-  const { id_request, status, sendMail } = req.body;
+  const { id_request: idRequest, status, sendMail } = req.body;
 
-  if (id_request === undefined || status === undefined) {
+  if (idRequest === undefined || status === undefined) {
     return res.status(400).json({ message: 'Body values are incorrect' });
   }
 
   try {
     const request = await con.query(
-      `SELECT users.email, plant_requests.* FROM plant_requests INNER JOIN users ON users.id = plant_requests.fk_id_user WHERE plant_requests.id = ${con.escape(
-        id_request
-      )}`
+      `SELECT users.email, plant_requests.*
+       FROM plant_requests
+              INNER JOIN users ON users.id = plant_requests.fk_id_user
+        WHERE plant_requests.id = ${con.escape(idRequest)}`
     );
     if (request[0].length === 0) {
       return res.status(403).json({ message: 'No request with the given request_id exists' });
     }
     if (request[0][0].status === '1') {
-      const email = request[0][0].email;
+      const { email } = request[0][0];
 
-      const new_status = status === true ? 2 : 3;
-      await con.query(`UPDATE plant_requests SET status = ${new_status} WHERE id = ${id_request}`);
-      const request_value = request[0][0];
+      const newStatus = status === true ? 2 : 3;
+      await con.query(`UPDATE plant_requests SET status = ${newStatus} WHERE id = ${idRequest}`);
+      const requestValue = request[0][0];
       if (status === true) {
         await con.query(
           `INSERT INTO plants
@@ -88,38 +89,39 @@ router.post('/', async (req, res, next) => {
                  'ids_soil_humidity, ids_reproduction, ids_plant_container, planting_period, ' +
                  'florering_period, harvest_period, cutting_period, fk_id_frozen_tolerance, ' +
                  'fk_id_growth_rate, growth_duration) ' +
-                 ' VALUES ('}${con.escape(request_value.name)}, ${con.escape(
-            request_value.scientific_name
-          )}, ${request_value.max_height}, ${con.escape(request_value.ids_soil_ph)}, ${con.escape(
-            request_value.ids_soil_type
-          )}, ${con.escape(request_value.ids_sun_exposure)}, ${con.escape(
-            request_value.ids_soil_humidity
-          )}, ${con.escape(request_value.ids_reproduction)}, ${con.escape(
-            request_value.ids_plant_container
-          )}, ${con.escape(request_value.planting_period)}, ${con.escape(
-            request_value.florering_period
-          )}, ${con.escape(request_value.harvest_period)}, ${con.escape(
-            request_value.cutting_period
-          )}, ${request_value.fk_id_frozen_tolerance}, ${request_value.fk_id_growth_rate}, ${
-            request_value.growth_duration
+                 ' VALUES ('}${con.escape(requestValue.name)}, ${con.escape(
+            requestValue.scientific_name
+          )}, ${requestValue.max_height}, ${con.escape(requestValue.ids_soil_ph)}, ${con.escape(
+            requestValue.ids_soil_type
+          )}, ${con.escape(requestValue.ids_sun_exposure)}, ${con.escape(
+            requestValue.ids_soil_humidity
+          )}, ${con.escape(requestValue.ids_reproduction)}, ${con.escape(
+            requestValue.ids_plant_container
+          )}, ${con.escape(requestValue.planting_period)}, ${con.escape(
+            requestValue.florering_period
+          )}, ${con.escape(requestValue.harvest_period)}, ${con.escape(
+            requestValue.cutting_period
+          )}, ${requestValue.fk_id_frozen_tolerance}, ${requestValue.fk_id_growth_rate}, ${
+            requestValue.growth_duration
           });`
         );
         // TODO better way to handle this case
         if (sendMail === false) {
           return res.status(200).json({ message: 'Success' });
         }
-        SendMail(email, request_value, true, res);
+        SendMail(email, requestValue, true, res);
       } else if (sendMail === false) {
         return res.status(200).json({ message: 'Success' });
       } else {
-        SendMail(email, request_value, false, res);
+        return SendMail(email, requestValue, false, res);
       }
     } else {
-      res.status(404).json({ message: 'The given request have already been treated' });
+      return res.status(404).json({ message: 'The given request have already been treated' });
     }
   } catch (err) {
-    next(err);
+    return next(err);
   }
+  return true;
 });
 
 module.exports = router;

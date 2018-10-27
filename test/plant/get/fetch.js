@@ -34,7 +34,7 @@ describe('/GET plants/fetch', () => {
       });
   });
 
-  let api_token;
+  let apiToken;
 
   before(done => {
     chai
@@ -43,7 +43,7 @@ describe('/GET plants/fetch', () => {
       .set('username', 'admin')
       .set('password', 'admin')
       .end((err, res) => {
-        api_token = res.body.api_token;
+        apiToken = res.body.api_token;
         done();
       });
   });
@@ -52,7 +52,7 @@ describe('/GET plants/fetch', () => {
     chai
       .request(server)
       .get('/plants/fetch')
-      .set('api_token', api_token)
+      .set('api_token', apiToken)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('array');

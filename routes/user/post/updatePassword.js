@@ -10,7 +10,7 @@ router.post('/', async (req, res, next) => {
   const { api_token: apiToken } = req.headers;
 
   if (!oldPassword || !newPassword) {
-    res.status(400).json({ message: 'Header values are incorrect.' });
+    return res.status(400).json({ message: 'Header values are incorrect.' });
   }
   try {
     const resu = await con.query(

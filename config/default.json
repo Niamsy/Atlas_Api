@@ -1,5 +1,5 @@
 {
-  "DB": "Atlas",
+  "DB": "Atlas_test",
   "password_db": null,
   "user_db": "root",
   "host": "localhost",

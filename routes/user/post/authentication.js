@@ -33,7 +33,7 @@ router.post('/', async (req, res, next) => {
     }
     for (const key in hub.connectedUserToken) {
       if (hub.connectedUserToken[key] === result[0][0].id) {
-        return res.status(200).json({ apiToken: key });
+        return res.status(200).json({ api_token: key });
       }
     }
     const apiToken = generateToken();
@@ -43,7 +43,8 @@ router.post('/', async (req, res, next) => {
         hub.connectedUserToken[apiToken]
       }'`
     );
-    return res.status(200).json({ apiToken });
+    console.log(apiToken);
+    return res.status(200).json({ api_token: apiToken });
   } catch (err) {
     return next(err);
   }
