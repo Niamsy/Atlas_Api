@@ -1,7 +1,7 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define(
+module.exports = (sequelize, DataTypes) =>
+  sequelize.define(
     'Plants',
     {
       id: {
@@ -104,4 +104,3 @@ module.exports = function(sequelize, DataTypes) {
       tableName: 'plants'
     }
   );
-};

@@ -4,6 +4,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../../../index').app;
 
+// eslint-disable-next-line no-unused-vars
 const should = chai.should();
 
 chai.use(chaiHttp);
@@ -51,11 +52,11 @@ describe('/POST /user/disconnection', () => {
           .request(server)
           .post('/user/disconnection')
           .set('api_token', token)
-          .end((err, res) => {
-            res.should.have.status(200);
-            res.body.should.be.a('object');
-            res.body.should.have.property('message');
-            res.body.message.should.equal('Disconnection success');
+          .end((error, result) => {
+            result.should.have.status(200);
+            result.body.should.be.a('object');
+            result.body.should.have.property('message');
+            result.body.message.should.equal('Disconnection success');
             done();
           });
       });

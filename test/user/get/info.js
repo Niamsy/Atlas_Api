@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
@@ -9,7 +10,7 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 describe('/GET userInfo', () => {
-  let api_token;
+  let apiToken;
 
   before(done => {
     chai
@@ -18,7 +19,7 @@ describe('/GET userInfo', () => {
       .set('username', 'admin')
       .set('password', 'admin')
       .end((err, res) => {
-        api_token = res.body.api_token;
+        apiToken = res.body.api_token;
         done();
       });
   });
@@ -55,7 +56,7 @@ describe('/GET userInfo', () => {
     chai
       .request(server)
       .get('/user/info')
-      .set('api_token', api_token)
+      .set('api_token', apiToken)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');

@@ -44,7 +44,23 @@
     "lint-staged": "^7.3.0"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "./routes/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "./test/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "./database/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "./models/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "./middleware/**/*.{js,jsx}": [
       "eslint --fix",
       "git add"
     ],

@@ -1,7 +1,7 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define(
+module.exports = (sequelize, DataTypes) =>
+  sequelize.define(
     'SoilHumidity',
     {
       id: {
@@ -22,4 +22,3 @@ module.exports = function(sequelize, DataTypes) {
       tableName: 'soil_humidity'
     }
   );
-};
