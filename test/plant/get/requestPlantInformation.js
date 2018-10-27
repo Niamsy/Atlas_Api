@@ -43,7 +43,6 @@ describe('/GET /plant/request/information', () => {
           })
           .end((err, res) => {
             requestId = res.body.request_id;
-            console.log('test ' + res.body);
             done();
           });
       });
