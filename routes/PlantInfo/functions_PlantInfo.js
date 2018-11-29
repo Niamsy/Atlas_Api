@@ -4,7 +4,7 @@ function loadCorrespondanceList(name, con) {
   con
     .query(`SELECT name FROM ${name} ORDER BY id ASC`)
     .then(result => {
-      KeysIds[name] = result[0];
+      [KeysIds[name]] = result;
     })
     .catch(() => {
       console.error(`Couldn't load the Keys-Ids Correspondance list: ${name}`);
@@ -27,8 +27,11 @@ function transformIDSToValue(ids, name) {
 
   let i = 0;
   const returnValue = {};
-  for (let x = 0; x < KeysIds[name].length; x++) {
-    if (ids[x] === '1') returnValue[i++] = KeysIds[name][x];
+  for (let x = 0; x < KeysIds[name].length; x += 1) {
+    if (ids[x] === '1') {
+      returnValue[i] = KeysIds[name][x];
+      i += 1;
+    }
   }
   return returnValue;
 }

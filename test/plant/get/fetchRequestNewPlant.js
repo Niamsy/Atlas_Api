@@ -7,7 +7,8 @@ const server = require('../../../index').app;
 chai.use(chaiHttp);
 
 describe('/GET /plant/request/fetch', () => {
-  let api_token;
+  let defaultApiToken;
+  let adminApiToken;
 
   before(done => {
     chai
@@ -16,7 +17,18 @@ describe('/GET /plant/request/fetch', () => {
       .set('username', 'admin')
       .set('password', 'admin')
       .end((err, res) => {
-        api_token = res.body.api_token;
+        adminApiToken = res.body.api_token;
+        done();
+      });
+  });
+  before(done => {
+    chai
+      .request(server)
+      .post('/user/authentication')
+      .set('username', 'default')
+      .set('password', 'admin')
+      .end((err, res) => {
+        defaultApiToken = res.body.api_token;
         done();
       });
   });
@@ -29,21 +41,19 @@ describe('/GET /plant/request/fetch', () => {
         res.should.have.status(400);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
-        res.body.message.should.equal('Header values are incorrect.');
         done();
       });
   });
 
-  it('It should return Token invalid', done => {
+  it('It should return Not a admin', done => {
     chai
       .request(server)
       .get('/plant/request/fetch')
-      .set('api_token', 'Test')
+      .set('api_token', defaultApiToken)
       .end((err, res) => {
         res.should.have.status(401);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
-        res.body.message.should.equal('Api token is wrong.');
         done();
       });
   });
@@ -52,7 +62,7 @@ describe('/GET /plant/request/fetch', () => {
     chai
       .request(server)
       .get('/plant/request/fetch')
-      .set('api_token', api_token)
+      .set('api_token', adminApiToken)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
