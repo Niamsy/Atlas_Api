@@ -72,3 +72,5 @@ package-json.lock
 .idea
 
 package-lock\.json
+
+\.vscode/

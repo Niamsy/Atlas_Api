@@ -4,15 +4,20 @@ const router = require('express').Router();
 const checkToken = require('../middleware/checkToken/checkToken');
 const isAdmin = require('../middleware/isAdmin/isAdmin');
 const errorHandler = require('../middleware/errorHandler/errorHandler');
+const checkParams = require('../middleware/checkParams/checkParams');
 
 // Plant POST routes
-router.use('/plant/add', checkToken, require('./plant/post/add'));
+router.use(
+  '/plant/add',
+  [checkToken, checkParams(['scientific_name'])],
+  require('./plant/post/add')
+);
 router.use('/plant/create', [checkToken, isAdmin], require('./plant/post/createPlant'));
 router.use('/plant/request/create', checkToken, require('./plant/post/requestForNewPlant'));
 
 router.use(
   '/plant/request/response',
-  [checkToken, isAdmin],
+  [checkToken, isAdmin, checkParams(['id_request', 'status', 'sendMail'])],
   require('./plant/post/requestPlantResponse')
 );
 router.use(

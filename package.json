@@ -27,6 +27,7 @@
     "eslint-plugin-react": "^7.11.0",
     "express": "^4.16.4",
     "hub": "^6.1.2",
+    "lodash": "^4.17.11",
     "mocha": "^5.2.0",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.1",
@@ -68,11 +69,5 @@
       "prettier --write",
       "git add"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && npm test",
-      "pre-push": "lint-staged && npm test"
-    }
   }
 }
