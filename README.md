@@ -6,6 +6,7 @@ Atlas is a school project.
 
 ### /!\ LAUNCH NPM TEST WITH THE LATEST ATLAS_TEST DATABASE. /!\
 ### /!\ IF ONE TEST IS INVALID DON'T EVEN TRY TO SEND A PULL REQUEST. /!\
+### /!\ YOU HAVE TO PASS ESLINT/PRETTIER ON YOUR PROJET OR YOUR PULL REQUEST WILL BE REJECTED /!\
 
 Your ticket must be finished and in the "Done" section on Trello.
 
