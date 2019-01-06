@@ -54,8 +54,14 @@ describe('/POST plant/request/response', () => {
             fk_id_growth_rate: 1,
             growth_duration: 1
           })
+<<<<<<< HEAD
           .end((error, result) => {
             requestId = result.body.request_id;
+=======
+          .end((err, res) => {
+            requestId = res.body.request_id;
+            console.log('TEST' + res);
+>>>>>>> 09a5817919e6a2fba7db865879c68aa870c54ed7
             done();
           });
       });
