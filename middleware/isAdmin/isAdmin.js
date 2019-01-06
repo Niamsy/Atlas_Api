@@ -11,12 +11,13 @@ router.use(async (req, res, next) => {
       `SELECT * FROM users WHERE id=${con.escape(hub.connectedUserToken[token])} AND right_id=1`
     );
     if (admin[0].length === 0) {
-      return res.status(401).json({ message: 'You need to be admin.' });
+      res.status(401).json({ message: 'You need to be admin.' });
+    } else {
+      next();
     }
   } catch (e) {
-    return res.status(500).json({ message: 'Api encountered an issue : ' + err.message });
+    next(e);
   }
-  next();
 });
 
 module.exports = router;

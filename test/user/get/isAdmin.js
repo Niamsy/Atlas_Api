@@ -4,12 +4,13 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../../../index').app;
 
+// eslint-disable-next-line no-unused-vars
 const should = chai.should();
 
 chai.use(chaiHttp);
 
 describe('/GET isAdmin', () => {
-  let api_token;
+  let apiToken;
 
   before(done => {
     chai
@@ -18,7 +19,7 @@ describe('/GET isAdmin', () => {
       .set('username', 'admin')
       .set('password', 'admin')
       .end((err, res) => {
-        api_token = res.body.api_token;
+        apiToken = res.body.api_token;
         done();
       });
   });
@@ -54,7 +55,7 @@ describe('/GET isAdmin', () => {
     chai
       .request(server)
       .get('/user/isAdmin')
-      .set('api_token', api_token)
+      .set('api_token', apiToken)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');

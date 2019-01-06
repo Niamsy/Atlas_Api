@@ -8,18 +8,19 @@ const { con } = require('../../../index');
 const tokgen = new TokenGenerator();
 
 function generateToken() {
-  const api_token = tokgen.generate();
-  if (hub.connectedUserToken[api_token] != null) {
+  const apiToken = tokgen.generate();
+  if (hub.connectedUserToken[apiToken] != null) {
     return generateToken();
   }
-  return api_token;
+  return apiToken;
 }
 
 router.post('/', async (req, res, next) => {
   const { username, password } = req.headers;
 
   if (username === undefined || password === undefined) {
-    return res.status(400).json({ message: 'Header values are incorrect.' });
+    res.status(400).json({ message: 'Header values are incorrect.' });
+    return;
   }
 
   try {
@@ -29,21 +30,22 @@ router.post('/', async (req, res, next) => {
         AND password = '${SHA256(password)}'`
     );
     if (result[0].length === 0) {
-      return res.status(400).json({ message: 'Bad authentication' });
+      res.status(400).json({ message: 'Bad authentication' });
+      return;
     }
-    for (const key in hub.connectedUserToken) {
-      if (hub.connectedUserToken[key] === result[0][0].id) {
-        return res.status(200).json({ api_token: key });
-      }
+    const key = hub.connectedUserToken.findIndex(elem => elem === result[0][0].id);
+    if (key !== -1) {
+      res.status(200).json({ api_token: key });
+      return;
     }
-    const api_token = generateToken();
-    hub.connectedUserToken[api_token] = result[0][0].id;
+    const apiToken = generateToken();
+    hub.connectedUserToken[apiToken] = result[0][0].id;
     await con.query(
       `UPDATE users SET last_connection_at = ${con.escape(new Date())} WHERE id = '${
-        hub.connectedUserToken[api_token]
+        hub.connectedUserToken[apiToken]
       }'`
     );
-    return res.status(200).json({ api_token });
+    res.status(200).json({ api_token: apiToken });
   } catch (err) {
     next(err);
   }

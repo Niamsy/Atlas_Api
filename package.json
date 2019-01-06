@@ -27,6 +27,7 @@
     "eslint-plugin-react": "^7.11.0",
     "express": "^4.16.4",
     "hub": "^6.1.2",
+    "lodash": "^4.17.11",
     "mocha": "^5.2.0",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.1",
@@ -38,6 +39,35 @@
     "uuid-token-generator": "^1.0.0"
   },
   "devDependencies": {
-    "eslint-plugin-prettier": "^3.0.0"
+    "eslint-plugin-prettier": "^3.0.0",
+    "flow-bin": "^0.83.0",
+    "husky": "^1.1.2",
+    "lint-staged": "^7.3.0"
+  },
+  "lint-staged": {
+    "./routes/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "./test/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "./database/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "./models/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "./middleware/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{js,json,md,scss,yaml,yml}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

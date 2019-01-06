@@ -3,10 +3,10 @@ const router = require('express').Router();
 const hub = require('hub');
 
 router.post('/', (req, res) => {
-  const { api_token } = req.headers;
+  const { api_token: apiToken } = req.headers;
 
-  delete hub.connectedUserToken[api_token];
-  return res.status(200).json({ message: 'Disconnection success' });
+  delete hub.connectedUserToken[apiToken];
+  res.status(200).json({ message: 'Disconnection success' });
 });
 
 module.exports = router;

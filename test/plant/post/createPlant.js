@@ -7,8 +7,8 @@ const server = require('../../../index').app;
 chai.use(chaiHttp);
 
 describe('/Post plant/create', () => {
-  let admin_apitoken;
-  let base_apitoken;
+  let adminApiToken;
+  let baseApiToken;
 
   before(done => {
     chai
@@ -17,7 +17,7 @@ describe('/Post plant/create', () => {
       .set('username', 'default')
       .set('password', 'admin')
       .end((err, res) => {
-        base_apitoken = res.body.api_token;
+        baseApiToken = res.body.api_token;
         done();
       });
   });
@@ -29,7 +29,7 @@ describe('/Post plant/create', () => {
       .set('username', 'admin')
       .set('password', 'admin')
       .end((err, res) => {
-        admin_apitoken = res.body.api_token;
+        adminApiToken = res.body.api_token;
         done();
       });
   });
@@ -52,7 +52,7 @@ describe('/Post plant/create', () => {
     chai
       .request(server)
       .post('/plant/create')
-      .set('api_token', admin_apitoken)
+      .set('api_token', adminApiToken)
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.be.a('object');
@@ -66,7 +66,7 @@ describe('/Post plant/create', () => {
     chai
       .request(server)
       .post('/plant/create')
-      .set('api_token', base_apitoken)
+      .set('api_token', baseApiToken)
       .send({
         name: 'test',
         scientific_name: 'test',
@@ -98,7 +98,7 @@ describe('/Post plant/create', () => {
     chai
       .request(server)
       .post('/plant/create')
-      .set('api_token', admin_apitoken)
+      .set('api_token', adminApiToken)
       .send({
         name: 'daisy',
         scientific_name: 'bellis perennis',
@@ -130,7 +130,7 @@ describe('/Post plant/create', () => {
     chai
       .request(server)
       .post('/plant/create')
-      .set('api_token', admin_apitoken)
+      .set('api_token', adminApiToken)
       .send({
         name: 'Testos',
         scientific_name: 'Testos',

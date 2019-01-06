@@ -18,9 +18,9 @@ router.post('/', async (req, res, next) => {
     if (resu[0].length === 0) {
       return res.status(401).json({ message: `${email} is linked to nobody` });
     }
-    const new_password = tokgen.generate();
+    const newPassword = tokgen.generate();
     await con.query(
-      `UPDATE users SET password =${con.escape(SHA256(new_password).toString())}` +
+      `UPDATE users SET password =${con.escape(SHA256(newPassword).toString())}` +
         ` WHERE email=${con.escape(email)}`
     );
     const smtpTransport = nodemailer.createTransport({
@@ -35,19 +35,19 @@ router.post('/', async (req, res, next) => {
       from: config.email,
       to: email,
       subject: 'reset password account',
-      html: `Your new password is : ${new_password}<br \>Change it as soon as possible`
+      html: `Your new password is : ${newPassword}<br >Change it as soon as possible`
     };
 
-    smtpTransport.sendMail(mail, error => {
+    return smtpTransport.sendMail(mail, error => {
+      smtpTransport.close();
       if (error) {
         res.status(401).json({ message: 'Error while sending the mail' });
       } else {
         res.status(200).json({ message: 'Success' });
       }
-      smtpTransport.close();
     });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 

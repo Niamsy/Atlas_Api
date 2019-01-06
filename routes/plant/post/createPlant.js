@@ -4,46 +4,47 @@ const { con } = require('../../../index.js');
 router.post('/', async (req, res, next) => {
   const {
     name,
-    scientific_name,
-    max_height,
-    ids_soil_ph,
-    ids_soil_type,
-    ids_sun_exposure,
-    ids_soil_humidity,
-    ids_reproduction,
-    ids_plant_container,
-    planting_period,
-    florering_period,
-    harvest_period,
-    cutting_period,
-    fk_id_frozen_tolerance,
-    fk_id_growth_rate,
-    growth_duration
+    scientific_name: scientificName,
+    max_height: maxHeight,
+    ids_soil_ph: idsSoilPh,
+    ids_soil_type: idsSoilType,
+    ids_sun_exposure: idsSunExposure,
+    ids_soil_humidity: idsSoilHumidity,
+    ids_reproduction: idsReproduction,
+    ids_plant_container: idsPlantContainer,
+    planting_period: plantingPeriod,
+    florering_period: floreringPeriod,
+    harvest_period: harvestPeriod,
+    cutting_period: cuttingPeriod,
+    fk_id_frozen_tolerance: fkIdFrozenTolerance,
+    fk_id_growth_rate: fkIdGrowthRate,
+    growth_duration: growthDuration
   } = req.body;
 
   if (
     name === undefined ||
-    scientific_name === undefined ||
-    max_height === undefined ||
-    ids_soil_ph === undefined ||
-    ids_soil_type === undefined ||
-    ids_sun_exposure === undefined ||
-    ids_soil_humidity === undefined ||
-    ids_reproduction === undefined ||
-    ids_plant_container === undefined ||
-    planting_period === undefined ||
-    florering_period === undefined ||
-    harvest_period === undefined ||
-    cutting_period === undefined ||
-    fk_id_frozen_tolerance === undefined ||
-    fk_id_growth_rate === undefined ||
-    growth_duration === undefined
+    scientificName === undefined ||
+    maxHeight === undefined ||
+    idsSoilPh === undefined ||
+    idsSoilType === undefined ||
+    idsSunExposure === undefined ||
+    idsSoilHumidity === undefined ||
+    idsReproduction === undefined ||
+    idsPlantContainer === undefined ||
+    plantingPeriod === undefined ||
+    floreringPeriod === undefined ||
+    harvestPeriod === undefined ||
+    cuttingPeriod === undefined ||
+    fkIdFrozenTolerance === undefined ||
+    fkIdGrowthRate === undefined ||
+    growthDuration === undefined
   ) {
-    return res.status(400).json({ message: 'Body values are incorrect' });
+    res.status(400).json({ message: 'Body values are incorrect' });
+    return;
   }
   try {
     const result = await con.query(
-      `SELECT id from plants where scientific_name = ${con.escape(scientific_name)}`
+      `SELECT id from plants where scientific_name = ${con.escape(scientificName)}`
     );
     if (result[0].length === 0) {
       await con.query(`INSERT INTO plants 
@@ -52,19 +53,20 @@ router.post('/', async (req, res, next) => {
             florering_period, harvest_period, cutting_period, fk_id_frozen_tolerance, 
             fk_id_growth_rate, growth_duration) 
              VALUES (
-              ${con.escape(name)}, ${con.escape(scientific_name)}, ${max_height}, 
-              ${con.escape(ids_soil_ph)}, ${con.escape(ids_soil_type)}, 
-              ${con.escape(ids_sun_exposure)}, 
-              ${con.escape(ids_soil_humidity)}, ${con.escape(ids_reproduction)},
-              ${con.escape(ids_plant_container)}, ${con.escape(planting_period)},
-              ${con.escape(florering_period)}, ${con.escape(harvest_period)},
-              ${con.escape(cutting_period)}, ${fk_id_frozen_tolerance}, ${fk_id_growth_rate}, 
-              ${growth_duration}
+              ${con.escape(name)}, ${con.escape(scientificName)}, ${maxHeight}, 
+              ${con.escape(idsSoilPh)}, ${con.escape(idsSoilType)}, 
+              ${con.escape(idsSunExposure)}, 
+              ${con.escape(idsSoilHumidity)}, ${con.escape(idsReproduction)},
+              ${con.escape(idsPlantContainer)}, ${con.escape(plantingPeriod)},
+              ${con.escape(floreringPeriod)}, ${con.escape(harvestPeriod)},
+              ${con.escape(cuttingPeriod)}, ${fkIdFrozenTolerance}, ${fkIdGrowthRate}, 
+              ${growthDuration}
             );
           `);
-      return res.status(201).json({ message: 'Plant created' });
+      res.status(201).json({ message: 'Plant created' });
+      return;
     }
-    return res.status(403).json({ message: 'Plant already exist' });
+    res.status(403).json({ message: 'Plant already exist' });
   } catch (err) {
     next(err);
   }

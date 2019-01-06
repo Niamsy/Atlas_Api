@@ -4,13 +4,14 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../../../index').app;
 
+// eslint-disable-next-line no-unused-vars
 const should = chai.should();
 
 chai.use(chaiHttp);
 
 describe('/POST user/right', () => {
-  let api_token_admin;
-  let api_token_non_admin;
+  let apiTokenAdmin;
+  let apiTokenNonAdmin;
 
   before(done => {
     chai
@@ -19,7 +20,7 @@ describe('/POST user/right', () => {
       .set('username', 'admin')
       .set('password', 'admin')
       .end((err, res) => {
-        api_token_admin = res.body.api_token;
+        apiTokenAdmin = res.body.api_token;
         done();
       });
   });
@@ -31,7 +32,7 @@ describe('/POST user/right', () => {
       .set('username', 'default')
       .set('password', 'admin')
       .end((err, res) => {
-        api_token_non_admin = res.body.api_token;
+        apiTokenNonAdmin = res.body.api_token;
         done();
       });
   });
@@ -71,7 +72,7 @@ describe('/POST user/right', () => {
       .request(server)
       .post('/user/right')
       .send({ email: 'atlas@gmail.com', right_id: 1 })
-      .set('api_token', api_token_non_admin)
+      .set('api_token', apiTokenNonAdmin)
       .end((err, res) => {
         res.should.have.status(401);
         res.body.should.be.a('object');
@@ -86,7 +87,7 @@ describe('/POST user/right', () => {
       .request(server)
       .post('/user/right')
       .send({ email: 'atlas@gmail.com', right_id: 1 })
-      .set('api_token', api_token_admin)
+      .set('api_token', apiTokenAdmin)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
@@ -100,8 +101,8 @@ describe('/POST user/right', () => {
     chai
       .request(server)
       .post('/user/right')
-      .send({ api_token: api_token_admin, email: 'atlas@gmail.com', right_id: 2 })
-      .set('api_token', api_token_admin)
+      .send({ api_token: apiTokenAdmin, email: 'atlas@gmail.com', right_id: 2 })
+      .set('api_token', apiTokenAdmin)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');

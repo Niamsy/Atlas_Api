@@ -8,18 +8,19 @@ const { con, app: server } = require('../../../index');
 chai.use(chaiHttp);
 
 describe('/POST updatePassword', () => {
-  let api_token;
+  let apiToken;
 
-  before(async () => {
+  before(done => {
     chai
       .request(server)
       .post('/user/authentication')
       .set('username', 'default')
       .set('password', 'admin')
       .end(async (err, res) => {
-        api_token = res.body.api_token;
+        apiToken = res.body.api_token;
         const mdp = SHA256('12345678');
         await con.query(`UPDATE users SET password='${mdp}' WHERE name='default'`);
+        done();
       });
   });
 
@@ -56,7 +57,7 @@ describe('/POST updatePassword', () => {
       .request(server)
       .post('/user/updatePassword')
       .send({ old_password: '12345', new_password: 'adminAdmin' })
-      .set('api_token', api_token)
+      .set('api_token', apiToken)
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.be.a('object');
@@ -71,7 +72,7 @@ describe('/POST updatePassword', () => {
       .request(server)
       .post('/user/updatePassword')
       .send({ old_password: '12345678', new_password: '1234567' })
-      .set('api_token', api_token)
+      .set('api_token', apiToken)
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.be.a('object');
@@ -86,7 +87,7 @@ describe('/POST updatePassword', () => {
       .request(server)
       .post('/user/updatePassword')
       .send({ old_password: '12345678', new_password: '123456789' })
-      .set('api_token', api_token)
+      .set('api_token', apiToken)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
@@ -101,7 +102,7 @@ describe('/POST updatePassword', () => {
       .request(server)
       .post('/user/updatePassword')
       .send({ old_password: '123456789', new_password: '12345678' })
-      .set('api_token', api_token)
+      .set('api_token', apiToken)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');

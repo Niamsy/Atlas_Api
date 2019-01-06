@@ -54,9 +54,8 @@ describe('/POST plant/request/response', () => {
             fk_id_growth_rate: 1,
             growth_duration: 1
           })
-          .end((err, res) => {
-            requestId = res.body.request_id;
-            console.log('TEST' + res);
+          .end((error, result) => {
+            requestId = result.body.request_id;
             done();
           });
       });
