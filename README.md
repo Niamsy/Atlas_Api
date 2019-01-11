@@ -1,5 +1,5 @@
 # Atlas_Api 
-Api from Atlas (test)
+Api from Atlas
 Atlas is a school project.
 
 # Before pull request
