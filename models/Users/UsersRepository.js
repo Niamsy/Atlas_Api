@@ -1,6 +1,4 @@
-let Users = require('./UsersModel.js');
-
-const Op = Sequelize.Op;
+const Users = require('./UsersModel.js');
 
 module.exports = class UsersRepository {
   static findAll() {
@@ -12,10 +10,10 @@ module.exports = class UsersRepository {
   }
 
   static findByName(name) {
-    return Users.findOne({ where: { name: name }});
+    return Users.findOne({ where: { name } });
   }
 
   static findByEmail(email) {
-    return Users.findOne({ where: { email: email }});
+    return Users.findOne({ where: { email } });
   }
-}
+};
