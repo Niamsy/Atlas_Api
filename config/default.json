@@ -6,5 +6,6 @@
   "dialect": "mysql",
   "logging": false,
   "email": "atlas.testos@gmail.com",
-  "password_gmail": "atlas2010"
+  "password_gmail": "atlas2010",
+  "plantnetApiToken": "2a10HX03PWHSwy3S2HcZGYh9e"
 }
