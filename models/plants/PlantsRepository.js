@@ -1,6 +1,4 @@
-let Plants = require('./PlantsModel.js');
-
-const Op = Sequelize.Op;
+const Plants = require('./PlantsModel.js');
 
 module.exports = class PlantsRepository {
   static findAll() {
@@ -8,14 +6,14 @@ module.exports = class PlantsRepository {
   }
 
   static findAllById(id) {
-    return Plants.findAll({ where: { id: id }});
+    return Plants.findAll({ where: { id } });
   }
 
   static findAllByName(name) {
-    return Plants.findAll({ where: { name: name }});
+    return Plants.findAll({ where: { name } });
   }
 
-  static countAllByScientificName(scientificName) {
-    return Plants.findAll({ where: { scientificName: scientificName }});
+  static findAllByScientificName(scientificName) {
+    return Plants.findAll({ where: { scientificName } });
   }
-}
+};
