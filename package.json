@@ -31,6 +31,7 @@
     "mocha": "^5.2.0",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.1",
+    "node-fetch": "^2.3.0",
     "nodemailer": "^4.6.8",
     "prettier": "^1.14.3",
     "request": "^2.88.0",

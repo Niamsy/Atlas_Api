@@ -1,4 +1,4 @@
-const Plants = require('./PlantsModel.js');
+const Plants = require('./PlantsModel.js')();
 
 module.exports = class PlantsRepository {
   static findAll() {
@@ -6,11 +6,11 @@ module.exports = class PlantsRepository {
   }
 
   static findAllById(id) {
-    return Plants.findAll({ where: { id } });
+    return Plants.findById({ where: { id } });
   }
 
   static findAllByName(name) {
-    return Plants.findAll({ where: { name } });
+    return Plants.findOne({ where: { name } });
   }
 
   static findAllByScientificName(scientificName) {

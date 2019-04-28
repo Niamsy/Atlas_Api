@@ -34,7 +34,7 @@ router.use(
   [checkToken, isAdmin],
   require('./plant/get/fetchRequestNewPlant')
 );
-router.use('/plant/scan', require('./plant/get/scan'));
+router.use('/plant/scan', checkToken, require('./plant/get/scan'));
 router.use('/plant/:name', require('./plant/get/exist'));
 
 // User POST routes

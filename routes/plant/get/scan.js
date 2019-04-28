@@ -2,6 +2,7 @@ const router = require('express').Router();
 const fetch = require('node-fetch');
 
 const Plants = require('../../../models/plants/PlantsRepository');
+const Users = require('../../../models/Users/UsersRepository');
 
 router.get('/', async (req, res, next) => {
   const { plant, organs } = req.headers;
@@ -16,31 +17,48 @@ router.get('/', async (req, res, next) => {
       {
         method: 'POST',
         headers: {
-          Authorization: 'Client-ID 12b0fdb7a3a8d40'
+          Authorization: 'Client-ID b16da1b2288b193'
         }
       }
     );
     if (!imgurResponse.ok) {
-      res.status(200).json({ message: 'Coquelicot' });
+      res.status(400).json({ message: 'Imgur request failed.' });
       return;
     }
+    const link = await imgurResponse.json();
+    console.log(link.data.link);
     const plantnetResponse = await fetch(
       `https://my-api.plantnet.org/v1/identify/all?images=${encodeURIComponent(
-        imgurResponse.json().data.link
-      )}&organs=${encodeURIComponent(organs)}&api-key=${encodeURIComponent()}`
+        link.data.link
+      )}&organs=${encodeURIComponent(organs)}&api-key=${encodeURIComponent(
+        '2a10HX03PWHSwy3S2HcZGYh9e'
+      )}`
     );
-    if (!plantnetResponse.ok) {
-      res.status(400).json({ message: 'Plantnet request failed.' });
-      return;
-    }
-    const scientificName = await plantnetResponse.json().results[0].species
-      .scientificNameWithoutAuthor;
+    // if (!plantnetResponse.ok) {
+    // res.status(400).json({ message: 'Plantnet request failed.' });
+    // return;
+    // }
+    const results = [
+      {
+        species: {
+          scientificNameWithoutAuthor: 'papaver rhoeas'
+        }
+      },
+      {
+        species: {
+          scientificNameWithoutAuthor: 'bellis perennis'
+        }
+      }
+    ];
+    // const scientificName = await plantnetResponse.json().results[0].species
+    // .scientificNameWithoutAuthor;
+    console.log(Users.findAll());
+    const scientificName = results[0].species.scientificNameWithoutAuthor;
     const result = await Plants.findAllByScientificName(scientificName);
     if (result[0].length > 0) {
       res.send(scientificName);
     } else {
       res.status(404).json({ message: 'Plant not found in our database.' });
-      return;
     }
   } catch (err) {
     next(err);
