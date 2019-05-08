@@ -1,0 +1,22 @@
+{
+  "plugins": ["prettier", "mocha"],
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+  "extends": ["eslint:recommended", "plugin:node/recommended", "airbnb", "prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "node/exports-style": ["error", "module.exports"],
+    "node/prefer-global/buffer": ["error", "always"],
+    "node/prefer-global/console": ["error", "always"],
+    "node/prefer-global/process": ["error", "always"],
+    "node/prefer-global/url-search-params": ["error", "always"],
+    "node/prefer-global/url": ["error", "always"],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+    "linebreak-style": "off"
+  },
+  "env": {
+    "mocha": true
+  }
+}
