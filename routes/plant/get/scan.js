@@ -34,27 +34,14 @@ router.get('/', async (req, res, next) => {
         '2a10HX03PWHSwy3S2HcZGYh9e'
       )}`
     );
-    // if (!plantnetResponse.ok) {
-    // res.status(400).json({ message: 'Plantnet request failed.' });
-    // return;
-    // }
-    const results = [
-      {
-        species: {
-          scientificNameWithoutAuthor: 'papaver rhoeas'
-        }
-      },
-      {
-        species: {
-          scientificNameWithoutAuthor: 'bellis perennis'
-        }
-      }
-    ];
-    // const scientificName = await plantnetResponse.json().results[0].species
-    // .scientificNameWithoutAuthor;
-    console.log(Users.findAll());
-    const scientificName = results[0].species.scientificNameWithoutAuthor;
-    const result = await Plants.findAllByScientificName(scientificName);
+    if (!plantnetResponse.ok) {
+      res.status(400).json({ message: 'Plantnet request failed.' });
+      return;
+    }
+    const scientificName = await plantnetResponse.json().results[0].species
+      .scientificNameWithoutAuthor;
+    const result = await con.query(`SELECT *
+              from plants where scientific_name = ${con.escape(plantName)}`);
     if (result[0].length > 0) {
       res.send(scientificName);
     } else {

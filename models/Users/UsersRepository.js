@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const Sequelize = import('sequelize');
 
 const Users = require('./UsersModel.js')(Sequelize);
 

@@ -1,4 +1,4 @@
-const Plants = require('./PlantsModel.js')();
+const Plants = require('./PlantsModel.js');
 
 module.exports = class PlantsRepository {
   static findAll() {
