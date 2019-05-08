@@ -1,5 +1,5 @@
 {
-  "DB": "Atlas",
+  "DB": "Atlas_dev",
   "password_db": "atlas2010",
   "user_db": "phpmyadmin",
   "host": "localhost",
