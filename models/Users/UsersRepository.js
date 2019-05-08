@@ -1,6 +1,4 @@
-const Sequelize = import('sequelize');
-
-const Users = require('./UsersModel.js')(Sequelize);
+const Users = require('./UsersModel.js');
 
 module.exports = class UsersRepository {
   static findAll() {
