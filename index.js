@@ -13,11 +13,8 @@ const { sequelize: con } = require('./database/sequelize');
 
 hub.connectedUserToken = [];
 
-// app.listen(process.env.API_PORT, () => {
-app.listen(8080, () => {
-  // eslint-disable-next-line no-console
-  // console.log(`Listening on port ${process.env.API_PORT}`);
-  console.log(`Listening on port 8080`);
+ app.listen(process.env.API_PORT, () => {
+  console.log(`Listening on port ${process.env.API_PORT}`);
 });
 
 module.exports = { con, app };
