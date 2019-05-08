@@ -13,8 +13,7 @@ const { sequelize: con } = require('./database/sequelize');
 
 hub.connectedUserToken = [];
 
-app.listen(process.env.API_PORT, () => {
-  // eslint-disable-next-line no-console
+ app.listen(process.env.API_PORT, () => {
   console.log(`Listening on port ${process.env.API_PORT}`);
 });
 

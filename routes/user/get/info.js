@@ -1,17 +1,13 @@
 const router = require('express').Router();
-
 const hub = require('hub');
-const { con } = require('../../../index.js');
+
+const Users = require('../../../models/Users/UsersRepository');
 
 router.get('/', async (req, res, next) => {
   const { api_token: apiToken } = req.headers;
 
   try {
-    const result = await con.query(
-      `SELECT name, email, created_at, last_connection_at, right_id FROM users WHERE id=${
-        hub.connectedUserToken[apiToken]
-      }`
-    );
+    const result = await Users.findById(hub.connectedUserToken[apiToken]);
     if (result[0].length > 0) {
       res.status(200).json(result[0][0]);
       return;

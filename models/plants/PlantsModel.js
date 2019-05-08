@@ -1,5 +1,4 @@
 /* jshint indent: 2 */
-
 module.exports = (sequelize, DataTypes) =>
   sequelize.define(
     'Plants',
