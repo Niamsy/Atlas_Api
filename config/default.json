@@ -1,11 +1,10 @@
 {
-  "DB": "Atlas_test",
-  "password_db": null,
-  "user_db": "root",
+  "DB": "Atlas",
+  "password_db": "atlas2010",
+  "user_db": "phpmyadmin",
   "host": "localhost",
   "dialect": "mysql",
   "logging": false,
   "email": "atlas.testos@gmail.com",
-  "password_gmail": "atlas2010",
-  "plantnetApiToken": "2a10HX03PWHSwy3S2HcZGYh9e"
+  "password_gmail": "atlas2010"
 }
