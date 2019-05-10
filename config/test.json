@@ -1,7 +1,7 @@
 {
   "DB": "Atlas_test",
-  "password_db": null,
-  "user_db": "root",
+  "password_db": "phpmyadmin",
+  "user_db": "atlas2010",
   "host": "localhost",
   "dialect": "mysql",
   "logging": false,
