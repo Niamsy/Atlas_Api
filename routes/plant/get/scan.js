@@ -4,8 +4,8 @@ const fetch = require('node-fetch');
 const Plants = require('../../../models/plants/PlantsRepository');
 const Users = require('../../../models/Users/UsersRepository');
 
-router.get('/', async (req, res, next) => {
-  const { plant, organs } = req.headers;
+router.post('/', async (req, res, next) => {
+  const { plant, organs } = req.body;
   if (!plant || !organs) {
     res.status(400).json({ message: 'Header values are incorrect.' });
     return;
