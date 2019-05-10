@@ -41,7 +41,7 @@ router.get('/', async (req, res, next) => {
     const scientificName = await plantnetResponse.json().results[0].species
       .scientificNameWithoutAuthor;
     const result = await con.query(`SELECT *
-              from plants where scientific_name = ${con.escape(plantName)}`);
+              from plants where scientific_name = ${con.escape(scientificName)}`);
     if (result[0].length > 0) {
       res.send(scientificName);
     } else {
