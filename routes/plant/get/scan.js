@@ -24,6 +24,7 @@ router.post('/', async (req, res, next) => {
         }
       }
     );
+    console.log(imgurResponse);
     if (!imgurResponse.ok) {
       res.status(400).json({ message: 'Imgur request failed.' });
       return;
@@ -37,12 +38,15 @@ router.post('/', async (req, res, next) => {
         '2a10HX03PWHSwy3S2HcZGYh9e'
       )}`
     );
+    console.log("Plantnet request");
+    console.log(plantnetResponse);
     if (!plantnetResponse.ok) {
       res.status(400).json({ message: 'Plantnet request failed.' });
       return;
     }
     const scientificName = await plantnetResponse.json().results[0].species
       .scientificNameWithoutAuthor;
+    console.log(scientificName);
     const result = await con.query(`SELECT *
               from plants where scientific_name = ${con.escape(scientificName)}`);
     if (result[0].length > 0) {
