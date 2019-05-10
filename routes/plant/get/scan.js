@@ -46,8 +46,7 @@ router.post('/', async (req, res, next) => {
     }
     const plantResponseJson = await plantnetResponse.json();
     console.log(plantResponseJson);
-    const scientificName = await plantnetResponse.json().results[0].species
-      .scientificNameWithoutAuthor;
+    const scientificName = plantResponseJson.results[0].species.scientificNameWithoutAuthor;
     console.log(scientificName);
     const result = await con.query(`SELECT *
               from plants where scientific_name = ${con.escape(scientificName)}`);
