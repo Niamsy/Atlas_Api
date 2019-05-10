@@ -52,7 +52,7 @@ router.post('/', async (req, res, next) => {
     const result = await con.query(`SELECT *
               from plants where scientific_name = ${con.escape(scientificName)}`);
     if (result[0].length > 0) {
-       res.send.json({ scientificName });
+       res.status(200).json({ scientificName });
     } else {
       res.status(404).json({ message: 'Plant not found in our database.' });
     }
