@@ -5,7 +5,10 @@ const Plants = require('../../../models/plants/PlantsRepository');
 const Users = require('../../../models/Users/UsersRepository');
 
 router.post('/', async (req, res, next) => {
+  console.log(req.body);
   const { plant, organs } = req.body;
+  console.log(plant);
+  console.log(organs);
   if (!plant || !organs) {
     res.status(400).json({ message: 'Body values are incorrect.' });
     return;
