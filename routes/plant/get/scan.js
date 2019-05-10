@@ -7,7 +7,7 @@ const Users = require('../../../models/Users/UsersRepository');
 router.post('/', async (req, res, next) => {
   const { plant, organs } = req.body;
   if (!plant || !organs) {
-    res.status(400).json({ message: 'Header values are incorrect.' });
+    res.status(400).json({ message: 'Body values are incorrect.' });
     return;
   }
 
