@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const fetch = require('node-fetch');
+const { con } = require('../../../index.js');
 
 const Plants = require('../../../models/plants/PlantsRepository');
 const Users = require('../../../models/Users/UsersRepository');
