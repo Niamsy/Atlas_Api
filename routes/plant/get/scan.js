@@ -44,6 +44,8 @@ router.post('/', async (req, res, next) => {
       res.status(400).json({ message: 'Plantnet request failed.' });
       return;
     }
+    const plantResponseJson = await plantnetResponse.json();
+    console.log(plantResponseJson);
     const scientificName = await plantnetResponse.json().results[0].species
       .scientificNameWithoutAuthor;
     console.log(scientificName);
