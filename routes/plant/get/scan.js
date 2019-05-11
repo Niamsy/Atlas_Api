@@ -21,28 +21,22 @@ router.post('/', async (req, res, next) => {
   });
 
   try {
-    let link;
-    console.log('request');
-    request({
+    imgurResponse = await fetch('https://api.imgur.com/3/upload', {
+      method: 'POST',
       headers: {
         'Content-Length': form.length,
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'Client-ID b16da1b2288b193'
       },
-      uri: 'https://api.imgur.com/3/upload',
-      body: form,
-      method: 'POST'
-    }, function(err, resp, body) {
-      body = JSON.parse(body);
-      if (body.success) {
-        link = body.data.link;
-      }
+      body: form
     });
-    console.log(link);
-    if (!link) {
+    if (!imgurResponse.ok) {
       res.status(400).json({ message: 'Imgur request failed.' });
       return;
     }
+    const imgurResponseJson = await imgurResponse.json();
+    console.log(imgurResponseJson);
+    const link = imgurResponseJson.data.link;
     console.log(link);
     const plantnetResponse = await fetch(
       `https://my-api.plantnet.org/v1/identify/all?images=${encodeURIComponent(
