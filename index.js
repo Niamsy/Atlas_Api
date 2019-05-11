@@ -4,7 +4,7 @@ const hub = require('hub');
 
 const app = express();
 
-app.use(express.json({ limit: '100mb' }));
+app.use(express.json({ limit: '10mb' }));
 app.use(cors());
 
 require('./database/init');

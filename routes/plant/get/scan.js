@@ -61,6 +61,7 @@ router.post('/', async (req, res, next) => {
       res.status(404).json({ message: 'Plant not found in our database.' });
     }
   } catch (err) {
+    console.log(err);
     next(err);
   }
 });
