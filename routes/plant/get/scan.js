@@ -32,12 +32,12 @@ router.post('/', async (req, res, next) => {
       body: form,
       method: 'POST'
     }, function(err, res, body) {
+      if (!res.success) {
+        res.status(400).json({ message: 'Imgur request failed.' });
+        return;
+      }
       imgurResponse = body;
     });
-    if (!imgurResponse.ok) {
-      res.status(400).json({ message: 'Imgur request failed.' });
-      return;
-    }
     const link = await imgurResponse.data.link
     console.log(link.data.link);
     const plantnetResponse = await fetch(
