@@ -15,10 +15,10 @@ router.post('/', async (req, res, next) => {
     console.log(result);
     if (result[0].length > 0) {
       console.log(result[0]);
-      const plantId = result[0].id;
+      const plantId = result[0][0].id;
       console.log(plantId);
       const date = new Date();
-      console.log(data);
+      console.log(date);
       await con.query(
         `INSERT INTO users_plants (fk_id_user, fk_id_plant, scanned_at)
               VALUES (
