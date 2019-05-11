@@ -22,6 +22,7 @@ router.post('/', async (req, res, next) => {
 
   try {
     let link;
+    console.log('request');
     request({
       headers: {
         'Content-Length': form.length,
@@ -32,10 +33,12 @@ router.post('/', async (req, res, next) => {
       body: form,
       method: 'POST'
     }, function(err, resp, body) {
+      console.log('response:');
       if (!resp.success) {
         res.status(400).json({ message: 'Imgur request failed.' });
         return;
       }
+      console.log('body');
       console.log(body);
       link = body.data.link;
       console.log(link);
