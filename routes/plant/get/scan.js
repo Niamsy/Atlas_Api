@@ -35,9 +35,7 @@ router.post('/', async (req, res, next) => {
       return;
     }
     const imgurResponseJson = await imgurResponse.json();
-    console.log(imgurResponseJson);
     const link = imgurResponseJson.data.link;
-    console.log(link);
     const plantnetResponse = await fetch(
       `https://my-api.plantnet.org/v1/identify/all?images=${encodeURIComponent(
         link
@@ -45,16 +43,12 @@ router.post('/', async (req, res, next) => {
         '2a10HX03PWHSwy3S2HcZGYh9e'
       )}`
     );
-    console.log("Plantnet request");
-    console.log(plantnetResponse);
     if (!plantnetResponse.ok) {
       res.status(400).json({ message: 'Plantnet request failed.' });
       return;
     }
     const plantResponseJson = await plantnetResponse.json();
-    console.log(plantResponseJson);
     const scientificName = plantResponseJson.results[0].species.scientificNameWithoutAuthor;
-    console.log(scientificName);
     const result = await con.query(`SELECT *
               from plants where scientific_name = ${con.escape(scientificName)}`);
     if (result[0].length > 0) {
@@ -63,7 +57,6 @@ router.post('/', async (req, res, next) => {
       res.status(404).json({ message: 'Plant not found in our database.' });
     }
   } catch (err) {
-    console.log(err);
     next(err);
   }
 });
