@@ -10,8 +10,6 @@ const Users = require('../../../models/Users/UsersRepository');
 
 router.post('/', async (req, res, next) => {
   const { plant, organs } = req.body;
-  console.log()
-  console.log(organs);
   if (!plant || !organs) {
     res.status(400).json({ message: 'Body values are incorrect.' });
     return;
@@ -23,6 +21,7 @@ router.post('/', async (req, res, next) => {
   });
 
   try {
+    let imgurResponse;
     request({
       headers: {
         'Content-Length': form.length,
@@ -33,29 +32,13 @@ router.post('/', async (req, res, next) => {
       body: form,
       method: 'POST'
     }, function(err, res, body) {
-      console.log(err);
-      console.log(res);
-      console.log(body);
+      imgurResponse = body;
     });
-
-    // const imgurResponse = await fetch(`https://api.imgur.com/3/upload`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/x-www-form-urlencoded',
-    //       'Authorization': 'Client-ID b16da1b2288b193'
-    //     },
-    //     body: {
-    //       'type': 'base64',
-    //       'image': ${encodeURIComponent(plant)}
-    //     }
-    //   }
-    // );
-    // console.log(imgurResponse);
-    // if (!imgurResponse.ok) {
-    //   res.status(400).json({ message: 'Imgur request failed.' });
-    //   return;
-    // }
-    const link = await imgurResponse.json();
+    if (!imgurResponse.ok) {
+      res.status(400).json({ message: 'Imgur request failed.' });
+      return;
+    }
+    const link = await imgurResponse.data.link
     console.log(link.data.link);
     const plantnetResponse = await fetch(
       `https://my-api.plantnet.org/v1/identify/all?images=${encodeURIComponent(
