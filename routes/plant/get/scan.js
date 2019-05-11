@@ -34,17 +34,11 @@ router.post('/', async (req, res, next) => {
       method: 'POST'
     }, function(err, resp, body) {
       body = JSON.parse(body);
-      console.log('body:');
-      console.log(body);
-      console.log('success:');
-      console.log(body.success);
-      console.log('link:');
-      console.log(body.data.link);
       if (body.success) {
         link = body.data.link;
-        console.log(link);
       }
     });
+    console.log(link);
     if (!link) {
       res.status(400).json({ message: 'Imgur request failed.' });
       return;
