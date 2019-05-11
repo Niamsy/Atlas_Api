@@ -32,7 +32,7 @@ router.post('/', async (req, res, next) => {
       body: form,
       method: 'POST'
     }, function(err, resp, body) {
-      if (!res.success) {
+      if (!resp.success) {
         res.status(400).json({ message: 'Imgur request failed.' });
         return;
       }
