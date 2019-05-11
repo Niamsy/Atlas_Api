@@ -31,12 +31,14 @@ router.post('/', async (req, res, next) => {
       uri: 'https://api.imgur.com/3/upload',
       body: form,
       method: 'POST'
-    }, function(err, res, body) {
+    }, function(err, resp, body) {
       if (!res.success) {
         res.status(400).json({ message: 'Imgur request failed.' });
         return;
       }
+      console.log(body);
       link = body.data.link;
+      console.log(link);
     });
     console.log(link);
     const plantnetResponse = await fetch(
