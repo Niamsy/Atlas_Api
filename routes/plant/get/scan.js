@@ -17,11 +17,15 @@ router.post('/', async (req, res, next) => {
 
   try {
     const imgurResponse = await fetch(
-      `https://api.imgur.com/3/upload?image=${encodeURIComponent(plant)}`,
+      `https://api.imgur.com/3/upload`,
       {
         method: 'POST',
         headers: {
           Authorization: 'Client-ID b16da1b2288b193'
+        },
+        body: {
+          type: 'base64',
+          image: plant
         }
       }
     );
