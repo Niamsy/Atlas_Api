@@ -2,38 +2,59 @@ const router = require('express').Router();
 const fetch = require('node-fetch');
 const { con } = require('../../../index.js');
 
+const querystring = require('querystring');
+const request = require('request');
+
 const Plants = require('../../../models/plants/PlantsRepository');
 const Users = require('../../../models/Users/UsersRepository');
 
 router.post('/', async (req, res, next) => {
-  console.log(req.body);
   const { plant, organs } = req.body;
-  console.log(plant);
+  console.log()
   console.log(organs);
   if (!plant || !organs) {
     res.status(400).json({ message: 'Body values are incorrect.' });
     return;
   }
 
+  let form = querystring.stringify({
+    'type': 'base64',
+    'image': plant
+  });
+
   try {
-    const imgurResponse = await fetch(
-      `https://api.imgur.com/3/upload`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: 'Client-ID b16da1b2288b193'
-        },
-        body: {
-          type: 'base64',
-          image: plant
-        }
-      }
-    );
-    console.log(imgurResponse);
-    if (!imgurResponse.ok) {
-      res.status(400).json({ message: 'Imgur request failed.' });
-      return;
-    }
+    request({
+      headers: {
+        'Content-Length': form.length,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Client-ID b16da1b2288b193'
+      },
+      uri: 'https://api.imgur.com/3/upload',
+      body: form,
+      method: 'POST'
+    }, function(err, res, body) {
+      console.log(err);
+      console.log(res);
+      console.log(body);
+    });
+
+    // const imgurResponse = await fetch(`https://api.imgur.com/3/upload`, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/x-www-form-urlencoded',
+    //       'Authorization': 'Client-ID b16da1b2288b193'
+    //     },
+    //     body: {
+    //       'type': 'base64',
+    //       'image': ${encodeURIComponent(plant)}
+    //     }
+    //   }
+    // );
+    // console.log(imgurResponse);
+    // if (!imgurResponse.ok) {
+    //   res.status(400).json({ message: 'Imgur request failed.' });
+    //   return;
+    // }
     const link = await imgurResponse.json();
     console.log(link.data.link);
     const plantnetResponse = await fetch(
