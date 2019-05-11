@@ -34,15 +34,17 @@ router.post('/', async (req, res, next) => {
       method: 'POST'
     }, function(err, resp, body) {
       console.log('response:');
-      if (!resp.success) {
-        res.status(400).json({ message: 'Imgur request failed.' });
-        return;
-      }
-      console.log('body');
+      console.log(resp);
       console.log(body);
-      link = body.data.link;
-      console.log(link);
+      if (resp.success) {
+        link = body.data.link;
+        console.log(link);
+      }
     });
+    if (!link) {
+      res.status(400).json({ message: 'Imgur request failed.' });
+      return;
+    }
     console.log(link);
     const plantnetResponse = await fetch(
       `https://my-api.plantnet.org/v1/identify/all?images=${encodeURIComponent(
