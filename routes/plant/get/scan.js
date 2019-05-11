@@ -38,11 +38,10 @@ router.post('/', async (req, res, next) => {
       }
       link = body.data.link;
     });
-    //const link = await imgurResponse.data.link
     console.log(link);
     const plantnetResponse = await fetch(
       `https://my-api.plantnet.org/v1/identify/all?images=${encodeURIComponent(
-        link.data.link
+        link
       )}&organs=${encodeURIComponent(organs)}&api-key=${encodeURIComponent(
         '2a10HX03PWHSwy3S2HcZGYh9e'
       )}`
