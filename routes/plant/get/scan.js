@@ -33,12 +33,8 @@ router.post('/', async (req, res, next) => {
       body: form,
       method: 'POST'
     }, function(err, resp, body) {
-      console.log('response:');
-      console.log(resp);
-      console.log(body);
-      if (resp.success) {
+      if (body.success) {
         link = body.data.link;
-        console.log(link);
       }
     });
     if (!link) {
