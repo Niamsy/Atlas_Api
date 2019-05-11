@@ -21,7 +21,7 @@ router.post('/', async (req, res, next) => {
   });
 
   try {
-    let imgurResponse;
+    let link;
     request({
       headers: {
         'Content-Length': form.length,
@@ -36,10 +36,10 @@ router.post('/', async (req, res, next) => {
         res.status(400).json({ message: 'Imgur request failed.' });
         return;
       }
-      imgurResponse = body;
+      link = body.data.link;
     });
-    const link = await imgurResponse.data.link
-    console.log(link.data.link);
+    //const link = await imgurResponse.data.link
+    console.log(link);
     const plantnetResponse = await fetch(
       `https://my-api.plantnet.org/v1/identify/all?images=${encodeURIComponent(
         link.data.link
