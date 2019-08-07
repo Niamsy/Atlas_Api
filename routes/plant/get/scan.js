@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const fetch = require('node-fetch');
 const { con } = require('../../../index.js');
-
 const querystring = require('querystring');
 const request = require('request');
 
@@ -43,6 +42,8 @@ router.post('/', async (req, res, next) => {
         '2a10HX03PWHSwy3S2HcZGYh9e'
       )}`
     );
+    console.log("Plantnet request");
+    console.log(plantnetResponse);
     if (!plantnetResponse.ok) {
       res.status(400).json({ message: 'Plantnet request failed.' });
       return;
