@@ -2,10 +2,6 @@ const router = require('express').Router();
 const fetch = require('node-fetch');
 const { con } = require('../../../index.js');
 const querystring = require('querystring');
-const request = require('request');
-
-const Plants = require('../../../models/plants/PlantsRepository');
-const Users = require('../../../models/Users/UsersRepository');
 
 router.post('/', async (req, res, next) => {
   const { plant, organs } = req.body;
