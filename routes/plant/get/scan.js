@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const fetch = require('node-fetch');
-const { con } = require('../../../index.js');
 const querystring = require('querystring');
+const { con } = require('../../../index.js');
 
 router.post('/', async (req, res, next) => {
   const { plant, organs } = req.body;
@@ -10,18 +10,18 @@ router.post('/', async (req, res, next) => {
     return;
   }
 
-  let form = querystring.stringify({
-    'type': 'base64',
-    'image': plant
+  const form = querystring.stringify({
+    type: 'base64',
+    image: plant
   });
 
   try {
-    imgurResponse = await fetch('https://api.imgur.com/3/upload', {
+    const imgurResponse = await fetch('https://api.imgur.com/3/upload', {
       method: 'POST',
       headers: {
         'Content-Length': form.length,
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Client-ID b16da1b2288b193'
+        Authorization: 'Client-ID b16da1b2288b193'
       },
       body: form
     });
@@ -30,7 +30,7 @@ router.post('/', async (req, res, next) => {
       return;
     }
     const imgurResponseJson = await imgurResponse.json();
-    const link = imgurResponseJson.data.link;
+    const { link } = imgurResponseJson.data;
     const plantnetResponse = await fetch(
       `https://my-api.plantnet.org/v1/identify/all?images=${encodeURIComponent(
         link
@@ -38,8 +38,6 @@ router.post('/', async (req, res, next) => {
         '2a10HX03PWHSwy3S2HcZGYh9e'
       )}`
     );
-    console.log("Plantnet request");
-    console.log(plantnetResponse);
     if (!plantnetResponse.ok) {
       res.status(400).json({ message: 'Plantnet request failed.' });
       return;
@@ -48,13 +46,13 @@ router.post('/', async (req, res, next) => {
     const scientificName = plantResponseJson.results[0].species.scientificNameWithoutAuthor;
     const result = await con.query(`SELECT *
               from plants where scientific_name = ${con.escape(scientificName)}`);
-    if (result[0].length > 0) {
-      res.status(200).json({ scientificName });
-    } else {
+    if (result[0].length === 0) {
       res.status(404).json({ message: 'Plant not found in our database.' });
+    } else {
+      res.status(200).json({ scientificName });
     }
   } catch (err) {
-    next(err);
+    res.status(500).json({ message: 'Api encountered an issue.' });
   }
 });
 
