@@ -62,6 +62,7 @@ describe('/GET userInfo', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('name');
         res.body.should.have.property('email');
+        res.body.should.have.property('created_at');
         res.body.should.have.property('last_connection_at');
         res.body.should.have.property('right_id');
         done();
