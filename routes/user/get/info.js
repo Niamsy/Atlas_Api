@@ -8,8 +8,9 @@ router.get('/', async (req, res, next) => {
 
   try {
     const result = await Users.findById(hub.connectedUserToken[apiToken]);
-    if (result[0].length > 0) {
-      res.status(200).json(result[0][0]);
+    console.log(result);
+    if (result) {
+      res.status(200).json(result);
       return;
     }
     res.status(404).json({ message: 'Not found' });
