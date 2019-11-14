@@ -18,7 +18,7 @@ describe('/POST updatePassword', () => {
       .set('password', 'admin')
       .end(async (err, res) => {
         apiToken = res.body.api_token;
-        const mdp = SHA256('12345678!');
+        const mdp = SHA256('12345678');
         await con.query(`UPDATE users SET password='${mdp}' WHERE name='default'`);
         done();
       });
@@ -71,7 +71,7 @@ describe('/POST updatePassword', () => {
     chai
       .request(server)
       .post('/user/updatePassword')
-      .send({ old_password: '12345678!', new_password: '1234567' })
+      .send({ old_password: '12345678', new_password: '1234567' })
       .set('api_token', apiToken)
       .end((err, res) => {
         res.should.have.status(400);
@@ -86,7 +86,7 @@ describe('/POST updatePassword', () => {
     chai
       .request(server)
       .post('/user/updatePassword')
-      .send({ old_password: '12345678!', new_password: '123456789!' })
+      .send({ old_password: '12345678', new_password: '123456789' })
       .set('api_token', apiToken)
       .end((err, res) => {
         res.should.have.status(200);
@@ -101,7 +101,7 @@ describe('/POST updatePassword', () => {
     chai
       .request(server)
       .post('/user/updatePassword')
-      .send({ old_password: '123456789!', new_password: '12345678!' })
+      .send({ old_password: '123456789', new_password: '12345678' })
       .set('api_token', apiToken)
       .end((err, res) => {
         res.should.have.status(200);

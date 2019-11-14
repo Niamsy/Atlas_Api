@@ -1,5 +1,4 @@
-const { sequelize, Sequelize } = require('../../database/sequelize');
-const Users = require('./UsersModel.js')(sequelize, Sequelize);
+const Users = require('./UsersModel.js');
 
 module.exports = class UsersRepository {
   static findAll() {
@@ -7,7 +6,7 @@ module.exports = class UsersRepository {
   }
 
   static findById(id) {
-    return Users.findByPk(id);
+    return Users.findById(id);
   }
 
   static findByName(name) {

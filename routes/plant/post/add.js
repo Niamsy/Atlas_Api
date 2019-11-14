@@ -11,12 +11,14 @@ router.post('/', async (req, res, next) => {
     return;
   }
   try {
-    const result = await con.query(
-      `SELECT * from plants where scientific_name = ${con.escape(plantName)}`
-    );
+    const result = await con.query(`SELECT * from plants where scientific_name = ${con.escape(plantName)}`);
+    console.log(result);
     if (result[0].length > 0) {
+      console.log(result[0]);
       const plantId = result[0][0].id;
+      console.log(plantId);
       const date = new Date();
+      console.log(date);
       await con.query(
         `INSERT INTO users_plants (fk_id_user, fk_id_plant, scanned_at)
               VALUES (

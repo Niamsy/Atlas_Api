@@ -21,7 +21,35 @@ function SendMail(email, requestValue, accepted, res) {
       `Your request (ID: ${requestValue.id}) was ${
         accepted ? 'accepted' : 'declined'
       }<br >Value of the plant requested: ` +
-      `<br >   <b>Name</b>                    :   ${requestValue.name}<br >   <b>Scientific name</b>         :   ${requestValue.scientific_name}<br >   <b>Max height</b>              :   ${requestValue.max_height}<br >   <b>IDs of the soil PH</b>      :   ${requestValue.ids_soil_ph}<br >   <b>IDs of soil type</b>        :   ${requestValue.ids_soil_type}<br >   <b>IDs of sun exposure</b>     :   ${requestValue.ids_sun_exposure}<br >   <b>IDs of soil humidity</b>    :   ${requestValue.ids_soil_humidity}<br >   <b>IDs of reproduction</b>     :   ${requestValue.ids_reproduction}<br >   <b>IDs of plant containe</b> r :   ${requestValue.ids_plant_container}<br >   <b>Planting period</b>         :   ${requestValue.planting_period}<br >   <b>Florering period</b>        :   ${requestValue.florering_period}<br >   <b>Harvest period</b>          :   ${requestValue.harvest_period}<br >   <b>Cutting period</b>          :   ${requestValue.cutting_period}<br >   <b>ID frozen tolerance</b>     :   ${requestValue.fk_id_frozen_tolerance}<br >   <b>ID growth rate</b>          :   ${requestValue.fk_id_growth_rate}`
+      `<br >   <b>Name</b>                    :   ${
+        requestValue.name
+      }<br >   <b>Scientific name</b>         :   ${
+        requestValue.scientific_name
+      }<br >   <b>Max height</b>              :   ${
+        requestValue.max_height
+      }<br >   <b>IDs of the soil PH</b>      :   ${
+        requestValue.ids_soil_ph
+      }<br >   <b>IDs of soil type</b>        :   ${
+        requestValue.ids_soil_type
+      }<br >   <b>IDs of sun exposure</b>     :   ${
+        requestValue.ids_sun_exposure
+      }<br >   <b>IDs of soil humidity</b>    :   ${
+        requestValue.ids_soil_humidity
+      }<br >   <b>IDs of reproduction</b>     :   ${
+        requestValue.ids_reproduction
+      }<br >   <b>IDs of plant containe</b> r :   ${
+        requestValue.ids_plant_container
+      }<br >   <b>Planting period</b>         :   ${
+        requestValue.planting_period
+      }<br >   <b>Florering period</b>        :   ${
+        requestValue.florering_period
+      }<br >   <b>Harvest period</b>          :   ${
+        requestValue.harvest_period
+      }<br >   <b>Cutting period</b>          :   ${
+        requestValue.cutting_period
+      }<br >   <b>ID frozen tolerance</b>     :   ${
+        requestValue.fk_id_frozen_tolerance
+      }<br >   <b>ID growth rate</b>          :   ${requestValue.fk_id_growth_rate}`
   };
 
   smtpTransport.sendMail(mail, error => {

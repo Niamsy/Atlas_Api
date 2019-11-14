@@ -25,14 +25,6 @@ router.post('/', async (req, res, next) => {
     } else if (newPassword.length < 8) {
       res.status(400).json({ message: 'Password needs to get more than 8 characters.' });
       return;
-    } else if (
-      !/[0-9]+/.test(newPassword) ||
-      !/[,?;.:/!$*^&~"#'{(\[-|_\\@)\]=+}]/.test(newPassword)
-    ) {
-      res.status(400).json({
-        message: 'Password needs to contain at least one number and one special character.'
-      });
-      return;
     }
     await con.query(
       `UPDATE users SET password =${con.escape(SHA256(newPassword).toString())}
