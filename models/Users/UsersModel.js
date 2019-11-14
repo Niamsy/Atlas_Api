@@ -27,22 +27,22 @@ module.exports = (sequelize, DataTypes) =>
         unique: true,
         field: 'email'
       },
-      dateOfBirth: {
+      date_of_birth: {
         type: DataTypes.DATEONLY,
         allowNull: true,
         field: 'date_of_birth'
       },
-      createdAt: {
+      created_at: {
         type: DataTypes.DATE,
         allowNull: false,
         field: 'created_at'
       },
-      lastConnectionAt: {
+      last_connection_at: {
         type: DataTypes.DATE,
         allowNull: true,
         field: 'last_connection_at'
       },
-      rightId: {
+      right_id: {
         type: DataTypes.INTEGER(4),
         allowNull: true,
         defaultValue: '1',
