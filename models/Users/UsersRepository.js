@@ -7,7 +7,7 @@ module.exports = class UsersRepository {
   }
 
   static findById(id) {
-    return Users.findById(id);
+    return Users.findByPk(id);
   }
 
   static findByName(name) {
