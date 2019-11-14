@@ -9,7 +9,6 @@ router.get('/', async (req, res, next) => {
   try {
     const result = await Users.findById(hub.connectedUserToken[apiToken]);
     if (result) {
-      console.table(result);
       res.status(200).json(result);
       return;
     }
