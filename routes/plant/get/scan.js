@@ -44,13 +44,13 @@ router.post('/', async (req, res, next) => {
     }
     const plantResponseJson = await plantnetResponse.json();
     const scientificName = plantResponseJson.results[0].species.scientificNameWithoutAuthor;
-    const commonName = plantResponseJson.results[0].species.commonNames[0];
+
     const result = await con.query(`SELECT *
               from plants where scientific_name = ${con.escape(scientificName)}`);
     if (result[0].length === 0) {
       res.status(404).json({ message: 'Plant not found in our database.' });
     } else {
-      res.status(200).json({ commonName });
+      res.status(200).json({ scientificName });
     }
   } catch (err) {
     res.status(500).json({ message: 'Api encountered an issue.' });
