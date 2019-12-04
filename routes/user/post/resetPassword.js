@@ -3,8 +3,11 @@ const SHA256 = require('crypto-js/sha256');
 const TokenGenerator = require('uuid-token-generator');
 const nodemailer = require('nodemailer');
 const config = require('config');
+const path = require('path');
+
 const { con } = require('../../../index.js');
 
+const appDir = path.dirname(require.main.filename);
 const tokgen = new TokenGenerator();
 
 router.post('/', async (req, res, next) => {
@@ -32,10 +35,22 @@ router.post('/', async (req, res, next) => {
     });
 
     const mail = {
-      from: config.email,
-      to: email,
-      subject: 'reset password account',
-      html: `Your new password is : ${newPassword}<br >Change it as soon as possible`
+      from: email,
+      to: 'arnaud.pinta@gmail.com',
+      subject: '[ATLAS SUPPORT] Password reset',
+      html: `<h1 style="color: #5e9ca0;">Atlas</h1>
+        <h2 style="color: #2e6c80;">Forgot password ?</h2>
+        <p>You are receiving this email because you requested a password reset. If not, please change your password as soon as possible and let us know.</p>
+        <p>Here is your new password: <span style="background-color: #2e6c80; color: #fff; display: inline-block; padding: 3px 10px; font-weight: bold; border-radius: 5px;">${newPassword}</span>.</p>
+        <p>Feel free to change it as soon as possible, using our website or our mobile app.</p>
+        <p>Sincerely,<br /><br /><i>Atlas devs team</i><br /></p><br /><img src="cid:atlas_logo" width="200" height="200" /></p>`,
+      attachments: [
+        {
+          filename: 'atlas_logo',
+          path: `${appDir}/images/Logo_Title.png`,
+          cid: 'atlas_logo'
+        }
+      ]
     };
 
     return smtpTransport.sendMail(mail, error => {
