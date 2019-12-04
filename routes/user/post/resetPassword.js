@@ -7,7 +7,8 @@ const path = require('path');
 
 const { con } = require('../../../index.js');
 
-const appDir = path.dirname(require.main.filename);
+const mainPath = path.dirname(require.main.filename);
+const appDir = mainPath.slice(-3) === 'bin' ? `${mainPath}/../../..` : mainPath;
 const tokgen = new TokenGenerator();
 
 router.post('/', async (req, res, next) => {
