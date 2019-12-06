@@ -14,9 +14,9 @@ router.get('/', async (req, res, next) => {
         plants.ids_sun_exposure, plants.ids_plant_container, plants.planting_period, plants.florering_period, 
         plants.harvest_period, plants.harvest_period, plants.cutting_period, plants.fk_id_frozen_tolerance, 
         plants.fk_id_growth_rate, growth_duration
-      FROM plants INNER JOIN users_plants ON plants.id=users_plants.fk_id_plant 
-        where fk_id_user=${hub.connectedUserToken[apiToken]} GROUP BY plants.name`
+      FROM plants`
     );
+    console.log(result);
     const returnValue = result[0];
     if (returnValue.length > 0) {
       for (let i = 0; i < returnValue.length; i += 1) {

@@ -9,6 +9,7 @@ router.post('/', async (req, res, next) => {
   const { api_token: apiToken } = req.headers;
   const { sendMail } = req.body;
 
+  console.log(body);
   if (
     body.name === undefined ||
     body.scientific_name === undefined ||
