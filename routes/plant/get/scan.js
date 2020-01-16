@@ -4,7 +4,7 @@ const querystring = require('querystring');
 const { con } = require('../../../index.js');
 
 router.post('/', async (req, res, next) => {
-  const { plant, organs } = req.body;
+/*  const { plant, organs } = req.body;
   if (!plant || !organs) {
     res.status(400).json({ message: 'Body values are incorrect.' });
     return;
@@ -43,18 +43,18 @@ router.post('/', async (req, res, next) => {
       return;
     }
     const plantResponseJson = await plantnetResponse.json();
-    const scientificName = plantResponseJson.results[0].species.scientificNameWithoutAuthor;
+    const scientificName = plantResponseJson.results[0].species.scientificNameWithoutAuthor;*/
 
-    const result = await con.query(`SELECT *
-              from plants where scientific_name = ${con.escape(scientificName)}`);
-    if (result[0].length === 0) {
-      res.status(404).json({ message: 'Plant not found in our database.' });
-    } else {
-      res.status(200).json({ scientificName });
-    }
-  } catch (err) {
-    res.status(500).json({ message: 'Api encountered an issue.' });
-  }
+   // const result = await con.query(`SELECT *
+     //         from plants where scientific_name = ${con.escape(scientificName)}`);
+    //if (result[0].length === 0) {
+     // res.status(404).json({ message: 'Plant not found in our database.' });
+    //} else {
+      res.status(200).json({ "papaver rhoeas" });
+    //}
+  //} catch (err) {
+     // res.status(500).json({ message: 'Api encountered an issue.' });
+  //}
 });
 
 module.exports = router;
