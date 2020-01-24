@@ -48,7 +48,9 @@ router.post('/', async (req, res, next) => {
     // eslint-disable-next-line no-console
     console.log(plantResponseJson);
     const result = await con.query(`SELECT *
-             from plants where scientific_name = ${con.escape(scientificName)}`);
+              from plants where LOWER(scientific_name) = ${con
+                .escape(scientificName)
+                .toLowerCase()}`);
     if (result[0].length === 0) {
       res.status(404).json({ message: 'Plant not found in our database.' });
     } else {
